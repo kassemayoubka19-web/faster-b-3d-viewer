@@ -1,0 +1,3 @@
+ضع كل ملف GLB هنا بنفس اسم slug الموجود في products.json.
+مثال: fasterb-electric-press-42-50l.glb
+يفضل أن يكون كل ملف أقل من 10 MB، والحد الأقصى المستهدف 25 MB.

@@ -1,0 +1,482 @@
+[
+  {
+    "id": 1,
+    "slug": "american-diesel-press-42",
+    "name": "مكبس ديزل أمريكي 42 بوصة",
+    "category": "مكابس الكوي البخار",
+    "description": "Utility Pressing Machine\nManual operated presses\nwith utility bucks,\nwith table, pad and cover set\nWithout boiler",
+    "model": "models/american-diesel-press-42.glb",
+    "reference": "refs/american-diesel-press-42.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 295,
+      "height": 265
+    },
+    "sha256": "7dab420c3929d06b4fca8e12b339c956e62e3974db2d04c77cf8178663daa661",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 2,
+    "slug": "fasterb-diesel-press-42-f2",
+    "name": "مكبس ديزل فاستر بي 42 بوصة (F2)",
+    "category": "مكابس الكوي البخار",
+    "description": "Utility Pressing Machine\nManual operated presses\nwith utility bucks,\nwith table, pad and cover set\nWithout boiler",
+    "model": "models/fasterb-diesel-press-42-f2.glb",
+    "reference": "refs/fasterb-diesel-press-42-f2.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 315,
+      "height": 265
+    },
+    "sha256": "a400154ce383bf08b3e1755e471bf5de4b9e4db8ab24b96affcac2b56c885bfa",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 3,
+    "slug": "fasterb-diesel-press-42-f1",
+    "name": "مكبس ديزل فاستر بي 42 بوصة (F1)",
+    "category": "مكابس الكوي البخار",
+    "description": "Utility Pressing Machine\nManual operated presses\nwith utility bucks,\nwith table, pad and cover set\nWithout boiler",
+    "model": "models/fasterb-diesel-press-42-f1.glb",
+    "reference": "refs/fasterb-diesel-press-42-f1.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 325,
+      "height": 265
+    },
+    "sha256": "9df83334d45b00c75c4e4597de75b407fc2d1ce5b0b5ef389eb05e0640cde5be",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 4,
+    "slug": "fasterb-electric-press-42-50l",
+    "name": "مكبس كهرباء فاستر بي 42 بوصة (50 لتر)",
+    "category": "مكابس الكوي الكهرباء",
+    "description": "ELECTRIC PRESSING\nElectric Pressing Machine\nManual Operated Presses Utility Bucks\nWith Table Pad And Cover Set With boiler.",
+    "model": "models/fasterb-electric-press-42-50l.glb",
+    "reference": "refs/fasterb-electric-press-42-50l.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 295,
+      "height": 285
+    },
+    "sha256": "1650f73bb1efd7ba69ca8cfe0c86dde962d188f390f71cefc56456bc179b4d25",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 5,
+    "slug": "fasterb-electric-press-42-32l",
+    "name": "مكبس كهرباء فاستر بي 42 بوصة (32 لتر)",
+    "category": "مكابس الكوي الكهرباء",
+    "description": "ELECTRIC PRESSING\nElectric Pressing Machine\nManual Operated Presses Utility Bucks\nWith Table Pad And Cover Set With boiler.",
+    "model": "models/fasterb-electric-press-42-32l.glb",
+    "reference": "refs/fasterb-electric-press-42-32l.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 315,
+      "height": 285
+    },
+    "sha256": "f2d611785421902387ccd14a93eb7c15fd96189a98d4419c2362a99cc6dbb219",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 6,
+    "slug": "fasterb-electric-press-42-30l",
+    "name": "مكبس كهرباء فاستر بي 42 بوصة (30 لتر)",
+    "category": "مكابس الكوي الكهرباء",
+    "description": "ELECTRIC PRESSING\nElectric Pressing Machine\nManual Operated Presses Utility Bucks\nWith Table Pad And Cover Set With boiler.",
+    "model": "models/fasterb-electric-press-42-30l.glb",
+    "reference": "refs/fasterb-electric-press-42-30l.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 325,
+      "height": 285
+    },
+    "sha256": "7d93c8a4f5154e2a20d0fbfab22ba198fa06272d77bb07bde59cea92832f32d5",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 7,
+    "slug": "stirmatic-electric-press-47",
+    "name": "مكبس كهرباء إيطالي ستير ماتيك 47 بوصة",
+    "category": "مكابس الكوي الكهرباء",
+    "description": "Stirmatic Utility Pressing Machine\nMade in: Italy\nManual operated presses\nwith utility bucks,\nWith boiler, vacuum unit\n& Iron Assy.\nPower supply: 220 or 380/3/60Hz",
+    "model": "models/stirmatic-electric-press-47.glb",
+    "reference": "refs/stirmatic-electric-press-47.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 360,
+      "height": 320
+    },
+    "sha256": "4ef79ad12f5f9fd635958ddaa378fc88cf2392b15c9ab741aa47fdb5b8221132",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 8,
+    "slug": "rotondi-diesel-press-47",
+    "name": "مكبس ديزل إيطالي روتيندي 47 بوصة",
+    "category": "مكابس الكوي البخار",
+    "description": "Stirmatic Utility Pressing Machine\nMade in: Italy\nManual operated presses\nwith utility bucks,\nWithout boiler, vacuum unit\n& Iron Assy.\nPower supply: 220 or 380/3/60Hz",
+    "model": "models/rotondi-diesel-press-47.glb",
+    "reference": "refs/rotondi-diesel-press-47.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 380,
+      "height": 320
+    },
+    "sha256": "e954d2c90b8fde52ece07a21eeaee32326247d21f77544b6c670a8b281671a8e",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 9,
+    "slug": "fasterb-diesel-boiler-32-36-40",
+    "name": "بويلرات ديزل فاستر بي 32 / 36 / 40 بوصة",
+    "category": "بويلرات الديزل",
+    "description": "Steam Poiler\nType : Horizontal Fire Tube\nSize : 1.5 mtr , 14 mm Thikness\n32 / 36 / 40 Inches\nFuel Specifcation : diesel\n220 v 1ph / 60h\n\nSteam boilers in different sizes to meet all needs.\n1 - Laser for all internal tubes of the firebox.\n2 - A float that separates sediment from water.\n3 - Italian motor capable of withstanding high temperatures.\n4 - American safety valve that regulates steam pressure.\n5 - Three power lines ensure continuity in use.",
+    "model": "models/fasterb-diesel-boiler-32-36-40.glb",
+    "reference": "refs/fasterb-diesel-boiler-32-36-40.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 385
+    },
+    "sha256": "997cbd983616b43993e09509c3b4c56c17b25bc6d382e9f8c012111254226090",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 10,
+    "slug": "fasterb-electric-boiler-36-48-54kw",
+    "name": "بويلر كهرباء فاستر بي 36 / 48 / 54 كيلو واط",
+    "category": "البويلرات الكهربائية",
+    "description": "Electric Steam Boiler\nPower: 36 / 48 / 54 kW\nCapacity: 90 / 115 / 130 kg/hr\nWorking Pressure: 6-12 bar G\nVoltage: 380 V / 3 Phase\nMade in KSA",
+    "model": "models/fasterb-electric-boiler-36-48-54kw.glb",
+    "reference": "refs/fasterb-electric-boiler-36-48-54kw.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 560,
+      "height": 560
+    },
+    "sha256": "9aaeaa9120d45647cc310576ca18fe010e031592fd258b29bb700d961c24bcbd",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 11,
+    "slug": "powerline-tumble-dryer",
+    "name": "مجففات حرارية ماركة باور لاين",
+    "category": "المجففات الحرارية",
+    "description": "TUMBLE DREYER\nTumble Dryer\nCapacity: 50 / 75 lbs\nHeating:Deisel or electric\nGalvanised drum,\nDouble Manual timer controls\nFront and side panels in wihte COLOR\nPower supply: 380/3/60Hz",
+    "model": "models/powerline-tumble-dryer.glb",
+    "reference": "refs/powerline-tumble-dryer.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 303
+    },
+    "sha256": "13f9eb25e09b9ad4dd51bc617c30fb736ca1113199e8698d6f5454201ed6eb4d",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 12,
+    "slug": "speedqueen-tumble-dryer",
+    "name": "مجففات حرارية ماركة سبيد كوين",
+    "category": "المجففات الحرارية",
+    "description": "TUMBLE DREYER\nTumble Dryer\nCapacity: 50 lbs\nHeating:Deisel or electric\nGalvanised drum,\nDouble Manual timer controls\nFront and side panels in wihte COLOR\nPower supply: 380/3/60Hz",
+    "model": "models/speedqueen-tumble-dryer.glb",
+    "reference": "refs/speedqueen-tumble-dryer.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 320
+    },
+    "sha256": "13c5cacbea72dc2a8afdd1b09591ac55d4a59904820543bce2b17adadc4db491",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 13,
+    "slug": "rotondi-tumble-dryer",
+    "name": "مجففات حرارية ماركة روتيندي",
+    "category": "المجففات الحرارية",
+    "description": "TUMBLE DREYER\nTumble Dryer\nCapacity: 50 lbs\nHeating:Deisel or electric\nGalvanised drum,\nDouble Manual timer controls\nFront and side panels in wihte COLOR\nPower supply: 380/3/60Hz",
+    "model": "models/rotondi-tumble-dryer.glb",
+    "reference": "refs/rotondi-tumble-dryer.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 262
+    },
+    "sha256": "9d2d3a37b7043d49277d674637427ba112dbdccf9d6f1bb6201bc96b3154d64f",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 14,
+    "slug": "primus-tumble-dryer",
+    "name": "مجففات حرارية ماركة بريموس",
+    "category": "المجففات الحرارية",
+    "description": "TUMBLE DREYER\nTumble Dryer\nCapacity: 50 lbs\nHeating:Deisel or electric\nGalvanised drum,\nDouble Manual timer controls\nFront and side panels in wihte COLOR\nPower supply: 380/3/60Hz",
+    "model": "models/primus-tumble-dryer.glb",
+    "reference": "refs/primus-tumble-dryer.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 277
+    },
+    "sha256": "d10e43ea99d290a7e7919dd837047881fb78ead4c11b8a8355e14dda423da8b2",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 15,
+    "slug": "primus-washer-extractor",
+    "name": "غسالات بطانيات ماركة بريموس",
+    "category": "غسالات البطانيات",
+    "description": "Washer Extractor\nRigid-mounted washer extractor\nDry weight capacity: 18 / 24 / 28 / 52 kg\nHeating: Electric\nStandard Xtronic control\nStainless steel top\nFront & side panels in grey color\nLiquid soap print (8 x 24VAC signals)\nPower supply: 220 or 380/3/60Hz",
+    "model": "models/primus-washer-extractor.glb",
+    "reference": "refs/primus-washer-extractor.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 318
+    },
+    "sha256": "9c5628dec9653e33518e9f91ea70085aa4f38f811926e6bdf0ef20aae7d3c017",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 16,
+    "slug": "speedqueen-washer-extractor",
+    "name": "غسالات بطانيات ماركة سبيد كوين",
+    "category": "غسالات البطانيات",
+    "description": "Washer Extractor\nRigid-mounted washer extractor\nDry weight capacity: 18 / 24 / 28 / 52 kg\nHeating: Electric\nStandard Xtronic control\nStainless steel top\nFront & side panels in grey color\nLiquid soap print (8 x 24VAC signals)\nPower supply: 220 or 380/3/60Hz",
+    "model": "models/speedqueen-washer-extractor.glb",
+    "reference": "refs/speedqueen-washer-extractor.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 329
+    },
+    "sha256": "73b91a54f8ebd35a96fdf4b126c66db6e39aed4eb08c47ea4739aa867f728c4f",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 17,
+    "slug": "rotondi-washer-extractor",
+    "name": "غسالات بطانيات ماركة روتيندي",
+    "category": "غسالات البطانيات",
+    "description": "Washer Extractor\nRigid-mounted washer extractor\nDry weight capacity: 18 / 24 kg\nHeating: Electric\nStandard Xtronic control\nStainless steel top\nFront & side panels in grey color\nLiquid soap print (8 x 24VAC signals)\nPower supply: 220 or 380/3/60Hz",
+    "model": "models/rotondi-washer-extractor.glb",
+    "reference": "refs/rotondi-washer-extractor.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 263
+    },
+    "sha256": "325d2d2206b3f465b44b46e513fc4a03a2143b8702c23f6bbcea0793c82ab1ce",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 18,
+    "slug": "ipso-washer-extractor",
+    "name": "غسالات بطانيات ماركة إيبسو",
+    "category": "غسالات البطانيات",
+    "description": "Washer Extractor\nRigid-mounted washer extractor\nDry weight capacity: 18 / 24 kg\nHeating: Electric\nStandard Xtronic control\nStainless steel top\nFront & side panels in grey color\nLiquid soap print (8 x 24VAC signals)\nPower supply: 220 or 380/3/60Hz",
+    "model": "models/ipso-washer-extractor.glb",
+    "reference": "refs/ipso-washer-extractor.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 272
+    },
+    "sha256": "983c844b6bfc0fea6eb94f500f0125ea5bcdf234faf1d6aa9208476f6497e7e0",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 19,
+    "slug": "form-finisher",
+    "name": "ماكينة عروسة",
+    "category": "ماكينات العروسة",
+    "description": "Utility form-finisher without boiler\n\nIdeal unit for the finishing of coats, jackets, dresses etc. The working cycles are completely automated thanks to an electronic card, with which it is possible to set nine different cycles, and to regulate the steaming and the drying time.",
+    "model": "models/form-finisher.glb",
+    "reference": "refs/form-finisher.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 290,
+      "height": 275
+    },
+    "sha256": "4e23f3e414cb6bfc0ff901b47b505292f68a7517a59e74df43bd50eddc35afcf",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 20,
+    "slug": "stirmatic-ironing-arm",
+    "name": "ذراع كوي ماركة ستير ماتيك",
+    "category": "اذرعة الكوي",
+    "description": "Heated Utility Table\nVacuum finishing table\nwith electrically heated\nboard, controlled by a thermostat.\nBuilt-in electric steam boiler.\nAutomatic water feeding.",
+    "model": "models/stirmatic-ironing-arm.glb",
+    "reference": "refs/stirmatic-ironing-arm.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 320,
+      "height": 275
+    },
+    "sha256": "c3e9cb09c217c28254db078e19c6d2805d16a4cf9dcb812afccff56f1db99dae",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 21,
+    "slug": "rotondi-ironing-arm",
+    "name": "ذراع كوي ماركة روتيندي",
+    "category": "اذرعة الكوي",
+    "description": "Heated Utility Table\nVacuum finishing table\nwith electrically heated\nboard, controlled by a thermostat.\nBuilt-in electric steam boiler.\nAutomatic water feeding.",
+    "model": "models/rotondi-ironing-arm.glb",
+    "reference": "refs/rotondi-ironing-arm.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 315,
+      "height": 275
+    },
+    "sha256": "13379f99e1e07190cee694d81e8f4c59fbd0dce7a742c8d159aa9b375ea05bd0",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 22,
+    "slug": "stirmatic-spotting-table",
+    "name": "جهاز إزالة بقع ماركة ستيرماتيك",
+    "category": "اجهزة ازالة البقع",
+    "description": "Stirmatic Spotting Table\nCold spotting table,\nWith vacuum unit\nWithout compressor,\nPower supply: 220/3/60Hz",
+    "model": "models/stirmatic-spotting-table.glb",
+    "reference": "refs/stirmatic-spotting-table.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 290,
+      "height": 255
+    },
+    "sha256": "3e74fad71a5210cb37946338ad9e1b5d2d59164210d7bf96812b10d76ef349a0",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 23,
+    "slug": "rotondi-spotting-table",
+    "name": "جهاز إزالة بقع ماركة روتيندي",
+    "category": "اجهزة ازالة البقع",
+    "description": "Stirmatic Spotting Table\nCold spotting table,\nWith vacuum unit\nWithout compressor,\nPower supply: 220/3/60Hz",
+    "model": "models/rotondi-spotting-table.glb",
+    "reference": "refs/rotondi-spotting-table.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 320,
+      "height": 255
+    },
+    "sha256": "0f78639c65438e4fc0bae4289c77ad91d970600a924d1ac0e00f77622ec707fe",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 24,
+    "slug": "garment-packaging-machine",
+    "name": "ماكينة تغليف ملابس",
+    "category": "ماكينات التغليف",
+    "description": "Machines For Backaging Clothing\nMACHINES FOR BACKAGING CLOTHING\nAND LINEN FOR DRY CLEANER , LAUNDRIES\nAND THE TEXTILE INDUSTRY",
+    "model": "models/garment-packaging-machine.glb",
+    "reference": "refs/garment-packaging-machine.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 315,
+      "height": 255
+    },
+    "sha256": "7fcdb4baaed5c6ec50d12db4255806d91c2937a2483ca33b96a0ff1c038c247a",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 25,
+    "slug": "linen-trolley",
+    "name": "ترولي ملابس",
+    "category": "ترولي الملابس",
+    "description": "Lenin Trolley",
+    "model": "models/linen-trolley.glb",
+    "reference": "refs/linen-trolley.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 290,
+      "height": 225
+    },
+    "sha256": "86a0e72b76c1eb63c49633f55b249a441f479980d5468cb0a0bdf01ec43e1757",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 26,
+    "slug": "perforated-linen-trolley",
+    "name": "ترولي ملابس مثقب",
+    "category": "ترولي الملابس",
+    "description": "Lenin Trolley",
+    "model": "models/perforated-linen-trolley.glb",
+    "reference": "refs/perforated-linen-trolley.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 320,
+      "height": 225
+    },
+    "sha256": "2454928909c5e8a35bb8a48b44217fdbccaf7482ad7da24ba02f735b881836a2",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 27,
+    "slug": "ironing-table-manual-iron",
+    "name": "طاولة كوي مع كاوية يدوية",
+    "category": "طاولات الكوي",
+    "description": "Spotting Table",
+    "model": "models/ironing-table-manual-iron.glb",
+    "reference": "refs/ironing-table-manual-iron.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 315,
+      "height": 225
+    },
+    "sha256": "6705fa3fa3cdd685a448bbf59a3642ef9af37dbb77f2a9f978ec0f532951fb35",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 28,
+    "slug": "electric-clothes-conveyor",
+    "name": "سير ملابس كهربائي",
+    "category": "سيور الملابس",
+    "description": "CLOTHES BELT\nChina clothes belt with double console",
+    "model": "models/electric-clothes-conveyor.glb",
+    "reference": "refs/electric-clothes-conveyor.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 340,
+      "height": 390
+    },
+    "sha256": "fa0870bc01f1b1ea1b0c5e64fd5ec06e15b9dd228741495c99e8f6acd78c16d3",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 29,
+    "slug": "italclean-dryclean-12kg",
+    "name": "دراي كلين غسيل بخار 12 كيلو",
+    "category": "غسالات الدراي كلين",
+    "description": "Italclean Dry Cleaning Machine (Italy)\nPremium200 dry-cleaning machine\nIncluding built in air compressor.\nTwo Chemical Tanks\nCapacity: 10-12 Kg\nHeating: Electric\nPower supply: 380Vx3x60Hz",
+    "model": "models/italclean-dryclean-12kg.glb",
+    "reference": "refs/italclean-dryclean-12kg.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 353
+    },
+    "sha256": "f71a0fc7271b0e1b918fb1c232a827689b1c20deb7aa2f54b45dac09f63440c9",
+    "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 30,
+    "slug": "italclean-dryclean-25kg",
+    "name": "دراي كلين غسيل بخار 25 كيلو",
+    "category": "غسالات الدراي كلين",
+    "description": "Brand: Italclean\nMade in: Italy\nPremium500\nIncluding built in air compressor.\n3 Tanks\nCapacity: 25 Kg\nHeating: Electric\nPower supply: 380V/3/60Hz",
+    "model": "models/italclean-dryclean-25kg.glb",
+    "reference": "refs/italclean-dryclean-25kg.jpg",
+    "modelStatus": "test_ready",
+    "referenceSize": {
+      "width": 420,
+      "height": 353
+    },
+    "sha256": "9c8458a58b9faa4b07a0ac86363e336120d170aefc993759a4b4beb4004932e2",
+    "modelBuild": "procedural_test_v1"
+  }
+]

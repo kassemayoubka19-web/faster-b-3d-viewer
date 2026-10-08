@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Faster B | 3D Preview</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="preload" href="./products.json" as="fetch" crossorigin="anonymous" />
+  <script type="module">
+    try {
+      await import('./vendor/model-viewer.min.js');
+    } catch (e) {
+      await import('https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js');
+    }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <button id="backBtn" class="btn primary" type="button">الرجوع إلى عرض السعر</button>
+    <div class="brand">
+      <strong>FASTER B</strong>
+      <span>3D EQUIPMENT PREVIEW</span>
+    </div>
+    <button id="fullBtn" class="btn" type="button">ملء الشاشة</button>
+  </header>
+
+  <main id="stage" class="stage">
+    <model-viewer id="viewer"
+      camera-controls
+      touch-action="none"
+      interaction-prompt="auto"
+      interaction-prompt-style="basic"
+      shadow-intensity="0.55"
+      shadow-softness="0.9"
+      exposure="1"
+      environment-image="neutral"
+      loading="eager"
+      reveal="auto"
+      interpolation-decay="120"
+      alt="Faster B 3D equipment preview">
+      <div slot="progress-bar" class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
+    </model-viewer>
+
+    <div id="loading" class="overlay-card">
+      <div class="spinner"></div>
+      <strong id="loadingTitle">جاري تحميل النموذج ثلاثي الأبعاد…</strong>
+      <span id="loadingText">يرجى الانتظار</span>
+    </div>
+
+    <div id="fallback" class="fallback hidden">
+      <img id="fallbackImg" alt="صورة المعدة" />
+      <div class="fallback-box">
+        <strong>النموذج ثلاثي الأبعاد لهذه المعدة لم يُرفع بعد.</strong>
+        <span>الصورة المعروضة هي المرجع الأصلي فقط وليست نموذجًا ثلاثي الأبعاد.</span>
+      </div>
+    </div>
+  </main>
+
+  <section class="info">
+    <div>
+      <h1 id="productName">معاينة 3D</h1>
+      <p id="productCategory"></p>
+    </div>
+    <div class="controls">
+      <button id="resetBtn" class="btn" type="button">إعادة الضبط</button>
+      <button id="fitBtn" class="btn" type="button">إظهار كامل المعدة</button>
+    </div>
+  </section>
+
+  <footer class="hint">إصبع واحد: تدوير • إصبعان: تحريك وتقريب/إبعاد • على الكمبيوتر: سحب/زوم/تحريك</footer>
+  <script type="module" src="./viewer.js"></script>
+</body>
+</html>
