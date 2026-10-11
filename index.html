@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <meta name="theme-color" content="#ffffff" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
   <title>Faster B | 3D Preview</title>
   <link rel="stylesheet" href="./style.css" />
   <link rel="preload" href="./products.json" as="fetch" crossorigin="anonymous" />
@@ -27,13 +29,14 @@
 
   <main id="stage" class="stage">
     <model-viewer id="viewer"
+      style="background-color:#ffffff;background-image:linear-gradient(#ffffff,#ffffff)"
       camera-controls
       touch-action="none"
       interaction-prompt="auto"
       interaction-prompt-style="basic"
       shadow-intensity="0.55"
       shadow-softness="0.9"
-      exposure="1"
+      exposure="0.82"
       environment-image="neutral"
       loading="eager"
       reveal="auto"
