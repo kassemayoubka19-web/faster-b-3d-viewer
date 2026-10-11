@@ -359,7 +359,7 @@
     "description": "Stirmatic Spotting Table\nCold spotting table,\nWith vacuum unit\nWithout compressor,\nPower supply: 220/3/60Hz",
     "model": "models/ROTONDI_EC72_TEST.glb",
     "reference": "refs/rotondi-spotting-table.jpg",
-    "modelStatus": "real_model_pending_upload",
+    "modelStatus": "real_model_ready",
     "referenceSize": {
       "width": 320,
       "height": 255
