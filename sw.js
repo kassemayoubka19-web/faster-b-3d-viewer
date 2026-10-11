@@ -1,5 +1,5 @@
 // FASTER B 3D: cache immutable assets, but refresh the equipment catalog.
-const CACHE = 'fasterb-3d-github-v4';
+const CACHE = 'fasterb-3d-github-v5';
 const SCOPE = self.registration.scope;
 const CORE = ['index.html', 'style.css', 'viewer.js'].map(path => new URL(path, SCOPE).href);
 
