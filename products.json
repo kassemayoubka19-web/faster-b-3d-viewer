@@ -357,15 +357,15 @@
     "name": "جهاز إزالة بقع ماركة روتيندي",
     "category": "اجهزة ازالة البقع",
     "description": "Stirmatic Spotting Table\nCold spotting table,\nWith vacuum unit\nWithout compressor,\nPower supply: 220/3/60Hz",
-    "model": "models/rotondi-spotting-table.glb",
+    "model": "models/ROTONDI_EC72_TEST.glb",
     "reference": "refs/rotondi-spotting-table.jpg",
-    "modelStatus": "test_ready",
+    "modelStatus": "real_model_pending_upload",
     "referenceSize": {
       "width": 320,
       "height": 255
     },
-    "sha256": "0f78639c65438e4fc0bae4289c77ad91d970600a924d1ac0e00f77622ec707fe",
-    "modelBuild": "procedural_test_v1"
+    "sha256": "b0a5e1533ee0adec54ca41cba6e68f38b6d335614825ae2bf2ef6f4a6477626d",
+    "modelBuild": "sketchup_obj_source"
   },
   {
     "id": 24,
