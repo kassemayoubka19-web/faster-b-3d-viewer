@@ -1,0 +1,21 @@
+# Cloudflare Pages headers — avoid search indexing of customer-only previews.
+/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/index.html
+  Cache-Control: no-cache, must-revalidate
+
+/style.css
+  Cache-Control: no-cache, must-revalidate
+
+/viewer.js
+  Cache-Control: no-cache, must-revalidate
+
+/products.json
+  Cache-Control: no-cache, must-revalidate
+
+/sw.js
+  Cache-Control: no-store
