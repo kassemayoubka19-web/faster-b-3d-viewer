@@ -8,7 +8,7 @@ const fallbackImg = document.getElementById('fallbackImg');
 const productName = document.getElementById('productName');
 const productCategory = document.getElementById('productCategory');
 const backBtn = document.getElementById('backBtn');
-const fullBtn = document.getElementById('fullBtn');
+
 const resetBtn = document.getElementById('resetBtn');
 const fitBtn = document.getElementById('fitBtn');
 const progressBar = document.getElementById('progressBar');
@@ -23,20 +23,16 @@ function slugFromLocation(){
 }
 
 function goBackToQuote(){
-  if(history.length>1){
+  // The PDF reader may have opened a new browser tab without usable history.
+  if (document.referrer && history.length > 1) {
     history.back();
-    setTimeout(()=>{ try{ window.close(); }catch{} },300);
-  }else{
-    try{ window.close(); }catch{}
+  } else {
+    window.close();
+    // Browser security may prevent a website from closing a user-opened tab.
+    setTimeout(() => { if (!document.hidden) loadingTitle.textContent = 'ارجع إلى عرض السعر باستخدام زر الرجوع في المتصفح'; }, 400);
   }
 }
 backBtn.addEventListener('click',goBackToQuote);
-fullBtn.addEventListener('click',async()=>{
-  try{
-    if(!document.fullscreenElement) await stage.requestFullscreen();
-    else await document.exitFullscreen();
-  }catch{}
-});
 resetBtn.addEventListener('click',()=>{
   if(defaultOrbit) viewer.cameraOrbit=defaultOrbit;
   if(defaultTarget) viewer.cameraTarget=defaultTarget;
@@ -80,7 +76,9 @@ async function load(){
     const item=catalog.find(x=>x.slug===slug);
     if(!item) throw new Error('المعدة المطلوبة غير موجودة في الكتالوج');
     productName.textContent=item.name;
-    productCategory.textContent=item.category||'';
+    if (productCategory) productCategory.textContent=item.category||'';
+    // Restore a balanced light setup only for the detailed ROTONDI model.
+    viewer.exposure = item.slug === 'rotondi-spotting-table' ? 0.62 : 0.82;
     document.title=`${item.name} | Faster B 3D`;
     loadingTitle.textContent='جاري تحميل النموذج ثلاثي الأبعاد…';
     loadingText.textContent='0%';
