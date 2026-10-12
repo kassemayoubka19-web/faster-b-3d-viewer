@@ -478,5 +478,17 @@
     },
     "sha256": "9c8458a58b9faa4b07a0ac86363e336120d170aefc993759a4b4beb4004932e2",
     "modelBuild": "procedural_test_v1"
+  },
+  {
+    "id": 31,
+    "slug": "fasterb-fx42-press",
+    "name": "مكبس كوي FASTER B FX42",
+    "category": "مكابس الكوي",
+    "description": "FX42 — مكبس كوي من FASTER B، معاينة ثلاثية الأبعاد للمجسم المعتمد.",
+    "model": "models/fasterb-fx42.glb",
+    "reference": "",
+    "modelStatus": "awaiting_model_upload",
+    "modelBuild": "Converted from FX42_FASTER_B.blend supplied by user",
+    "modelNotes": "Full original geometry and material palette; GLB asset upload pending"
   }
 ]
