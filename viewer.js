@@ -78,7 +78,7 @@ async function load(){
     productName.textContent=item.name;
     if (productCategory) productCategory.textContent=item.category||'';
     // Restore a balanced light setup only for the detailed ROTONDI model.
-    viewer.exposure = item.slug === 'rotondi-spotting-table' ? 0.62 : 0.82;
+    viewer.exposure = typeof item.exposure === 'number' ? item.exposure : (item.slug === 'rotondi-spotting-table' ? 0.62 : 0.82);
     document.title=`${item.name} | Faster B 3D`;
     loadingTitle.textContent='جاري تحميل النموذج ثلاثي الأبعاد…';
     loadingText.textContent='0%';
