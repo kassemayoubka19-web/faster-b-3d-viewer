@@ -485,10 +485,10 @@
     "name": "مكبس كوي FASTER B FX42",
     "category": "مكابس الكوي",
     "description": "FX42 — مكبس كوي من FASTER B، معاينة ثلاثية الأبعاد للمجسم المعتمد.",
-    "model": "models/FASTER_B_FX42_ORIGINAL.glb",
+    "model": "models/FASTER_B_FX42_REFERENCE_MATCH.glb",
     "reference": "",
     "modelStatus": "real_model_ready",
-    "modelBuild": "Converted from FX42_FASTER_B.blend supplied by user",
+    "modelBuild": "FX42 material color and surface finish revision based on supplied reference image",
     "exposure": 0.48
   }
 ]
