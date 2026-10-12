@@ -488,6 +488,7 @@
     "model": "models/FASTER_B_FX42_ORIGINAL.glb",
     "reference": "",
     "modelStatus": "real_model_ready",
-    "modelBuild": "Converted from FX42_FASTER_B.blend supplied by user"
+    "modelBuild": "Converted from FX42_FASTER_B.blend supplied by user",
+    "exposure": 0.48
   }
 ]
