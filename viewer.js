@@ -86,7 +86,8 @@ async function load(){
     window.__currentItem=item;
     fallback.classList.add('hidden');
     viewer.alt=`3D model - ${item.name}`;
-    viewer.poster=new URL(item.reference, document.baseURI).href;
+    if (item.reference) viewer.poster = new URL(item.reference, document.baseURI).href;
+    else viewer.removeAttribute('poster');
     viewer.src=url;
   }catch(err){
     console.error(err);
