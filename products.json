@@ -485,10 +485,10 @@
     "name": "مكبس كوي FASTER B FX42",
     "category": "مكابس الكوي",
     "description": "FX42 — مكبس كوي من FASTER B، معاينة ثلاثية الأبعاد للمجسم المعتمد.",
-    "model": "FASTER_B_PRESS_CONTINUED.glb",
+    "model": "FASTER_B_PRESS_CONTINUED_PBR.glb",
     "reference": "",
     "modelStatus": "real_model_ready",
-    "modelBuild": "FX42 material color and surface finish revision based on supplied reference image",
-    "exposure": 0.48
+    "modelBuild": "GitHub Actions PBR materials: glossy olive paint, metals, textured walnut worktop",
+    "exposure": 0.82
   }
 ]
