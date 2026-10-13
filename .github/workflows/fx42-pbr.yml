@@ -1,0 +1,112 @@
+name: Generate polished FX42 GLB
+
+on:
+  push:
+    paths:
+      - ".github/workflows/fx42-pbr.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Install 3D exporter dependencies
+        run: python3 -m pip install --quiet numpy trimesh Pillow
+      - name: Build enhanced FX42 GLB with material-specific PBR
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import numpy as np, trimesh
+          from collections import Counter
+          from PIL import Image
+          from trimesh.visual.material import PBRMaterial
+          from trimesh.visual.texture import TextureVisuals
+          from trimesh.exchange.gltf import export_glb
+
+          source="FASTER_B_PRESS_CONTINUED.glb"
+          target="FASTER_B_PRESS_CONTINUED_PBR.glb"
+          scene=trimesh.load(source, force="scene")
+          assert len(scene.geometry)==608, "Incorrect source geometry count"
+
+          colors={
+              "olive": ([164,162,103,255],.14,.25),
+              "silver": ([203,205,206,255],.88,.26),
+              "chrome": ([223,223,221,255],.92,.20),
+              "gunmetal": ([64,66,68,255],.64,.32),
+              "handle": ([40,42,45,255],.10,.41),
+              "rubber": ([42,42,42,255],.02,.73),
+              "wood": ([255,255,255,255],.02,.33),
+          }
+          mats={name:PBRMaterial(
+              name="FX42_"+name, baseColorFactor=rgba,
+              metallicFactor=metal, roughnessFactor=rough,
+              doubleSided=True)
+              for name,(rgba,metal,rough) in colors.items()}
+
+          # Fine, low contrast walnut grain for the worktop surface.
+          w,h=768,512
+          yy,xx=np.mgrid[:h,:w].astype(float)
+          grain_y=yy+2.5*np.sin(xx*.012+yy*.033)
+          grain=(15*np.sin(grain_y*.18)+6*np.sin(grain_y*.6)
+                 +4*np.sin(grain_y*1.5)+5*np.sin(grain_y*.046)
+                 +3*np.sin(xx*.025+yy*.013))
+          texture=np.stack([
+              np.clip(154+grain,0,255),
+              np.clip(81+grain*.65,0,255),
+              np.clip(63+grain*.45,0,255)],axis=-1).astype(np.uint8)
+          mats["wood"].baseColorTexture=Image.fromarray(texture,"RGB")
+
+          counts=Counter()
+          for mesh in scene.geometry.values():
+              r,g,b=mesh.visual.vertex_colors[:,:3].mean(axis=0)
+              if 45<r<65 and 28<g<48 and 27<b<48:
+                  kind="wood"
+              elif 68<r<95 and 75<g<105 and 58<b<95:
+                  kind="olive"
+              elif r>191 and g>190:
+                  kind="chrome"
+              elif 168<r<191 and 168<g<197:
+                  kind="silver"
+              elif r<30 and g<36:
+                  kind="handle"
+              elif 38<=r<=45 and 40<=g<=47 and b>=40:
+                  kind="gunmetal"
+              else:
+                  kind="rubber"
+              if tuple(np.rint([r,g,b]).astype(int))==(40,40,40):
+                  kind="rubber"
+              if kind=="wood":
+                  xyz=mesh.vertices
+                  x,z=xyz[:,0],xyz[:,2]
+                  uv=np.column_stack(((x-x.min())/(np.ptp(x) or 1),
+                                      (z-z.min())/(np.ptp(z) or 1)))
+                  mesh.visual=TextureVisuals(uv=uv,material=mats["wood"])
+              else:
+                  mesh.visual.material=mats[kind]
+                  mesh.visual.vertex_colors=np.tile(
+                      np.array([255,255,255,255],dtype=np.uint8),
+                      (len(mesh.vertices),1))
+              counts[kind]+=1
+
+          assert counts["olive"]>=120 and counts["wood"]==1,counts
+          with open(target,"wb") as fp:
+              fp.write(export_glb(scene,include_normals=True))
+          verify=trimesh.load(target,force="scene")
+          assert len(verify.geometry)==608
+          print("Created",target,"mesh groups:",len(verify.geometry),
+                "surface categories:",dict(counts))
+          PY
+      - name: Store final GLB on GitHub
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add FASTER_B_PRESS_CONTINUED_PBR.glb
+          git commit -m "Add physically based FX42 materials and walnut texture"
+          git push origin HEAD:main
