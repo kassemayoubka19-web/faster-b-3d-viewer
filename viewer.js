@@ -82,7 +82,16 @@ async function load(){
     document.title=`${item.name} | Faster B 3D`;
     loadingTitle.textContent='جاري تحميل النموذج ثلاثي الأبعاد…';
     loadingText.textContent='0%';
-    const url=new URL(item.model, document.baseURI).href;
+    // FX42: force a fresh PBR asset and use an HDR studio-style reflection map.
+    // Other products keep their previous environment settings.
+    const isFX42 = item.slug === 'fasterb-fx42-press';
+    if (isFX42) {
+      viewer.setAttribute('environment-image', 'https://modelviewer.dev/shared-assets/environments/aircraft_workshop_01_1k.hdr');
+      viewer.setAttribute('tone-mapping', 'aces');
+    }
+    const modelUrl = new URL(item.model, document.baseURI);
+    if (isFX42) modelUrl.searchParams.set('rev', 'fx42-pbr-d58f435c-20261013');
+    const url = modelUrl.href;
     window.__currentItem=item;
     fallback.classList.add('hidden');
     viewer.alt=`3D model - ${item.name}`;
