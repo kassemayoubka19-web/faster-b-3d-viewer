@@ -82,7 +82,7 @@ export function createHotspotOverlay(viewer, area, parts, onOpen) {
         marker.lastVisible=visible;
       }
       if(!visible)continue;
-      if(Math.abs(coords.x-marker.lastX)>.3||Math.abs(coords.y-marker.lastY)>.3){
+      if(!Number.isFinite(marker.lastX)||!Number.isFinite(marker.lastY)||Math.abs(coords.x-marker.lastX)>.3||Math.abs(coords.y-marker.lastY)>.3){
         marker.btn.style.transform='translate3d('+coords.x.toFixed(2)+'px,'+coords.y.toFixed(2)+'px,0) translate(-50%,-50%)';
         marker.lastX=coords.x; marker.lastY=coords.y;
       }
