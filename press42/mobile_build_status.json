@@ -1,0 +1,21 @@
+{
+  "original_sha256": "e005b4ae94adfd961662a946882403ac5382933ea231f0af08398b0dba50e6a3",
+  "optimized_sha256": "ae7aae7389998b65bc6bfa5517c60aa86e424a0dc199acd920f55f9981336809",
+  "optimized_glb_bytes": 59795428,
+  "gzip_bytes": 26573842,
+  "original_primitives": 954,
+  "optimized_primitives": 116,
+  "original_vertices": 1279418,
+  "optimized_vertices": 1279418,
+  "original_triangles": 1540644,
+  "optimized_triangles": 1540644,
+  "semantic_groups": 13,
+  "original_materials": 79,
+  "optimized_materials": 79,
+  "original_images": 10,
+  "optimized_images": 10,
+  "split_sizes": [
+    13286921,
+    13286921
+  ]
+}
