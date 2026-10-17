@@ -132,6 +132,7 @@ function fitWholeMachine(){
 function updateRotateButton(){
  const enabled=viewer.hasAttribute('auto-rotate');
  rotateButton.setAttribute('aria-pressed',String(enabled));
+ rotateButton.textContent=enabled?'Ⅱ':'↻';
  rotateButton.setAttribute('aria-label',enabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي');
  rotateButton.title=enabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي';
 }
