@@ -125,9 +125,9 @@ viewer.addEventListener('load',()=>{
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذر قراءة ملف المجسم في هذا المتصفح. جرّب Chrome أو Edge.');});
 // Cache the exact full-resolution GLB locally after its first successful render.
 // This avoids another 27 MB download and 57 MB decompression on repeat visits.
-const MODEL_BYTES=57083244;
-const CACHE_NAME='fasterb-fx42-pbr-full-v1';
-const CACHE_URL=new URL('./fx42-pbr-final-v1.glb',document.baseURI).href;
+const MODEL_BYTES=59795428;
+const CACHE_NAME='fasterb-fx42-material-batched-mobile-v2';
+const CACHE_URL=new URL('./fx42-material-batched-mobile-v2.glb',document.baseURI).href;
 let modelToCache=null;
 let cachePending=false;
 async function readCachedModel(){
@@ -144,6 +144,12 @@ async function readCachedModel(){
  }catch(e){console.warn('Local model cache unavailable',e);return null;}
 }
 function saveModelCacheLater(){
+ // On low-memory mobile devices the decoded 60 MB GLB cache write can
+ // compete with GPU animation. Rely on HTTP caching of gzip parts instead.
+ if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+  modelToCache=null;
+  return;
+ }
  if(!modelToCache||cachePending||!('caches' in window))return;
  cachePending=true;
  const blob=modelToCache;
@@ -165,14 +171,14 @@ function saveModelCacheLater(){
 }
 async function prepareModel(){
  loadLabel.textContent='جارِ فتح المجسم…';
- const cached=await readCachedModel();
+ const cached=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)?null:await readCachedModel();
  if(cached){
   loadLabel.textContent='جارِ عرض المجسم المحفوظ…';
   progress.style.width='70%';
   return URL.createObjectURL(cached);
  }
  if(!('DecompressionStream' in window))throw new Error('المتصفح لا يدعم فك ضغط النموذج. حدّث Chrome أو Edge.');
- const urls=['press42-model-1.gzpart','press42-model-2.gzpart'];
+ const urls=['press42-mobile-1.gzpart','press42-mobile-2.gzpart'];
  loadLabel.textContent='جارِ تنزيل المجسم لأول مرة…';
  // Start the two file requests together, then decompress bytes incrementally.
  // Avoid holding another 27 MB compressed copy in memory on low-memory phones.
@@ -216,7 +222,8 @@ async function loadEngine(){
 async function boot(){
  try{
   if(location.protocol==='file:')throw new Error('افتح هذه الصفحة من رابط HTTPS المنشور.');
-  // The model download/decompression and viewer-engine download happen concurrently.
+  // Load the geometry-preserving optimized GLB (116 instead of 954 primitives).
+  // Download/decompression and viewer-engine download happen concurrently.
   const [,url]=await Promise.all([loadEngine(),prepareModel()]);
   loadLabel.textContent='جارِ إظهار المكبس ثلاثي الأبعاد…';
   viewer.src=url;
