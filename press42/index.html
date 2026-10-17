@@ -28,7 +28,7 @@ model-viewer{height:100%;width:100%;display:block;background:#fff;--poster-color
 #error b{display:block;margin-bottom:9px}#error span{display:block;line-height:1.65;font-size:12px}
 .toolbar{position:absolute;z-index:10;bottom:max(20px, env(safe-area-inset-bottom, 0px) + 12px);left:50%;transform:translateX(-50%);direction:ltr;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.96);border:1px solid #e6e6e0;border-radius:15px;padding:6px;box-shadow:0 8px 30px rgba(34,40,35,.10)}
 .toolbar button{background:transparent;border:0;color:#35403c;display:grid;place-items:center;border-radius:10px;width:42px;height:41px}.toolbar button:hover,.toolbar button:focus-visible{background:#f1f0ed;outline:none}.toolbar button svg{fill:none;stroke:currentColor;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round;width:22px;height:22px}
-.toolbar .divider{width:1px;height:22px;background:#e3e3de}
+.toolbar .divider{width:1px;height:22px;background:#e3e3de}.toolbar button[aria-pressed="true"]{color:#96702d;background:#fff7e5}
 #partsHint{position:absolute;z-index:9;left:50%;bottom:84px;transform:translateX(-50%);color:#363b37;background:#fffef3;border:1px solid #e7d6aa;border-radius:30px;padding:8px 12px;font:600 12px Arial,sans-serif;white-space:nowrap;pointer-events:none;box-shadow:0 2px 15px #0001;max-width:96%;text-align:center}
 #partsHint[hidden]{display:none!important}
 #partBackdrop{position:absolute;inset:0;z-index:20;display:flex;justify-content:center;align-items:flex-end;background:rgba(0,0,0,.12);padding:12px 12px max(82px,env(safe-area-inset-bottom,0px) + 76px)}
@@ -38,8 +38,8 @@ model-viewer{height:100%;width:100%;display:block;background:#fff;--poster-color
 #partClose{border:1px solid #ddd;background:#fff;width:32px;height:32px;min-width:32px;border-radius:9px;color:#2d3334;font-size:23px;line-height:1;display:grid;place-items:center;padding:0}
 #partPhoto{width:100%;aspect-ratio:4/3;background:#f2f3f1 url('./parts-sprite.jpg') center/400% 300% no-repeat;border-bottom:1px solid #e8e7e2}
 #partPhotoCaption{display:block;color:#6d7470;font-size:10px;padding:5px 14px 0}#partDescription{margin:4px 14px 14px;font-size:13px;line-height:1.7;color:#3e4543}
-model-viewer .press-hotspot{appearance:none;-webkit-appearance:none;border:2px solid #fff!important;background:#a88030!important;color:#fff!important;border-radius:50%;width:33px;height:33px;padding:0;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:24px;line-height:1;font-weight:700;box-shadow:0 2px 10px #0006,0 0 0 2px #a88030;cursor:pointer;touch-action:manipulation;transform:translate(-50%,-50%);pointer-events:auto;user-select:none}
-model-viewer .press-hotspot[data-visible="false"]{opacity:0;pointer-events:none}
+model-viewer .press-hotspot{--min-hotspot-opacity:0;appearance:none;-webkit-appearance:none;border:2px solid #fff!important;background:#a88030!important;color:#fff!important;border-radius:50%;width:33px;height:33px;padding:0;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:24px;line-height:1;font-weight:700;box-shadow:0 2px 10px #0006,0 0 0 2px #a88030;cursor:pointer;touch-action:manipulation;transform:translate(-50%,-50%);pointer-events:auto;user-select:none}
+model-viewer .press-hotspot:not([data-visible]){opacity:0;pointer-events:none}
 model-viewer .press-hotspot:focus-visible{outline:3px solid #15242a;outline-offset:4px}
 model-viewer .press-hotspot:active{background:#182d36!important}
 @media(max-width:680px){:root{--header:56px}header{padding:0 9px;gap:4px}header h1{font-size:12px}header .brand{width:40px;font-size:11px}header .back{min-width:58px;height:34px;padding:6px;gap:2px;font-size:11px}.back svg{width:13px;height:13px}.toolbar{bottom:max(11px, env(safe-area-inset-bottom,0px) + 7px)}.toolbar button{width:38px;height:38px}.toolbar button svg{width:20px;height:20px}model-viewer .press-hotspot{width:29px;height:29px;font-size:21px;border-width:2px}#partsHint{bottom:72px;font-size:11px}#partBackdrop{padding-bottom:max(68px,env(safe-area-inset-bottom,0px) + 62px)}#partCard{max-height:64vh}}
@@ -53,7 +53,7 @@ model-viewer .press-hotspot:active{background:#182d36!important}
 <span class="brand">FASTER B</span>
 </header>
 <main id="area">
-<model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" auto-rotate auto-rotate-delay="0" rotation-per-second="7deg" alt="مجسم ثلاثي الأبعاد لمكبس كوي كهرباء فاستر بي 42 بوصة">
+<model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="5deg" auto-rotate-delay="1200" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس كوي كهرباء فاستر بي 42 بوصة">
 </model-viewer>
 <section class="loading" id="loading" aria-live="polite"><div class="loadingBox">
 <img src="./current-poster.png" alt="صورة مكبس الكوي" id="poster">
@@ -62,7 +62,7 @@ model-viewer .press-hotspot:active{background:#182d36!important}
 </div></section>
 <div id="error" role="alert"><b>تعذّر تحميل العارض</b><span id="errorText">تحقق من اتصال الإنترنت وافتح الملف في متصفح Chrome أو Edge.</span></div>
 <nav class="toolbar" aria-label="أدوات تحريك المجسم">
-<button id="reset" title="إعادة ضبط" aria-label="إعادة ضبط"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg></button>
+<button id="rotate" type="button" title="تشغيل الدوران التلقائي" aria-label="تشغيل الدوران التلقائي" aria-pressed="false" style="font-size:27px">↻</button><button id="reset" title="إعادة ضبط" aria-label="إعادة ضبط"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg></button>
 <button id="fullscreen" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button>
 </nav>
 <div id="partsHint" hidden>اضغط على علامة + لاستكشاف أجزاء المكبس</div>
@@ -90,22 +90,23 @@ const partPhoto=document.getElementById('partPhoto');
 const partDescription=document.getElementById('partDescription');
 const partPhotoCaption=document.getElementById('partPhotoCaption');
 const partClose=document.getElementById('partClose');
+const rotateButton=document.getElementById('rotate');
 const START_AZIMUTH=-36, POLAR=74, FOV=38, PADDING=1.12;
 let modelReady=false, lastAspect=0, resumeRotate=false;
 const PARTS=[
-  {id:'upperHead',name:'الرأس العلوي للكوي',tile:0,position:'-0.280m 1.560m 0.185m',description:'الجزء العلوي المتحرك الذي يطبّق ضغط الكوي على القطعة أثناء التشغيل.',photo:'صورة مرجعية حقيقية للرأس العلوي للمكبس.'},
-  {id:'workTable',name:'سطح الكوي السفلي',tile:1,position:'-0.250m 0.925m 0.410m',description:'السطح السفلي الذي توضع عليه الملابس أثناء عملية الكوي والتشطيب.',photo:'صورة مرجعية حقيقية لسطح الكوي السفلي.'},
-  {id:'controlPanel',name:'لوحة التحكم',tile:2,position:'0.470m 0.470m 0.385m',description:'واجهة التشغيل التي تضم الأزرار والمؤشرات وعناصر التحكم الأساسية بالمكبس.',photo:'صورة حقيقية للوحة التحكم وأزرارها.'},
-  {id:'footPedals',name:'دواسات التشغيل',tile:3,position:'-0.170m 0.120m 0.635m',description:'مجموعة الدواسات التي تُمكّن المشغّل من التحكم بوظائف التشغيل أثناء العمل.',photo:'صورة حقيقية لدواسات التشغيل الأمامية.'},
-  {id:'mainBody',name:'جسم المكبس',tile:4,position:'-0.100m 0.560m 0.250m',description:'الهيكل الرئيسي الحامل لمكونات المكبس، ويضم أجزاء التشغيل والتوصيلات الداخلية.',photo:'صورة مرجعية حقيقية لجسم المكبس.'},
-  {id:'pressureGauge',name:'مقياس الضغط',tile:5,position:'0.200m 1.490m -0.182m',description:'مؤشر يوضح قيمة الضغط في الدائرة المرتبطة به للمراقبة أثناء التشغيل.',photo:'صورة مرجعية حقيقية لمجموعة القياس العلوية.'},
-  {id:'pressureControl',name:'منظّم الضغط',tile:6,position:'0.392m 1.500m -0.218m',description:'وحدة مسؤولة عن ضبط أو مراقبة ضغط التشغيل حسب إعدادات المكبس.',photo:'صورة مرجعية حقيقية لمنطقة منظّم الضغط.'},
-  {id:'safetyValve',name:'صمام الأمان',tile:7,position:'0.340m 0.950m -0.325m',description:'عنصر حماية يخفف الضغط الزائد للمساعدة في الحفاظ على سلامة دائرة التشغيل.',photo:'صورة مرجعية حقيقية لصمام الأمان أو موضعه على المعدة.'},
-  {id:'steamConnections',name:'توصيلات البخار',tile:8,position:'0.500m 1.210m 0.235m',description:'مجموعة التوصيلات والخراطيم التي تنقل البخار بين الأجزاء المرتبطة بالتشغيل.',photo:'صورة حقيقية لتوصيلات وخراطيم البخار.'},
-  {id:'suctionBlower',name:'الشفاط',tile:9,position:'-0.560m 0.235m -0.195m',description:'وحدة الشفط تساعد على سحب الهواء أو البخار من منطقة العمل وتحسين عملية التشطيب.',photo:'صورة مرجعية حقيقية لموضع الشفاط في المكبس.'},
-  {id:'waterLevel',name:'مؤشر مستوى المياه',tile:10,position:'0.644m 0.495m -0.088m',description:'مؤشر جانبي يبيّن مستوى المياه في الدائرة المرتبطة به.',photo:'صورة حقيقية لمؤشر مستوى المياه الجانبي.'},
-  {id:'waterPump',name:'مضخة المياه',tile:11,position:'0.530m 0.140m -0.455m',description:'مضخة تغذية المياه التي تدفع المياه إلى الدائرة المخصصة لها داخل الجهاز.',photo:'صورة مرجعية حقيقية لموضع مضخة المياه بالمكبس.'},
-  {id:'powerCable',name:'كيبل الكهرباء',tile:8,position:'0.442m 1.152m -0.198m',description:'كيبل التغذية الكهربائية ثلاثي الطور، مُجهّز للعمل على جهد 220 أو 380 فولت بحسب التوصيل المعتمد.',photo:'صورة مرجعية حقيقية لمسار كيبل التغذية الكهربائية أو موضعه بالمعدة.'}
+  {id:'upperHead',name:'الرأس العلوي للكوي',tile:4,position:'-0.31879m 1.54527m 0.17203m',normal:'0.1108 0.7847 0.6099',description:'الجزء العلوي المتحرك الذي يطبّق ضغط الكوي على القطعة أثناء التشغيل.',photo:'صورة مرجعية حقيقية للرأس العلوي للمكبس.'},
+  {id:'workTable',name:'سطح الكوي السفلي',tile:5,position:'-0.23572m 0.94644m 0.58918m',normal:'0.053 0.9557 0.2896',description:'السطح السفلي الذي توضع عليه الملابس أثناء عملية الكوي والتشطيب.',photo:'صورة مرجعية حقيقية لسطح الكوي السفلي.'},
+  {id:'controlPanel',name:'لوحة التحكم',tile:2,position:'0.45508m 0.57000m 0.34326m',normal:'0.5623 0 0.8269',description:'واجهة التشغيل التي تضم الأزرار والمؤشرات وعناصر التحكم الأساسية بالمكبس.',photo:'صورة حقيقية للوحة التحكم وأزرارها.'},
+  {id:'footPedals',name:'دواسات التشغيل',tile:1,position:'-0.16323m 0.18472m 0.64649m',normal:'0.5391 0.5976 0.5935',description:'مجموعة الدواسات التي تُمكّن المشغّل من التحكم بوظائف التشغيل أثناء العمل.',photo:'صورة حقيقية لدواسات التشغيل الأمامية.'},
+  {id:'mainBody',name:'جسم المكبس',tile:0,position:'-0.14524m 0.53908m 0.40100m',normal:'0 0 1',description:'الهيكل الرئيسي الحامل لمكونات المكبس، ويضم أجزاء التشغيل والتوصيلات الداخلية.',photo:'صورة مرجعية حقيقية لجسم المكبس.'},
+  {id:'pressureGauge',name:'مقياس الضغط',tile:6,position:'0.20880m 1.49022m -0.19600m',normal:'0 0 -1',description:'مؤشر يوضح قيمة الضغط في الدائرة المرتبطة به للمراقبة أثناء التشغيل.',photo:'صورة مرجعية حقيقية لمجموعة القياس العلوية.'},
+  {id:'pressureControl',name:'منظّم الضغط',tile:10,position:'0.39013m 1.49894m -0.23730m',normal:'-0.1177 -0.1369 -0.9836',description:'وحدة مسؤولة عن ضبط أو مراقبة ضغط التشغيل حسب إعدادات المكبس.',photo:'صورة مرجعية حقيقية لمنطقة منظّم الضغط.'},
+  {id:'safetyValve',name:'صمام الأمان',tile:8,position:'0.36638m 0.95207m -0.32636m',normal:'0.9994 0.0337 0',description:'عنصر حماية يخفف الضغط الزائد للمساعدة في الحفاظ على سلامة دائرة التشغيل.',photo:'صورة مرجعية حقيقية لصمام الأمان أو موضعه على المعدة.'},
+  {id:'steamConnections',name:'توصيلات البخار',tile:9,position:'-0.54338m 1.36737m -0.03552m',normal:'-0.6423 0.7563 0.1243',description:'مجموعة التوصيلات والخراطيم التي تنقل البخار بين الأجزاء المرتبطة بالتشغيل.',photo:'صورة حقيقية لتوصيلات وخراطيم البخار.'},
+  {id:'suctionBlower',name:'الشفاط',tile:11,position:'-0.54705m 0.24893m -0.16032m',normal:'-0.9939 -0.0073 0.11',description:'وحدة الشفط تساعد على سحب الهواء أو البخار من منطقة العمل وتحسين عملية التشطيب.',photo:'صورة مرجعية حقيقية لموضع الشفاط في المكبس.'},
+  {id:'waterLevel',name:'مؤشر مستوى المياه',tile:7,position:'0.65937m 0.50069m -0.11322m',normal:'0.9914 0 0.1305',description:'مؤشر جانبي يبيّن مستوى المياه في الدائرة المرتبطة به.',photo:'صورة حقيقية لمؤشر مستوى المياه الجانبي.'},
+  {id:'waterPump',name:'مضخة المياه',tile:11,position:'0.60717m 0.14433m -0.45383m',normal:'0.9951 0.098 -0.0129',description:'مضخة تغذية المياه التي تدفع المياه إلى الدائرة المخصصة لها داخل الجهاز.',photo:'صورة مرجعية حقيقية لموضع مضخة المياه بالمكبس.'},
+  {id:'powerCable',name:'كيبل الكهرباء',tile:3,position:'0.45506m 1.15532m -0.20246m',normal:'0.9155 -0.3939 -0.0823',description:'كيبل التغذية الكهربائية ثلاثي الطور، مُجهّز للعمل على جهد 220 أو 380 فولت بحسب التوصيل المعتمد.',photo:'صورة مرجعية حقيقية لمسار كيبل التغذية الكهربائية أو موضعه بالمعدة.'}
 ];
 function fail(message){loading.hidden=true;error.style.display='block';document.getElementById('errorText').textContent=message||'تعذر فتح المجسم. تأكد من الإنترنت وجرب Chrome أو Edge.';}
 back.onclick=()=>{if(history.length>1) history.back();else if(window.opener)window.close();else window.close();};
@@ -128,9 +129,20 @@ function fitWholeMachine(){
  viewer.jumpCameraToGoal?.();
  lastAspect=w/Math.max(1,h);
 }
+function updateRotateButton(){
+ const enabled=viewer.hasAttribute('auto-rotate');
+ rotateButton.setAttribute('aria-pressed',String(enabled));
+ rotateButton.setAttribute('aria-label',enabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي');
+ rotateButton.title=enabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي';
+}
+function setRotation(enabled){
+ viewer.toggleAttribute('auto-rotate',!!enabled);
+ updateRotateButton();
+}
+rotateButton.addEventListener('click',()=>setRotation(!viewer.hasAttribute('auto-rotate')));
 function openPart(part){
  resumeRotate=viewer.hasAttribute('auto-rotate');
- viewer.removeAttribute('auto-rotate');
+ setRotation(false);
  partTitle.textContent=part.name;
  partDescription.textContent=part.description;
  partPhotoCaption.textContent=part.photo;
@@ -142,7 +154,7 @@ function openPart(part){
 }
 function closePart(){
  partBackdrop.hidden=true;
- if(resumeRotate&&!document.hidden) viewer.setAttribute('auto-rotate','');
+ if(resumeRotate&&!document.hidden) setRotation(true);
  resumeRotate=false;
 }
 function addHotspots(){
@@ -151,11 +163,8 @@ function addHotspots(){
    b.type='button';
    b.className='press-hotspot';
    b.slot=`hotspot-${part.id}`;
-   b.dataset.position=part.position;
-   b.dataset.normal='0m 0m 1m';
-   b.dataset.visibilityAttribute='visible';
    b.setAttribute('data-position',part.position);
-   b.setAttribute('data-normal','0m 0m 1m');
+   b.setAttribute('data-normal',part.normal);
    b.setAttribute('data-visibility-attribute','visible');
    b.setAttribute('aria-label','عرض معلومات '+part.name);
    b.setAttribute('title',part.name);
@@ -165,22 +174,16 @@ function addHotspots(){
    viewer.appendChild(b);
  }
 }
-function syncVisibility(){
-  viewer.querySelectorAll('.press-hotspot').forEach(btn=>{
-    btn.dataset.visible = btn.hasAttribute('visible') ? 'true' : 'false';
-  });
-}
-viewer.addEventListener('camera-change',()=>{ syncVisibility(); }, {passive:true});
 partClose.addEventListener('click',closePart);
 partBackdrop.addEventListener('click',ev=>{ if(ev.target===partBackdrop) closePart(); });
 document.addEventListener('keydown',ev=>{ if(ev.key==='Escape') closePart(); });
-document.getElementById('reset').onclick=()=>{closePart(); fitWholeMachine(); viewer.setAttribute('auto-rotate','');};
+document.getElementById('reset').onclick=()=>{closePart(); setRotation(false); fitWholeMachine();};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen();}catch(e){console.warn('Fullscreen unavailable',e);}};
 viewer.addEventListener('progress',event=>{const pct=Math.round((event.detail?.totalProgress||0)*100);progress.style.width=Math.max(8,pct)+'%';});
-viewer.addEventListener('load',()=>{modelReady=true; requestAnimationFrame(()=>{fitWholeMachine(); loading.hidden=true; progress.style.width='100%'; hint.hidden=false; syncVisibility(); setTimeout(()=>hint.hidden=true,6500);});});
+viewer.addEventListener('load',()=>{modelReady=true; requestAnimationFrame(()=>{fitWholeMachine(); loading.hidden=true; progress.style.width='100%'; hint.hidden=false; setTimeout(()=>hint.hidden=true,6500);});});
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذر قراءة ملف المجسم في هذا المتصفح. جرّب Chrome أو Edge.');});
 window.addEventListener('resize',()=>{if(!modelReady)return; const a=area.clientWidth/Math.max(1,area.clientHeight); if(Math.abs(a-lastAspect)>0.08) requestAnimationFrame(fitWholeMachine);},{passive:true});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){ viewer.removeAttribute('auto-rotate'); } else if(partBackdrop.hidden){ viewer.setAttribute('auto-rotate',''); }});
+document.addEventListener('visibilitychange',()=>{if(document.hidden && viewer.hasAttribute('auto-rotate'))setRotation(false);});
 async function prepareModel(){
  if(!('DecompressionStream' in window)) throw new Error('المتصفح لا يدعم فك ضغط النموذج. حدّث Chrome أو Edge.');
  const urls=['press42-mobile-1.gzpart','press42-mobile-2.gzpart'];
@@ -207,8 +210,9 @@ async function boot(){
    if(location.protocol==='file:') throw new Error('افتح هذه الصفحة من رابط HTTPS المنشور، أو باستخدام خادم محلي.');
    await import('https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js').catch(()=>import('https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js'));
    await customElements.whenDefined('model-viewer');
-   if('minimumRenderScale' in viewer) viewer.minimumRenderScale=0.5;
+   customElements.get('model-viewer').minimumRenderScale=0.35;
    addHotspots();
+   updateRotateButton();
    loadLabel.textContent='جارِ تجهيز المجسم…';
    const url=await prepareModel();
    viewer.src=url;
