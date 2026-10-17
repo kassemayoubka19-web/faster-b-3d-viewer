@@ -53,7 +53,9 @@
     b.className='press-hotspot';
     b.slot='hotspot-'+part.id;
     b.setAttribute('data-position',part.xyz.map(x=>x.toFixed(3)+'m').join(' '));
-    b.setAttribute('data-normal','0m 0m 1m');
+    const sideFacing=['pump','safety','waterLevel','pressureControl','hose'].includes(part.id);
+    const upward=['table','arm'].includes(part.id);
+    b.setAttribute('data-normal',sideFacing?'1 0 0':upward?'0 1 0':'0 0 1');
     b.setAttribute('data-visibility-attribute','visible');
     b.setAttribute('aria-label','عرض معلومات '+part.name);
     b.setAttribute('title',part.name);
