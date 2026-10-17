@@ -57,6 +57,7 @@ body:not(.model-ready) .part-hotspot{display:none}
 @media(max-width:680px){.part-card{right:9px;bottom:67px;width:min(320px,calc(100vw - 18px));}.part-card figure img{height:116px}.part-description{font-size:12px}.part-hotspot{width:27px;height:27px;font-size:21px}.part-hint{left:8px;bottom:75px;font-size:10px}}
 
 </style>
+<link rel="stylesheet" href="./hotspots.css?v=4">
 </head>
 <body>
 <header>
@@ -98,6 +99,18 @@ body:not(.model-ready) .part-hotspot{display:none}
 <button id="reset" title="إعادة ضبط" aria-label="إعادة ضبط"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg></button>
 <button id="fullscreen" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button>
 </nav>
+<div id="pressPartsHint" hidden>اضغط على علامة (+) لاستكشاف أجزاء المكبس</div>
+<div id="pressPartBackdrop" hidden>
+  <section id="pressPartCard" role="dialog" aria-modal="true" aria-labelledby="pressPartTitle">
+    <div id="pressPartCardHeader">
+      <h2 id="pressPartTitle"></h2>
+      <button id="pressPartClose" type="button" aria-label="إغلاق معلومات الجزء">×</button>
+    </div>
+    <div id="pressPartPhoto" role="img" aria-label="صورة مرجعية حقيقية للجزء أو موضعه في المكبس"></div>
+    <small id="pressPartPhotoCaption"></small>
+    <p id="pressPartDescription"></p>
+  </section>
+</div>
 </main>
 
 <script type="module">
@@ -321,4 +334,5 @@ async function boot(){
 }
 boot();
 </script>
+<script type="module" src="./hotspots.js?v=4"></script>
 </body></html>
