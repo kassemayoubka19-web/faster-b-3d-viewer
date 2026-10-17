@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <meta name="theme-color" content="#ffffff">
-<meta name="color-scheme" content="light">
+<meta name="color-scheme" content="only light">
 <title>مكبس كوي كهرباء فاستر بي 42 بوصة | FASTER B 3D</title>
 <style>
-:root{font-family:Arial,"Noto Sans Arabic",Tahoma,sans-serif;color:#202426;background:#fff;color-scheme:light;--dark:#142124;--gold:#b5954d;--header:64px}
+:root{font-family:Arial,"Noto Sans Arabic",Tahoma,sans-serif;color:#202426;background:#fff;color-scheme:only light;--dark:#142124;--gold:#b5954d;--header:64px}
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fff}
 body{height:100dvh;position:relative}
@@ -38,8 +38,8 @@ model-viewer{height:100%;width:100%;display:block;background:#fff;--poster-color
 #partClose{border:1px solid #ddd;background:#fff;width:32px;height:32px;min-width:32px;border-radius:9px;color:#2d3334;font-size:23px;line-height:1;display:grid;place-items:center;padding:0}
 #partPhoto{width:100%;aspect-ratio:4/3;background:#f2f3f1 url('./parts-sprite.jpg') center/400% 300% no-repeat;border-bottom:1px solid #e8e7e2}
 #partPhotoCaption{display:block;color:#6d7470;font-size:10px;padding:5px 14px 0}#partDescription{margin:4px 14px 14px;font-size:13px;line-height:1.7;color:#3e4543}
-model-viewer .press-hotspot{--min-hotspot-opacity:0;appearance:none;-webkit-appearance:none;border:2px solid #fff!important;background:#a88030!important;color:#fff!important;border-radius:50%;width:33px;height:33px;padding:0;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:24px;line-height:1;font-weight:700;box-shadow:0 2px 10px #0006,0 0 0 2px #a88030;cursor:pointer;touch-action:manipulation;pointer-events:auto;user-select:none}
-model-viewer .press-hotspot:not([data-visible]){opacity:0!important;pointer-events:none!important;visibility:hidden}model-viewer .press-hotspot[data-visible]{opacity:1!important;visibility:visible}model-viewer .press-hotspot:not(:defined){display:none}
+model-viewer .press-hotspot{--min-hotspot-opacity:0;appearance:none;-webkit-appearance:none;border:2px solid #fff!important;background:#a88030!important;color:#fff!important;--min-hotspot-opacity:1;border-radius:50%;width:33px;height:33px;padding:0;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:24px;line-height:1;font-weight:700;box-shadow:0 2px 10px #0006,0 0 0 2px #a88030;cursor:pointer;touch-action:manipulation;pointer-events:auto;user-select:none}
+model-viewer .press-hotspot{opacity:1!important;visibility:visible}model-viewer .press-hotspot[data-facing="false"]{opacity:0!important;visibility:hidden!important;pointer-events:none!important}model-viewer:not(:defined) .press-hotspot{display:none}
 model-viewer .press-hotspot:focus-visible{outline:3px solid #15242a;outline-offset:4px}
 model-viewer .press-hotspot:active{background:#182d36!important}
 @media(max-width:680px){:root{--header:56px}header{padding:0 9px;gap:4px}header h1{font-size:12px}header .brand{width:40px;font-size:11px}header .back{min-width:58px;height:34px;padding:6px;gap:2px;font-size:11px}.back svg{width:13px;height:13px}.toolbar{bottom:max(11px, env(safe-area-inset-bottom,0px) + 7px)}.toolbar button{width:38px;height:38px}.toolbar button svg{width:20px;height:20px}model-viewer .press-hotspot{width:29px;height:29px;font-size:21px;border-width:2px}#partsHint{bottom:72px;font-size:11px}#partBackdrop{padding-bottom:max(68px,env(safe-area-inset-bottom,0px) + 62px)}#partCard{max-height:64vh}}
@@ -93,15 +93,33 @@ const partClose=document.getElementById('partClose');
 const rotateButton=document.getElementById('rotate');
 const START_AZIMUTH=-36, POLAR=74, FOV=38, PADDING=1.12;
 let modelReady=false, lastAspect=0, resumeRotate=false;
+const HOTSPOT_ELEMENTS=[];
+let visibilityQueued=false;
+function refreshHotspotVisibility(){
+ visibilityQueued=false;
+ if(!modelReady||typeof viewer.queryHotspot!=='function')return;
+ for(const item of HOTSPOT_ELEMENTS){
+   const state=viewer.queryHotspot(item.name);
+   if(!state||typeof state.facingCamera!=='boolean')continue;
+   const facing=state.facingCamera?'true':'false';
+   if(item.button.dataset.facing!==facing)item.button.dataset.facing=facing;
+ }
+}
+function queueHotspotVisibility(){
+ if(visibilityQueued)return;
+ visibilityQueued=true;
+ requestAnimationFrame(refreshHotspotVisibility);
+}
+viewer.addEventListener('camera-change',queueHotspotVisibility);
 const PARTS=[
   {id:'upperHead',name:'الرأس العلوي للكوي',tile:4,position:'-0.31879m 1.54527m 0.17203m',normal:'0.1108 0.7847 0.6099',description:'الجزء العلوي المتحرك الذي يطبّق ضغط الكوي على القطعة أثناء التشغيل.',photo:'صورة مرجعية حقيقية للرأس العلوي للمكبس.'},
-  {id:'woodTable',name:'الخشبة — طاولة العمل',tile:5,position:'0.21000m 0.95300m 0.51000m',normal:'0 1 0',description:'السطح الخشبي المحيط بالمكبس، ويُستخدم لترتيب قطع الملابس وتجهيزها قبل الكوي وبعده.',photo:'صورة مرجعية حقيقية لخشبة طاولة العمل.'},
+  {id:'woodTable',name:'الخشبة — طاولة العمل',tile:5,position:'0.21000m 0.94700m 0.51000m',normal:'0 1 0',description:'السطح الخشبي المحيط بالمكبس، ويُستخدم لترتيب قطع الملابس وتجهيزها قبل الكوي وبعده.',photo:'صورة مرجعية حقيقية لخشبة طاولة العمل.'},
   {id:'lowerBuck',name:'وسادة الكوي السفلية',tile:5,position:'-0.14800m 1.16100m 0.26400m',normal:'0 1 0',description:'سطح الكوي السفلي المبطّن الذي توضع عليه قطعة الملابس ويقابل الرأس العلوي أثناء الضغط.',photo:'صورة مرجعية حقيقية لوسادة الكوي السفلية.'},
-  {id:'grip',name:'مقبض تشغيل المكبس',tile:4,position:'-0.16500m 1.67300m 0.39600m',normal:'0 1 0',description:'المقبض الأسود العلوي المستخدم للتحكم بحركة رأس الكوي وفق آلية تشغيل المعدة.',photo:'صورة مرجعية حقيقية للمقبض العلوي.'},
+  {id:'grip',name:'مقبض تشغيل المكبس',tile:4,position:'-0.17100m 1.65400m 0.39300m',normal:'0 1 0',description:'المقبض الأسود العلوي المستخدم للتحكم بحركة رأس الكوي وفق آلية تشغيل المعدة.',photo:'صورة مرجعية حقيقية للمقبض العلوي.'},
   {id:'controlPanel',name:'لوحة التحكم',tile:2,position:'0.45508m 0.57000m 0.34326m',normal:'0.5623 0 0.8269',description:'واجهة التشغيل التي تضم الأزرار والمؤشرات وعناصر التحكم الأساسية بالمكبس.',photo:'صورة حقيقية للوحة التحكم وأزرارها.'},
   {id:'footPedals',name:'دواسات التشغيل',tile:1,position:'-0.16323m 0.18472m 0.64649m',normal:'0.5391 0.5976 0.5935',description:'مجموعة الدواسات التي تُمكّن المشغّل من التحكم بوظائف التشغيل أثناء العمل.',photo:'صورة حقيقية لدواسات التشغيل الأمامية.'},
   {id:'mainBody',name:'جسم المكبس',tile:0,position:'-0.14524m 0.53908m 0.40100m',normal:'0 0 1',description:'الهيكل الرئيسي الحامل لمكونات المكبس، ويضم أجزاء التشغيل والتوصيلات الداخلية.',photo:'صورة مرجعية حقيقية لجسم المكبس.'},
-  {id:'pressureGauge',name:'ساعة الضغط',tile:6,position:'0.19180m 1.48800m -0.16500m',normal:'0 0 1',description:'مؤشر يوضح قيمة الضغط في الدائرة المرتبطة به للمراقبة أثناء التشغيل.',photo:'صورة مرجعية حقيقية لمجموعة القياس العلوية.'},
+  {id:'pressureGauge',name:'ساعة الضغط',tile:6,position:'0.19200m 1.48800m -0.20100m',normal:'0 0 -1',description:'مؤشر يوضح قيمة الضغط في الدائرة المرتبطة به للمراقبة أثناء التشغيل.',photo:'صورة مرجعية حقيقية لمجموعة القياس العلوية.'},
   {id:'pressureControl',name:'منظّم الضغط',tile:10,position:'0.39013m 1.49894m -0.23730m',normal:'-0.1177 -0.1369 -0.9836',description:'وحدة مسؤولة عن ضبط أو مراقبة ضغط التشغيل حسب إعدادات المكبس.',photo:'صورة مرجعية حقيقية لمنطقة منظّم الضغط.'},
   {id:'safetyValve',name:'صمام الأمان',tile:8,position:'0.36638m 0.95207m -0.32636m',normal:'0.9994 0.0337 0',description:'عنصر حماية يخفف الضغط الزائد للمساعدة في الحفاظ على سلامة دائرة التشغيل.',photo:'صورة مرجعية حقيقية لصمام الأمان أو موضعه على المعدة.'},
   {id:'steamConnections',name:'توصيلات البخار',tile:9,position:'-0.54338m 1.36737m -0.03552m',normal:'-0.6423 0.7563 0.1243',description:'مجموعة التوصيلات والخراطيم التي تنقل البخار بين الأجزاء المرتبطة بالتشغيل.',photo:'صورة حقيقية لتوصيلات وخراطيم البخار.'},
@@ -169,12 +187,19 @@ function addHotspots(){
    b.setAttribute('data-position',part.position);
    b.setAttribute('data-normal',part.normal);
    b.setAttribute('data-visibility-attribute','visible');
+   b.addEventListener('hotspot-visibility',e=>{
+     if(typeof e.detail?.visible==='boolean'){
+       const facing=e.detail.visible?'true':'false';
+       if(b.dataset.facing!==facing)b.dataset.facing=facing;
+     }
+   });
    b.setAttribute('aria-label','عرض معلومات '+part.name);
    b.setAttribute('title',part.name);
    b.textContent='+';
    b.addEventListener('pointerdown',e=>e.stopPropagation());
    b.addEventListener('click',e=>{e.stopPropagation(); openPart(part);});
    viewer.appendChild(b);
+   HOTSPOT_ELEMENTS.push({name:b.slot,button:b});
  }
 }
 partClose.addEventListener('click',closePart);
@@ -183,7 +208,7 @@ document.addEventListener('keydown',ev=>{ if(ev.key==='Escape') closePart(); });
 document.getElementById('reset').onclick=()=>{closePart(); setRotation(false); fitWholeMachine();};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen();}catch(e){console.warn('Fullscreen unavailable',e);}};
 viewer.addEventListener('progress',event=>{const pct=Math.round((event.detail?.totalProgress||0)*100);progress.style.width=Math.max(8,pct)+'%';});
-viewer.addEventListener('load',()=>{modelReady=true; requestAnimationFrame(()=>{fitWholeMachine(); loading.hidden=true; progress.style.width='100%'; hint.hidden=false; setTimeout(()=>hint.hidden=true,6500);});});
+viewer.addEventListener('load',()=>{modelReady=true; requestAnimationFrame(()=>{fitWholeMachine(); refreshHotspotVisibility(); requestAnimationFrame(refreshHotspotVisibility); loading.hidden=true; progress.style.width='100%'; hint.hidden=false; setTimeout(()=>hint.hidden=true,6500);});});
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذر قراءة ملف المجسم في هذا المتصفح. جرّب Chrome أو Edge.');});
 window.addEventListener('resize',()=>{if(!modelReady)return; const a=area.clientWidth/Math.max(1,area.clientHeight); if(Math.abs(a-lastAspect)>0.08) requestAnimationFrame(fitWholeMachine);},{passive:true});
 document.addEventListener('visibilitychange',()=>{if(document.hidden && viewer.hasAttribute('auto-rotate'))setRotation(false);});
