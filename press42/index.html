@@ -107,6 +107,18 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
 }
 @media(max-height:590px){.detail-desc{min-height:75px;max-height:30%}.catalog-nav{min-height:75px}.catalog-head{padding-top:8px;padding-bottom:8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* Actual model-viewer hotspots, not a detached 2D screen overlay. */
+.machine-hotspot{display:flex;align-items:center;justify-content:center;
+ width:32px;height:32px;border:2px solid #fff;border-radius:50%;background:#a98538;
+ color:#fff;box-shadow:0 2px 12px #0008,0 0 0 2px #a98538;
+ font:700 22px/1 Arial,sans-serif;cursor:pointer;user-select:none;touch-action:manipulation;
+ transform:translate(-50%,-50%);padding:0}
+.machine-hotspot:not([data-visible]){opacity:0;pointer-events:none}
+.machine-hotspot:focus-visible{outline:3px solid #183239;outline-offset:3px}
+.machine-hotspot:active{background:#183239}
+@media(max-width:700px){.machine-hotspot{width:29px;height:29px;font-size:21px}}
+
 </style>
 </head>
 <body>
@@ -116,7 +128,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <span class="brand" aria-label="FASTER B LAUNDRY EQUIPMENT"><img src="./faster-b-official-logo.webp" alt="شعار فاستر بي الرسمي" width="48" height="48"><span>FASTER B<small>LAUNDRY EQUIPMENT</small></span></span>
 </header>
 <main class="stage" id="stage">
- <model-viewer id="viewer" camera-controls disable-pan disable-zoom auto-rotate interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="9deg" auto-rotate-delay="1300" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
+ <model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="9deg" auto-rotate-delay="1300" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
  <div class="loading" id="loading" aria-live="polite"><div class="loading-inner">
   <img src="./current-poster.png" alt="مكبس كوي كهرباء فاستر بي" id="poster">
   <span id="loadLabel">جارِ تحضير المجسم ثلاثي الأبعاد…</span>
@@ -129,7 +141,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
   <span class="cta-arrow" aria-hidden="true">‹</span>
  </button>
  <nav class="toolbar" aria-label="أدوات التحكم بالمجسم">
-  <button type="button" id="rotate" title="تشغيل أو إيقاف الدوران" aria-label="التحكم بالدوران" aria-pressed="true">Ⅱ</button>
+  <button type="button" id="rotate" title="تشغيل أو إيقاف الدوران" aria-label="التحكم بالدوران" aria-pressed="false">↻</button>
   <button type="button" id="reset" title="إعادة ضبط المجسم" aria-label="إعادة ضبط المجسم"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg></button>
   <button type="button" id="fullscreen" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button>
  </nav>
@@ -168,7 +180,7 @@ const START_AZIMUTH=-36,POLAR=74,FOV=38,PADDING=1.065;
 let modelReady=false,lastAspect=0,wasAutoRotating=false,selectedId='';
 const PARTS=[
   {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.19800m 1.40800m 0.24300m",normal:"0 -0.65 0.76",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
-  {id:"lowerSurface",name:"سطح الكوي السفلي – 42 بوصة",tile:9,position:"-0.19800m 1.15400m 0.25500m",normal:"0 0.97 0.24",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
+  {id:"lowerSurface",name:"سطح الكوي السفلي – 42 بوصة",tile:9,position:"-0.19800m 0.94100m 0.25500m",normal:"0 0.97 0.24",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
   {id:"controlPanel",name:"لوحة التحكم الكهربائية (Control Panel)",tile:6,position:"0.47500m 0.45000m 0.40200m",normal:"0 0 1",description:"تتيح التحكم بتشغيل وإيقاف الأنظمة الرئيسية لمكبس الكوي، ومراقبة حالة التشغيل عبر المؤشرات الضوئية، بالإضافة إلى زر إيقاف الطوارئ لقطع التشغيل سريعًا عند الحاجة، مما يضمن سهولة التحكم وسلامة الاستخدام.",image:"./photos/control_panel.webp?v=20261018r2"},
   {id:"footPedals",name:"مجموعة دواسات التحكم (Foot Control Pedals)",tile:8,position:"-0.17200m 0.14000m 0.70800m",normal:"0 0.1 0.995",description:"تتيح التحكم بوظائف مكبس الكوي باستخدام القدم، مما يسهّل التشغيل ويترك يدي المستخدم حرتين لترتيب الملابس أثناء الكوي.",image:"./photos/foot_pedals.webp?v=20261018r2"},
   {id:"pressureGauge",name:"ساعة قياس ضغط البخار (Pressure Gauge)",tile:3,position:"0.19200m 1.48800m -0.16500m",normal:"0 0 1",description:"تعمل على قياس وعرض ضغط البخار داخل مكبس الكوي بشكل مباشر، مما يساعد على مراقبة مستوى الضغط والتأكد من بقائه ضمن الحدود الآمنة لضمان كفاءة التشغيل وسلامة المعدة.",image:"./photos/pressure_gauge.webp?v=20261018r2"},
@@ -178,11 +190,11 @@ const PARTS=[
   {id:"suctionBlower",name:"مضخة شفط الهواء (Vacuum Blower)",tile:4,position:"-0.56000m 0.24300m -0.51100m",normal:"0 0 -1",description:"تعمل على سحب الهواء والبخار والرطوبة من سطح الكوي، مما يساعد على تثبيت الملابس أثناء الكوي وتسريع تجفيفها للحصول على نتائج كوي احترافية.",image:"./photos/vacuum_blower.webp?v=20261018r2"},
   {id:"waterLevel",name:"مؤشر مستوى المياه (Water Level Gauge)",tile:7,position:"0.70500m 0.46600m -0.12800m",normal:"1 0 0",description:"يُستخدم لمراقبة مستوى المياه داخل الخزان الداخلي لمكبس الكوي بشكل مباشر، مما يساعد على التأكد من توفر الكمية المناسبة من المياه لإنتاج البخار، وتجنب انخفاض مستواها أثناء التشغيل.",image:"./photos/water_level_gauge.webp?v=20261018r2"},
   {id:"waterPump",name:"مضخة تغذية المياه (دينمو المياه)",tile:1,position:"0.62000m 0.14300m -0.46900m",normal:"1 0 -0.05",description:"تعمل على ضخ المياه إلى الخزان الداخلي لمكبس الكوي، لضمان توفير المياه اللازمة لإنتاج البخار بشكل مستمر ومنتظم، والمساهمة في الحفاظ على كفاءة التشغيل.",image:"./photos/water_feed_pump.webp?v=20261018r2"},
-  {id:"drainAndCable",name:"صمام التصريف وكيبل التوصيل الكهربائي",tile:10,position:"-0.53600m 0.61000m -0.45900m",normal:"0 0 -1",description:"صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، مع كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"},
+  {id:"drainValve",name:"صمام تصريف مياه الخزان",tile:10,position:"-0.53600m 0.61000m -0.45900m",normal:"0 0 -1",description:"صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، مع كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"},
   {id:"powerCable",name:"كيبل التوصيل الكهربائي (3 فاز)",tile:10,position:"0.10100m 0.15700m -0.71100m",normal:"0 0 -1",description:"كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"}
 ];
 const CATALOG=[
- {id:'machineOverview',name:'مكبس كوي كهرباء وطني فاستر بي – 42 بوصة',description:"مكبس كوي كهرباء وطني فاستر بي FASTER B قياس 42 بوصة، بقدرة تسخين 18 كيلوواط، متوفر بخيار شفاط جانبي أو بدون شفاط حسب احتياجات التشغيل. يتميز بأسطح كوي علوية وسفلية مثقبة مع فلاتر داخلية تساعد على توزيع البخار بانتظام وتحسين جودة الكوي. تصميم صناعي متين ومكونات تحكم عملية لسهولة الاستخدام، مناسب للمغاسل التجارية الباحثة عن أداء ثابت، إزالة فعالة للتجاعيد، وتشطيب احترافي للملابس.",image:'./photos/press42-overview-approved.webp'},
+ {id:'machineOverview',name:'مكبس كوي كهرباء وطني فاستر بي – 42 بوصة',description:"مكبس كوي كهرباء وطني فاستر بي FASTER B قياس 42 بوصة، بقدرة تسخين 18 كيلوواط، متوفر بخيار شفاط جانبي أو بدون شفاط حسب احتياجات التشغيل. يتميز بأسطح كوي علوية وسفلية مثقبة مع فلاتر داخلية تساعد على توزيع البخار بانتظام وتحسين جودة الكوي. تصميم صناعي متين ومكونات تحكم عملية لسهولة الاستخدام، مناسب للمغاسل التجارية الباحثة عن أداء ثابت، إزالة فعالة للتجاعيد، وتشطيب احترافي للملابس.",image:'./current-poster.png'},
  PARTS.find(p=>p.id==='upperSurface'),
  ...['footPedals','waterLevel','controlPanel','pressureControl','pressureGauge','suctionBlower','steamTrap','waterPump','safetyValve'].map(id=>PARTS.find(p=>p.id===id)),
  {id:'drainValve',name:'صمام تصريف مياه الخزان',description:'صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، للمساعدة في تنظيف الخزان والحفاظ على كفاءة التشغيل. تظهر الصورة الصمام بذراعه الأحمر في مؤخرة المعدة.',image:'./photos/drain_valve.webp'},
@@ -190,6 +202,33 @@ const CATALOG=[
  {id:'heater',name:'سخانات مكبس الكوي 18 كيلو واط عدد 3',description:'سخانات مكبس الكوي الكهربائية بقدرة إجمالية 18 كيلو واط، عدد 3 سخانات.',image:'./photos/heater_left.webp?v=20261018r2'}
 ];
 if(CATALOG.length!==14||CATALOG.some(x=>!x)||new Set(CATALOG.map(x=>x.id)).size!==14)throw new Error('بيانات الأجزاء المعتمدة غير مكتملة.');
+
+/* Native GLTF-coordinate anchors maintained by model-viewer, so markers
+   follow the 3D geometry during orbiting, zooming and viewport changes. */
+function mountHotspots(){
+ for(const part of PARTS){
+  const marker=document.createElement('button');
+  marker.type='button';
+  marker.className='machine-hotspot';
+  marker.slot='hotspot-'+part.id;
+  marker.setAttribute('data-position',part.position);
+  marker.setAttribute('data-normal',part.normal);
+  marker.setAttribute('data-visibility-attribute','visible');
+  marker.textContent='+';
+  marker.title='عرض تفاصيل '+part.name;
+  marker.setAttribute('aria-label','عرض تفاصيل '+part.name);
+  marker.addEventListener('pointerdown',e=>e.stopPropagation());
+  marker.addEventListener('click',e=>{
+   e.preventDefault();
+   e.stopPropagation();
+   const id=part.id==='lowerSurface'?'upperSurface':part.id;
+   const selected=CATALOG.find(item=>item.id===id);
+   if(selected){choosePart(selected);openCatalog();}
+  });
+  viewer.appendChild(marker);
+ }
+}
+
 function openCatalog(){
  overlay.hidden=false; document.body.classList.add('catalog-open');
  closeButton.focus({preventScroll:true});
@@ -238,7 +277,7 @@ function renderCatalog(){
   btn.addEventListener('click',()=>choosePart(part));
   fragment.append(btn);
  }
- partsList.append(fragment);choosePart(CATALOG[0]);warmAllPhotos();
+ partsList.append(fragment);choosePart(CATALOG[0]);
 }
 function openModal(){
  if(!photo.complete||!photo.naturalWidth)return;
@@ -278,13 +317,13 @@ function fitWholeMachine(){
  viewer.cameraOrbit=`${START_AZIMUTH}deg ${POLAR}deg ${distance.toFixed(3)}m`;
  viewer.jumpCameraToGoal?.();lastAspect=w/Math.max(1,h);
 }
-document.getElementById('reset').onclick=()=>{fitWholeMachine();setRotation(true)};
+document.getElementById('reset').onclick=()=>{setRotation(false);fitWholeMachine()};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){console.warn('ملء الشاشة غير متاح',e)}};
 function fail(msg){loading.hidden=true;error.hidden=false;document.getElementById('errorText').textContent=msg||'تعذر فتح المجسم. حاول تحديث Chrome أو Edge.'}
 viewer.addEventListener('progress',ev=>{progress.style.width=Math.max(5,Math.round((ev.detail?.totalProgress||0)*100))+'%'});
-viewer.addEventListener('load',()=>{modelReady=true;requestAnimationFrame(()=>{fitWholeMachine();loading.hidden=true;progress.style.width='100%';setRotation(true)})});
+viewer.addEventListener('load',()=>{modelReady=true;requestAnimationFrame(()=>{fitWholeMachine();loading.hidden=true;progress.style.width='100%';setRotation(false)})});
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذّر قراءة المجسم ثلاثي الأبعاد. يُرجى تحديث Chrome وإعادة المحاولة.')});
-new ResizeObserver(()=>{if(!modelReady)return;const asp=stage.clientWidth/Math.max(1,stage.clientHeight);if(Math.abs(asp-lastAspect)>.08)requestAnimationFrame(fitWholeMachine)}).observe(stage);
+// model-viewer adjusts its canvas to screen resize automatically. Don't override a user-controlled camera.
 document.addEventListener('visibilitychange',()=>{if(document.hidden){wasAutoRotating=viewer.hasAttribute('auto-rotate');setRotation(false)}else if(wasAutoRotating){setRotation(true);wasAutoRotating=false}});
 async function prepareModel(){
  if(!('DecompressionStream' in window))throw Error('المتصفح لا يدعم فك ضغط المجسم. حدّث Chrome أو Edge.');
@@ -320,6 +359,7 @@ async function boot(){
  }catch(e){console.error(e);fail(e?.message)}
 }
 renderCatalog();
+mountHotspots();
 boot();
 </script>
 </body>
