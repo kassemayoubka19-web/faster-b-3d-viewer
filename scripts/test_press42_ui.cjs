@@ -29,8 +29,8 @@ const {chromium}=require('playwright-core');
     if(status.markerCount!==13||status.nativeAnchorCount!==13)throw new Error('Expected exactly 13 anchored markers');
     if(!status.heaterLoaded)throw new Error('Heater reference image not loaded');
     const visible=new Set();
-    for(const polar of [60,90,120]){
-      for(let az=-180;az<180;az+=30){
+    for(const polar of [55,80,105,130]){
+      for(let az=-180;az<180;az+=20){
         await page.evaluate(({az,polar})=>{
           const v=document.getElementById('viewer');
           const r=v.getCameraOrbit().radius;
@@ -38,7 +38,7 @@ const {chromium}=require('playwright-core');
           v.cameraOrbit=az+'deg '+polar+'deg '+r+'m';
           v.jumpCameraToGoal?.();
         },{az,polar});
-        await page.waitForTimeout(200);
+        await page.waitForTimeout(280);
         const list=await page.evaluate(()=>{
           const nodes=[...document.querySelectorAll('.press3d-overlay-marker')];
           return nodes.filter(x=>x.style.display!=='none').map(x=>x.getAttribute('aria-label'));
