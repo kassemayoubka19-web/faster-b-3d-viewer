@@ -1,0 +1,29 @@
+name: Audit FX42 marker placement against actual GLB
+on:
+  push:
+    paths:
+      - scripts/fx42_geometry_audit.py
+      - .github/workflows/fx42-anchors-audit.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  geometry-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Audit GLB shape groups and 3D coordinates
+        run: python scripts/fx42_geometry_audit.py
+      - name: Publish exact group bounds for hotspot corrections
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f press42/geometry-audit.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record verified FX42 GLB group bounds for hotspot review"
+            git push origin HEAD:main
+          fi
