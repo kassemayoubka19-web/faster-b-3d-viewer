@@ -108,17 +108,6 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
 @media(max-height:590px){.detail-desc{min-height:75px;max-height:30%}.catalog-nav{min-height:75px}.catalog-head{padding-top:8px;padding-bottom:8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
-/* Actual model-viewer hotspots, not a detached 2D screen overlay. */
-.machine-hotspot{display:flex;align-items:center;justify-content:center;
- width:32px;height:32px;border:2px solid #fff;border-radius:50%;background:#a98538;
- color:#fff;box-shadow:0 2px 12px #0008,0 0 0 2px #a98538;
- font:700 22px/1 Arial,sans-serif;cursor:pointer;user-select:none;touch-action:manipulation;
- transform:translate(-50%,-50%);padding:0}
-.machine-hotspot:not([data-visible]){opacity:0;pointer-events:none}
-.machine-hotspot:focus-visible{outline:3px solid #183239;outline-offset:3px}
-.machine-hotspot:active{background:#183239}
-@media(max-width:700px){.machine-hotspot{width:29px;height:29px;font-size:21px}}
-
 </style>
 </head>
 <body>
@@ -202,32 +191,6 @@ const CATALOG=[
  {id:'heater',name:'سخانات مكبس الكوي 18 كيلو واط عدد 3',description:'سخانات مكبس الكوي الكهربائية بقدرة إجمالية 18 كيلو واط، عدد 3 سخانات.',image:'./photos/heater_left.webp?v=20261018r2'}
 ];
 if(CATALOG.length!==14||CATALOG.some(x=>!x)||new Set(CATALOG.map(x=>x.id)).size!==14)throw new Error('بيانات الأجزاء المعتمدة غير مكتملة.');
-
-/* Native GLTF-coordinate anchors maintained by model-viewer, so markers
-   follow the 3D geometry during orbiting, zooming and viewport changes. */
-function mountHotspots(){
- for(const part of PARTS){
-  const marker=document.createElement('button');
-  marker.type='button';
-  marker.className='machine-hotspot';
-  marker.slot='hotspot-'+part.id;
-  marker.setAttribute('data-position',part.position);
-  marker.setAttribute('data-normal',part.normal);
-  marker.setAttribute('data-visibility-attribute','visible');
-  marker.textContent='+';
-  marker.title='عرض تفاصيل '+part.name;
-  marker.setAttribute('aria-label','عرض تفاصيل '+part.name);
-  marker.addEventListener('pointerdown',e=>e.stopPropagation());
-  marker.addEventListener('click',e=>{
-   e.preventDefault();
-   e.stopPropagation();
-   const id=part.id==='lowerSurface'?'upperSurface':part.id;
-   const selected=CATALOG.find(item=>item.id===id);
-   if(selected){choosePart(selected);openCatalog();}
-  });
-  viewer.appendChild(marker);
- }
-}
 
 function openCatalog(){
  resumeRotateAfterCatalog=viewer.hasAttribute('auto-rotate');
@@ -365,7 +328,6 @@ async function boot(){
  }catch(e){console.error(e);fail(e?.message)}
 }
 renderCatalog();
-mountHotspots();
 boot();
 </script>
 </body>
