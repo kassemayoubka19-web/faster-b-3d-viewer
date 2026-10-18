@@ -2,8 +2,8 @@
  FASTER B PRESS42 — stable, 3D-anchored part hotspots.
  Native model-viewer queryHotspot coordinates take priority;
  accurate analytic 3D camera projection is the fallback.
- Markers are hidden on back-facing surfaces. Sparse ray checks reject
- markers obscured by other machine geometry without taxing mobile FPS.
+ Markers follow the physical 3D position and disappear only when the
+ outward-facing part is turned away; no expensive ray casting on Android.
 */
 export function createHotspotOverlay(viewer, area, parts, onOpen) {
   const layer=document.createElement('div');
@@ -26,11 +26,11 @@ export function createHotspotOverlay(viewer, area, parts, onOpen) {
       part,btn,
       pos:part.position.trim().split(/\s+/).map(parseFloat),
       normal:part.normal.trim().split(/\s+/).map(parseFloat),
-      lastX:NaN,lastY:NaN,visible:false,occluded:false,occludedAt:0
+      lastX:NaN,lastY:NaN,visible:false
     };
   });
   const validVector=v=>v&&Number.isFinite(v.x)&&Number.isFinite(v.y)&&Number.isFinite(v.z);
-  let loaded=false,running=true,frame=0,lastTick=0,lastRay=0,nextRay=0;
+  let loaded=false,running=true,frame=0,lastTick=0;
   const radians=180/Math.PI;
   function analyticProject(m, orbit,target,fieldOfView,w,h) {
     const [x,y,z]=m.pos, theta=orbit.theta,phi=orbit.phi,r=orbit.radius;
@@ -75,7 +75,7 @@ export function createHotspotOverlay(viewer, area, parts, onOpen) {
       const onScreen=!!coords&&coords.x>8&&coords.y>8&&coords.x<w-8&&coords.y<h-8;
       // Reject far-side anchors immediately; do not rely on arbitrary 2D pins.
       const nativeFacing=typeof native?.facingCamera==='boolean' ? native.facingCamera : true;
-      const visible=frontFacing&&nativeFacing&&onScreen&&!m.occluded;
+      const visible=frontFacing&&nativeFacing&&onScreen;
       if(m.visible!==visible){m.btn.style.display=visible?'flex':'none';m.visible=visible}
       if(visible && (Math.abs(coords.x-m.lastX)>.18||Math.abs(coords.y-m.lastY)>.18||!Number.isFinite(m.lastX))){
         m.btn.style.transform='translate3d('+coords.x.toFixed(1)+'px,'+coords.y.toFixed(1)+'px,0) translate(-50%,-50%)';
@@ -84,31 +84,11 @@ export function createHotspotOverlay(viewer, area, parts, onOpen) {
       m.projection=coords;
       m.facing=frontFacing&&nativeFacing;
     }
-    // Ray test one marker every ~80ms, not 13 every frame.
-    // Keeps rotation smooth on entry-level Android while checking occlusion.
-    if(time-lastRay>85&&typeof viewer.positionAndNormalFromPoint==='function'){
-      lastRay=time;
-      const m=markers[nextRay++%markers.length];
-      const p=m.projection;
-      if(m.facing&&p&&p.x>0&&p.y>0&&p.x<w&&p.y<h){
-        try{
-          const hit=viewer.positionAndNormalFromPoint(p.x,p.y);
-          const point=hit?.position;
-          if(validVector(point)){
-            const toCamera=q=>Math.hypot(q[0]-camera[0],q[1]-camera[1],q[2]-camera[2]);
-            const hitDistance=toCamera([point.x,point.y,point.z]);
-            const anchorDistance=toCamera(m.pos);
-            // Tolerance covers legitimate anchors floating just above surfaces.
-            m.occluded=hitDistance+.075<anchorDistance;
-            m.occludedAt=time;
-          }else{m.occluded=false}
-        }catch(_){m.occluded=false}
-      }else{m.occluded=false}
-    }
+
   }
   viewer.addEventListener('load',()=>{
     loaded=true;
-    markers.forEach(m=>{m.lastX=NaN;m.lastY=NaN;m.occluded=false});
+    markers.forEach(m=>{m.lastX=NaN;m.lastY=NaN;});
   });
   frame=requestAnimationFrame(tick);
   return {
