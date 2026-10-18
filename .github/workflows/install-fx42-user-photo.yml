@@ -1,0 +1,37 @@
+name: Install final FASTER B press photograph
+on:
+  push:
+    paths:
+      - .github/workflows/install-fx42-user-photo.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  install-approved-photo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decode three image segments and verify exact uploaded pixels
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64,hashlib
+          from pathlib import Path
+          root=Path('press42/photos')
+          data=base64.b64decode(''.join((root/f'user-photo-{i}.b64').read_text().strip() for i in range(3)),validate=True)
+          checksum=hashlib.sha256(data).hexdigest()
+          print('Photo size:',len(data),'SHA256:',checksum)
+          assert len(data)==13642, 'Unexpected photo size'
+          assert checksum=='4f25c9cb78c8756d38874d0dfe5afc1a96075ec86cc85a0b0f86ae27226c6389', 'Uploaded image data mismatch'
+          assert data[:4]==b'RIFF' and data[8:12]==b'WEBP', 'Not WEBP'
+          (root/'press42-user-approved.webp').write_bytes(data)
+          print('Saved user-provided image to local asset.')
+          PY
+      - name: Commit static photo to published viewer
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add press42/photos/press42-user-approved.webp
+          git diff --cached --quiet || { git commit -m "Publish user-provided press photograph into FASTER B viewer"; git push; }
