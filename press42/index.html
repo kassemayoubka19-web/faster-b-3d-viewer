@@ -22,11 +22,23 @@ header.site-header{height:var(--head);flex:0 0 var(--head);display:flex;align-it
 .stage{position:relative;flex:1;min-height:0;background:radial-gradient(ellipse at 50% 52%,#fff 24%,#f7f8f7 95%)}
 model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress-bar-color:var(--gold);--progress-bar-height:3px;background:transparent}
 .loading{position:absolute;inset:0;z-index:9;display:grid;place-items:center;background:#fff;pointer-events:none}
-.loading-inner{display:flex;flex-direction:column;align-items:center;gap:12px;width:min(340px,90%);text-align:center}
-.loading img{display:block;max-width:min(330px,84%);max-height:46vh;object-fit:contain}
-#loadLabel{font-size:12px;line-height:1.8;color:#54605d}
-.track{width:230px;height:4px;max-width:90%;border-radius:5px;background:#e7e7e4;overflow:hidden}
-#progress{height:100%;width:3%;background:var(--gold);transition:width .15s}
+.loading-inner{display:flex;flex-direction:column;align-items:center;gap:14px;width:min(370px,92%);text-align:center}
+.loading img{display:block;max-width:min(330px,84%);max-height:41vh;object-fit:contain}
+.loading-status{direction:rtl;width:min(340px,100%);padding:15px 17px 14px;border:1px solid #ede6d7;border-radius:17px;background:#fffffff5;box-shadow:0 9px 28px #26352b0c}
+.load-heading{display:flex;align-items:center;gap:10px;text-align:right;min-height:28px}
+.load-pulse{flex:0 0 9px;width:9px;height:9px;background:#b28d4b;border-radius:50%;box-shadow:0 0 0 0 #b28d4b55;animation:loadPulse 1.65s ease-out infinite}
+#loadLabel{font-size:15px;line-height:1.5;font-weight:800;color:#233633;flex:1}
+#loadPercent{direction:ltr;unicode-bidi:isolate;white-space:nowrap;font:800 13px/1.5 Arial,sans-serif;color:#99743a;font-variant-numeric:tabular-nums}
+.track{position:relative;width:100%;height:9px;margin-top:12px;border:1px solid #e9ddc9;border-radius:999px;background:#f0ede6;overflow:hidden;direction:ltr}
+#progress{position:relative;height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#987638,#d6b77a);transition:width .16s linear;overflow:hidden}
+#progress:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 12%,#ffffff85 47%,transparent 78%);animation:loadShimmer 1.7s linear infinite}
+.track.is-indeterminate #progress{position:absolute;width:35%!important;animation:loadIndeterminate 1.45s ease-in-out infinite}
+#loadStep{display:block;min-height:18px;margin-top:11px;color:#5b655f;font-size:12px;line-height:1.5;font-weight:600}
+.load-hint{display:block;margin-top:7px;font-size:10px;line-height:1.65;color:#909590}
+@keyframes loadPulse{0%{box-shadow:0 0 0 0 #b28d4b60}70%,100%{box-shadow:0 0 0 9px #b28d4b00}}
+@keyframes loadShimmer{from{transform:translateX(-100%)}to{transform:translateX(130%)}}
+@keyframes loadIndeterminate{0%{left:-35%}50%{left:43%}100%{left:100%}}
+@media(prefers-reduced-motion:reduce){.load-pulse,#progress:after,.track.is-indeterminate #progress{animation:none!important}.track.is-indeterminate #progress{left:34%}}
 #error{position:absolute;z-index:13;left:50%;top:50%;transform:translate(-50%,-50%);max-width:88vw;padding:20px;background:#fff;border:1px solid var(--border);border-radius:12px;text-align:center;box-shadow:0 10px 30px #0002}
 #error strong{display:block;margin-bottom:9px}
 #error span{font-size:12px;line-height:1.75}
@@ -118,10 +130,14 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
 </header>
 <main class="stage" id="stage">
  <model-viewer id="viewer" camera-controls disable-pan disable-zoom auto-rotate interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
- <div class="loading" id="loading" aria-live="polite"><div class="loading-inner">
+ <div class="loading" id="loading" data-phase="download"><div class="loading-inner">
   <img src="./current-poster.png" alt="مكبس كوي كهرباء فاستر بي" id="poster">
-  <span id="loadLabel">جارِ تحضير المجسم ثلاثي الأبعاد…</span>
-  <div class="track"><div id="progress"></div></div>
+  <div class="loading-status">
+   <div class="load-heading"><span class="load-pulse" aria-hidden="true"></span><span id="loadLabel">جارٍ التحميل…</span><span id="loadPercent" dir="ltr">0%</span></div>
+   <div class="track" id="loadTrack" role="progressbar" aria-label="تقدم تنزيل بيانات المجسم" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progress"></div></div>
+   <span id="loadStep" aria-live="polite">جارٍ تنزيل بيانات العرض…</span>
+   <small class="load-hint">سيُفتح العارض تلقائيًا عند اكتمال التحميل.</small>
+  </div>
  </div></div>
  <div id="error" hidden role="alert"><strong>تعذّر تحميل العارض</strong><span id="errorText"></span></div>
  <button type="button" class="catalog-cta" id="catalogOpen" aria-haspopup="dialog" aria-controls="catalogOverlay" aria-label="استكشف أجزاء المكبس، صور ومواصفات">
@@ -159,7 +175,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
 <script type="module">
 const viewer=document.getElementById('viewer'),stage=document.getElementById('stage');
 const loading=document.getElementById('loading'),loadLabel=document.getElementById('loadLabel');
-const progress=document.getElementById('progress'),error=document.getElementById('error');
+const progress=document.getElementById('progress'),loadTrack=document.getElementById('loadTrack'),loadPercent=document.getElementById('loadPercent'),loadStep=document.getElementById('loadStep'),error=document.getElementById('error');
 const overlay=document.getElementById('catalogOverlay'),openButton=document.getElementById('catalogOpen'),closeButton=document.getElementById('catalogClose');
 const partsList=document.getElementById('partsList'),title=document.getElementById('detailTitle');
 const photo=document.getElementById('detailPhoto'),description=document.getElementById('detailDescription');
@@ -289,7 +305,31 @@ function fitWholeMachine(){
 document.getElementById('reset').onclick=()=>{fitWholeMachine();setRotation(true)};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){console.warn('ملء الشاشة غير متاح',e)}};
 function fail(msg){loading.hidden=true;error.hidden=false;document.getElementById('errorText').textContent=msg||'تعذر فتح المجسم. حاول تحديث Chrome أو Edge.'}
-viewer.addEventListener('progress',ev=>{progress.style.width=Math.max(5,Math.round((ev.detail?.totalProgress||0)*100))+'%'});
+// Measured download progress; processing and GPU preparation remain animated
+// without showing a fabricated percentage or an inaccurate time estimate.
+let downloadedBytes=0,lastDownloadPercent=-1;
+const COMPRESSED_TOTAL_BYTES=13286921*2; // Published gzpart file lengths.
+function updateDownloadProgress(){
+ const pct=Math.min(100,Math.floor(downloadedBytes/COMPRESSED_TOTAL_BYTES*100));
+ if(pct===lastDownloadPercent)return;
+ lastDownloadPercent=pct;
+ progress.style.width=pct+'%';
+ loadPercent.textContent=pct+'%';
+ loadTrack.setAttribute('aria-valuenow',String(pct));
+}
+function setLoadingStage(phase,message){
+ loading.dataset.phase=phase;
+ loadStep.textContent=message;
+ if(phase==='download'){
+  loadTrack.classList.remove('is-indeterminate');
+  loadPercent.hidden=false;
+  loadTrack.setAttribute('aria-valuenow',String(Math.max(0,lastDownloadPercent)));
+ }else{
+  loadTrack.classList.add('is-indeterminate');
+  loadTrack.removeAttribute('aria-valuenow');
+  loadPercent.hidden=true;
+ }
+}
 viewer.addEventListener('load',()=>{modelReady=true;requestAnimationFrame(()=>{fitWholeMachine();loading.hidden=true;progress.style.width='100%';setRotation(true)})});
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذّر قراءة المجسم ثلاثي الأبعاد. يُرجى تحديث Chrome وإعادة المحاولة.')});
 // model-viewer adjusts its canvas to screen resize automatically. Don't override a user-controlled camera.
@@ -297,19 +337,30 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden){wasAutoRot
 async function prepareModel(){
  if(!('DecompressionStream' in window))throw Error('المتصفح لا يدعم فك ضغط المجسم. حدّث Chrome أو Edge.');
  const urls=['press42-mobile-1.gzpart','press42-mobile-2.gzpart'];
- loadLabel.textContent='جارِ تنزيل ملفات المجسم المحسّن…';
+ setLoadingStage('download','جارٍ تنزيل بيانات العرض…');
  const compressedParts=await Promise.all(urls.map(async file=>{
   const response=await fetch(new URL(file,document.baseURI),{cache:'force-cache'});
   if(!response.ok)throw Error('فشل تحميل '+file+' (HTTP '+response.status+')');
-  return response.blob();
+  if(!response.body?.getReader){
+   const blob=await response.blob();downloadedBytes+=blob.size;updateDownloadProgress();return blob;
+  }
+  const reader=response.body.getReader(),chunks=[];
+  while(true){
+   const {done,value}=await reader.read();
+   if(done)break;
+   chunks.push(value);
+   downloadedBytes+=value.byteLength;
+   updateDownloadProgress();
+  }
+  return new Blob(chunks);
  }));
- progress.style.width='35%';loadLabel.textContent='جارِ فك ضغط المجسم وتجهيزه…';
+ updateDownloadProgress();
+ setLoadingStage('prepare','جارٍ تجهيز المجسم ثلاثي الأبعاد…');
  const stream=new Blob(compressedParts,{type:'application/gzip'}).stream();
  const result=await new Response(stream.pipeThrough(new DecompressionStream('gzip'))).blob();
  if(result.size!==59795428)throw Error('بيانات المجسم غير مكتملة أو تالفة.');
  const signature=new Uint8Array(await result.slice(0,4).arrayBuffer());
  if(signature[0]!==103||signature[1]!==108||signature[2]!==84||signature[3]!==70)throw Error('صيغة GLB غير صالحة.');
- progress.style.width='60%';
  return URL.createObjectURL(new Blob([result],{type:'model/gltf-binary'}));
 }
 async function boot(){
@@ -323,7 +374,8 @@ async function boot(){
    })()
   ]);
   customElements.get('model-viewer').minimumRenderScale=.35;
-  updateRotateButton();loadLabel.textContent='جارِ عرض مجسم المكبس…';
+  updateRotateButton();
+  setLoadingStage('display','جارٍ فتح العارض ثلاثي الأبعاد…');
   viewer.src=url;
  }catch(e){console.error(e);fail(e?.message)}
 }
