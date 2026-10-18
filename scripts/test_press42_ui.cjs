@@ -1,74 +1,66 @@
-// FX42 quality gate: actual Chrome on mobile + desktop with original GitHub GLB and photos.
+// Validate live-source FX42 model and the approved large photo/parts catalog in real Chrome.
 const fs=require('node:fs');
 const {chromium}=require('playwright-core');
 const assert=require('node:assert/strict');
-const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 (async()=>{
  const exe=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(fs.existsSync);
- assert(exe,'No installed Chrome / Chromium executable');
+ assert(exe,'No Chrome or Chromium available');
  const browser=await chromium.launch({executablePath:exe,headless:true,args:['--no-sandbox','--enable-webgl','--enable-unsafe-swiftshader','--use-gl=angle','--use-angle=swiftshader','--disable-dev-shm-usage']});
  try{
-  for(const spec of [{name:'mobile',width:412,height:915},{name:'desktop',width:1366,height:850}]){
+  for(const spec of [{name:'mobile',width:412,height:915},{name:'small-mobile',width:360,height:780},{name:'desktop',width:1366,height:850}]){
    const page=await browser.newPage({viewport:{width:spec.width,height:spec.height},deviceScaleFactor:1});
    const errors=[];
-   page.on('pageerror',err=>errors.push(String(err)));
+   page.on('pageerror',e=>errors.push(String(e)));
    page.on('requestfailed',req=>{if(req.url().includes('/press42/photos/'))errors.push(req.url()+': '+req.failure()?.errorText)});
    await page.goto('http://127.0.0.1:8795/press42/',{waitUntil:'domcontentloaded',timeout:30000});
-   await page.waitForFunction(()=>!!document.getElementById('loading')?.hidden||!document.getElementById('error')?.hidden,null,{timeout:150000});
-   const state=await page.evaluate(()=>{
-    const m=document.getElementById('viewer'),root=document.getElementById('workspace'),stage=document.getElementById('stage');
-    return {
-     loaded:document.getElementById('loading').hidden,
-     failed:!document.getElementById('error').hidden,
-     hasModel:!!m.src,
-     autoRotate:m.hasAttribute('auto-rotate'),
-     interactive:m.hasAttribute('camera-controls'),
-     markerCount:document.querySelectorAll('.press-hotspot,.press3d-overlay-marker,[slot^="hotspot-"]').length,
-     rows:document.querySelectorAll('.part-row').length,
-     stageWidth:stage.getBoundingClientRect().width,
-     stageRatio:stage.getBoundingClientRect().width/root.getBoundingClientRect().width,
-     panelOpen:document.getElementById('partsPanel').classList.contains('is-open'),
-     title:document.querySelector('h1')?.textContent
-    };
+   await page.waitForFunction(()=>document.getElementById('loading').hidden||!document.getElementById('error').hidden,null,{timeout:150000});
+   const init=await page.evaluate(()=>{
+    const box=id=>{const b=document.getElementById(id).getBoundingClientRect();return {width:b.width,height:b.height,left:b.left,top:b.top,right:b.right}};
+    const m=document.getElementById('viewer');
+    return {loaded:document.getElementById('loading').hidden,failed:!document.getElementById('error').hidden,model:!!m.src,rotation:m.hasAttribute('auto-rotate'),manual:m.hasAttribute('camera-controls'),markers:document.querySelectorAll('.press-hotspot,.press3d-overlay-marker,[slot^="hotspot-"]').length,catalogHidden:document.getElementById('catalogOverlay').hidden,cta:box('catalogOpen'),stage:box('stage'),navItems:document.querySelectorAll('#partsList button').length};
    });
-   console.log('VIEW_STATE',spec.name,JSON.stringify(state));
-   assert(state.loaded&&!state.failed&&state.hasModel,'3D model failed');
-   assert(state.autoRotate&&state.interactive,'Auto and manual rotate required');
-   assert.equal(state.markerCount,0,'Hotspots must be completely absent');
-   assert.equal(state.rows,12,'11 equipment entries and 1 heater');
-   if(spec.name==='desktop'){
-    assert(state.panelOpen,'Desktop catalog should start open');
-    assert(state.stageRatio>.73,'Desktop machine viewer should dominate viewport');
-   }else{
-    assert(!state.panelOpen,'Mobile catalog must start collapsed');
-    assert(state.stageRatio>.98,'Collapsed mobile catalog must not consume 3D viewport width');
-    // Reproduce actual customer action: tap the visible Arabic label, not the tiny arrow.
-    const hit=await page.locator('.parts-title').evaluate(label=>{const box=label.getBoundingClientRect();const node=document.elementFromPoint(box.left+box.width/2,box.top+box.height/2);return {text:label.textContent,hit:node?.id||node?.className,insideToggle:!!node?.closest?.('#partsToggle'),width:label.closest('button')?.getBoundingClientRect().width};});
-    console.log('MOBILE_MENU_TAP_TARGET',JSON.stringify(hit));
-    assert(hit.insideToggle&&hit.width>=108,'Arabic menu label does not have a full-size clickable button');
-    await page.getByText('أجزاء المكبس',{exact:true}).click();
-    assert(await page.locator('#partsPanel').evaluate(el=>el.classList.contains('is-open')),'Tap on Arabic title did not open the catalog');
+   console.log('VIEW_STATE',spec.name,JSON.stringify(init));
+   assert(init.loaded&&!init.failed&&init.model,'Model failed to load');
+   assert(init.rotation&&init.manual,'3D model must rotate automatically and allow touch rotation');
+   assert.equal(init.markers,0,'Hotspot marks must remain removed');
+   assert.equal(init.navItems,12,'12 approved parts/heater expected');
+   assert(init.catalogHidden&&init.cta.width>=160&&init.cta.height>=55,'Parts CTA must be prominent at load');
+   assert(init.stage.width>=spec.width-2,'Model should fill entire available width');
+   await page.locator('#catalogOpen').click();
+   const opened=await page.evaluate(()=>{
+    const modal=document.querySelector('.catalog-window').getBoundingClientRect();
+    const image=document.querySelector('.detail-img-box').getBoundingClientRect();
+    const desc=document.querySelector('.detail-desc').getBoundingClientRect();
+    const nav=document.getElementById('partsList').getBoundingClientRect();
+    return {visible:!document.getElementById('catalogOverlay').hidden,modalWidth:modal.width,modalHeight:modal.height,imgWidth:image.width,imgHeight:image.height,descHeight:desc.height,navWidth:nav.width,navHeight:nav.height,closeButton:document.getElementById('catalogClose').getBoundingClientRect().width};
+   });
+   console.log('CATALOG_OPEN',spec.name,JSON.stringify(opened));
+   assert(opened.visible&&opened.modalWidth>=Math.min(spec.width*.88,900),'Catalog is too small');
+   assert(opened.imgHeight>=Math.min(spec.height*.24,200),'Photo is not displayed clearly');
+   assert(opened.descHeight>=75,'Description must be readable');
+   assert(opened.closeButton>=40,'Close control should be touch-friendly');
+   await page.waitForFunction(()=>document.getElementById('detailPhoto').naturalWidth>0,null,{timeout:15000});
+   for(const id of ['footPedals','pressureGauge','controlPanel','waterLevel','steamTrap','safetyValve','waterPump','suctionBlower','pressureControl','drainAndCable','heater','upperSurface']){
+    await page.locator('#partsList button[data-id="'+id+'"]').click();
+    await page.waitForFunction((part)=>{
+     const img=document.getElementById('detailPhoto');
+     return img.complete&&img.naturalWidth>0&&img.currentSrc.includes('/photos/')&&document.querySelector('#partsList button[data-id="'+part+'"]')?.getAttribute('aria-selected')==='true';
+    },id,{timeout:20000});
+    const data=await page.evaluate(()=>({title:document.getElementById('detailTitle').textContent,description:document.getElementById('detailDescription').textContent,imgWidth:document.getElementById('detailPhoto').naturalWidth}));
+    assert(data.title.length>=5&&data.description.length>=20&&data.imgWidth>100,'Bad photo/detail for '+id);
+    console.log('PART_OK',spec.name,id,data.imgWidth);
    }
-   for(const id of ['pressureGauge','waterLevel','steamTrap','drainAndCable','heater','upperSurface']){
-    const row=page.locator('.part-row[data-id="'+id+'"]');
-    await row.click();
-    const card=await page.evaluate(()=>({title:document.getElementById('detailTitle').textContent,description:document.getElementById('detailDescription').textContent,image:document.getElementById('detailPhoto').getAttribute('src')}));
-    assert(card.title.length>=6&&card.description.length>=20&&card.image.includes('/photos/'),'Bad '+id+' description or photo');
-    await page.waitForFunction(()=>document.getElementById('detailPhoto').naturalWidth>0,null,{timeout:18000});
-    const photo=await page.locator('#detailPhoto').evaluate(img=>({width:img.naturalWidth,height:img.naturalHeight}));
-    console.log('PHOTO_OK',spec.name,id,photo.width+'x'+photo.height);
-   }
+   await page.screenshot({path:'press42-'+spec.name+'-catalog.png',fullPage:true});
    await page.locator('#detailPhoto').click();
-   assert(!await page.locator('#photoModal').evaluate(el=>el.hidden),'Photo preview failed');
+   assert(!await page.locator('#photoModal').evaluate(e=>e.hidden),'Full-size photo zoom should open');
    await page.locator('#modalClose').click();
-   assert(await page.locator('#photoModal').evaluate(el=>el.hidden),'Photo preview could not close');
-   if(spec.name==='mobile'){
-    await page.locator('#partsToggle').click();
-    assert(!await page.locator('#partsPanel').evaluate(el=>el.classList.contains('is-open')),'Mobile catalog did not collapse');
-   }
-   await page.screenshot({path:'press42-'+spec.name+'-ui.png',fullPage:true});
+   assert(await page.locator('#photoModal').evaluate(e=>e.hidden),'Photo zoom should close');
+   await page.locator('#catalogClose').click();
+   assert(await page.locator('#catalogOverlay').evaluate(e=>e.hidden),'Catalog should close');
+   assert(await page.locator('#viewer').evaluate(e=>e.hasAttribute('auto-rotate')),'3D should retain auto-rotation after closing');
+   await page.screenshot({path:'press42-'+spec.name+'-viewer.png',fullPage:true});
    console.log('BROWSER_ERRORS',spec.name,JSON.stringify(errors));
-   assert.equal(errors.length,0,'Browser page errors or image failures');
+   assert.equal(errors.length,0,'Browser script error or missing approved image');
    await page.close();
   }
  }finally{await browser.close()}
