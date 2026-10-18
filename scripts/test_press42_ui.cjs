@@ -2,6 +2,7 @@
 const fs=require('node:fs');
 const {chromium}=require('playwright-core');
 const assert=require('node:assert/strict');
+// Re-run after approved reference photograph is published.
 (async()=>{
  const exe=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(fs.existsSync);
  assert(exe,'No Chrome or Chromium available');
