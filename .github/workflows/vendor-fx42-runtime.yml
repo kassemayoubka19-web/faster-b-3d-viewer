@@ -1,0 +1,31 @@
+name: Vendor FX42 3D runtime for in-app reliability
+on:
+  push:
+    paths:
+      - .github/workflows/vendor-fx42-runtime.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish-local-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get pinned model-viewer runtime bundle and gzip fallback
+        shell: bash
+        run: |
+          mkdir -p /tmp/fx42-deps press42/vendor
+          npm install --prefix /tmp/fx42-deps --no-fund --no-audit --no-save '@google/model-viewer@4.3.1' 'fflate@0.8.2'
+          cp /tmp/fx42-deps/node_modules/@google/model-viewer/dist/model-viewer.min.js press42/vendor/model-viewer-4.3.1.min.js
+          cp /tmp/fx42-deps/node_modules/fflate/umd/index.js press42/vendor/fflate-0.8.2.min.js
+          test -s press42/vendor/model-viewer-4.3.1.min.js
+          test -s press42/vendor/fflate-0.8.2.min.js
+          wc -c press42/vendor/*
+      - name: Save same-origin runtime
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f press42/vendor/model-viewer-4.3.1.min.js press42/vendor/fflate-0.8.2.min.js
+          git diff --cached --quiet || { git commit -m "Bundle FX42 runtime locally to avoid third-party CDN failures"; git push origin HEAD:main; }
