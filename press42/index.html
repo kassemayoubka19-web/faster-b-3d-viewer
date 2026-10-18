@@ -100,9 +100,9 @@ const partPhotoCaption=document.getElementById('partPhotoCaption');
 const partClose=document.getElementById('partClose');
 const rotateButton=document.getElementById('rotate');
 
-const SPRITE_FILES=['approved-sprite-0.b64','approved-sprite-1.b64','approved-sprite-2.b64','approved-sprite-3a.b64','approved-sprite-3b.b64'];
+const SPRITE_FILES=['approved-hq-0.b64','approved-hq-1.b64','approved-hq-2.b64','approved-hq-3.b64','approved-hq-4.b64','approved-hq-5.b64','approved-hq-6.b64'];
 async function loadApprovedPhotos(){
- const expected=[2440,2440,2440,1200,1228];
+ const expected=[2440,2440,2440,2440,2440,2440,2200];
  const results=await Promise.all(SPRITE_FILES.map(async (name,i)=>{
    const response=await fetch(new URL(name,document.baseURI),{cache:'force-cache'});
    if(!response.ok) throw new Error('Photo asset missing: '+name+' (HTTP '+response.status+')');
@@ -111,12 +111,12 @@ async function loadApprovedPhotos(){
    return data;
  }));
  const base64=results.join('');
- if(base64.length!==9748||!base64.startsWith('UklGR')) throw new Error('Invalid approved photos');
+ if(base64.length!==16840||!base64.startsWith('UklGR')) throw new Error('Invalid approved photos');
  const imageUrl='data:image/webp;base64,'+base64;
  const check=new Image();
  check.src=imageUrl;
  await check.decode();
- if(check.naturalWidth!==460||check.naturalHeight!==375) throw new Error('Invalid approved photo dimensions');
+ if(check.naturalWidth!==520||check.naturalHeight!==429) throw new Error('Invalid approved photo dimensions');
  partPhoto.style.backgroundImage='url("'+imageUrl+'")';
  partPhoto.dataset.approved='yes';
  return true;
