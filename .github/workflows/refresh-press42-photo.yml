@@ -1,0 +1,47 @@
+name: Publish user-supplied FX42 press photograph
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/refresh-press42-photo.yml
+permissions:
+  contents: write
+jobs:
+  retrieve-photo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch approved exact photo at original resolution
+        env:
+          SOURCE_THUMBNAIL_URL: "https://media.canva.com/v2/image-resize/format:JPG/height:200/quality:75/uri:ifs%3A%2F%2FM%2Fbb344f00-5f5c-4c0e-9819-61cdb4608711/watermark:F/width:161?csig=AAAAAAAAAAAAAAAAAAAAAO40EXYAmePIGZJukQbn41dK7FrQ1d8Nt2SwePSazrgn&exp=1792359263&osig=AAAAAAAAAAAAAAAAAAAAAO4UiySg9l30b8qfLFCEZZbsznNP8D_JW9olcPTggpIR&signer=media-rpc&token=AAIAAU0AJGJiMzQ0ZjAwLTVmNWMtNGMwZS05ODE5LTYxY2RiNDYwODcxMQAAAAABoVDv6xgcx3wbHUU8MgGmPle_EORZVGMChvkvNStinUM3W1v67g&x-canva-quality=thumbnail"
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import os,urllib.request,io,re,sys
+          from PIL import Image
+          src=os.environ['SOURCE_THUMBNAIL_URL']
+          full=src.replace('height:200/quality:75','height:1280/quality:88').replace('width:161','width:1033')
+          urls=[full,src.replace('height:200/quality:75','height:1280/quality:75').replace('width:161','width:1033')]
+          for i,url in enumerate(urls):
+              try:
+                  req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
+                  with urllib.request.urlopen(req,timeout=25) as resp: raw=resp.read()
+                  img=Image.open(io.BytesIO(raw));img.load()
+                  print('CANDIDATE',i,'DIMENSIONS',img.size,'BYTES',len(raw))
+                  if img.width>=600 and img.height>=700:
+                      os.makedirs('press42/photos',exist_ok=True)
+                      img.convert('RGB').save('press42/photos/press42-user-approved.webp','WEBP',quality=83,method=6)
+                      print('FULL RESOLUTION PHOTO READY')
+                      break
+              except Exception as exc:print('CANDIDATE',i,'UNAVAILABLE',str(exc)[:220])
+          else:
+              print('ERROR: signed original asset URL does not permit high-resolution retrieval; leaving repository unchanged')
+              sys.exit(2)
+          PY
+      - name: Commit exact user image
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add press42/photos/press42-user-approved.webp
+          git diff --cached --quiet || { git commit -m "Add original high-resolution user-supplied FX42 press photo"; git push; }
