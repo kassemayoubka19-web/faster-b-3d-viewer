@@ -8,157 +8,164 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%23142124%27/%3E%3Ctext x=%2732%27 y=%2744%27 font-size=%2731%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%23b5954d%27%3EFB%3C/text%3E%3C/svg%3E">
 <title>مكبس كوي كهرباء فاستر بي 42 بوصة | FASTER B 3D</title>
 <style>
-:root{font-family:Arial,"Noto Sans Arabic",Tahoma,sans-serif;color:#1c282a;background:#fff;color-scheme:only light;--gold:#b5954d;--line:#e8e9e7;--h:61px}
-*,*::before,*::after{box-sizing:border-box}
-html,body{height:100%;margin:0;overflow:hidden;background:#fff}
+:root{font-family:Arial,"Noto Sans Arabic",Tahoma,sans-serif;color:#182829;background:#fff;color-scheme:only light;--dark:#18292a;--gold:#c5a262;--border:#e5e8e6;--head:61px}
+*,*:before,*:after{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:white;overflow:hidden}
 body{height:100dvh;display:flex;flex-direction:column}
-button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-button:focus-visible{outline:2px solid #bc9541;outline-offset:2px}
+button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
-.topbar{height:var(--h);flex:0 0 var(--h);display:flex;align-items:center;gap:12px;padding:0 18px;background:#fff;border-bottom:1px solid var(--line);z-index:30}
-.topbar h1{min-width:0;flex:1;margin:0;text-align:center;font-size:clamp(13px,1.45vw,18px);font-weight:800;line-height:1.5}
-.brand{flex:0 0 86px;direction:ltr;text-align:left;font-weight:900;font-size:13px;letter-spacing:.03em}
-.back{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:12px;font-weight:700}
-.workspace{min-height:0;flex:1;display:grid;grid-template-columns:minmax(0,1fr) clamp(196px,18vw,236px);direction:ltr;background:#fff}
-.workspace.panel-closed{grid-template-columns:minmax(0,1fr) 45px}
-.stage{min-width:0;min-height:0;position:relative;direction:rtl;background:radial-gradient(ellipse at 50% 48%,#fff 25%,#f8f9f8 95%)}
-model-viewer{width:100%;height:100%;display:block;--poster-color:#fff;--progress-bar-color:var(--gold);--progress-bar-height:3px;background:transparent}
-.loading{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(255,255,255,.96);pointer-events:none}
-.loading-inner{display:flex;flex-direction:column;align-items:center;gap:13px;width:min(310px,80%);text-align:center}
-.loading img{width:min(300px,82%);max-height:48vh;object-fit:contain}
-#loadLabel{font-size:12px;color:#5a615e;line-height:1.8}
-.track{height:4px;width:220px;max-width:90%;border-radius:30px;background:#e7e8e3;overflow:hidden}
-#progress{height:100%;width:3%;background:var(--gold);transition:width .2s}
-#error{position:absolute;z-index:13;left:50%;top:50%;transform:translate(-50%,-50%);width:min(390px,88vw);border:1px solid #dfdfda;background:#fff;box-shadow:0 12px 35px #0002;padding:22px;text-align:center;border-radius:13px}
+header.site-header{height:var(--head);flex:0 0 var(--head);display:flex;align-items:center;gap:12px;padding:0 18px;z-index:12;background:#fff;border-bottom:1px solid var(--border)}
+.site-header h1{margin:0;min-width:0;flex:1;text-align:center;font-size:clamp(13px,1.4vw,18px);line-height:1.45;font-weight:800}
+.brand{flex:0 0 85px;font-weight:900;letter-spacing:.02em;direction:ltr;text-align:left;font-size:13px}
+.back{background:#fff;border:1px solid var(--border);padding:9px 13px;border-radius:10px;font-size:12px;font-weight:700;white-space:nowrap}
+.stage{position:relative;flex:1;min-height:0;background:radial-gradient(ellipse at 50% 52%,#fff 24%,#f7f8f7 95%)}
+model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress-bar-color:var(--gold);--progress-bar-height:3px;background:transparent}
+.loading{position:absolute;inset:0;z-index:9;display:grid;place-items:center;background:#fff;pointer-events:none}
+.loading-inner{display:flex;flex-direction:column;align-items:center;gap:12px;width:min(340px,90%);text-align:center}
+.loading img{display:block;max-width:min(330px,84%);max-height:46vh;object-fit:contain}
+#loadLabel{font-size:12px;line-height:1.8;color:#54605d}
+.track{width:230px;height:4px;max-width:90%;border-radius:5px;background:#e7e7e4;overflow:hidden}
+#progress{height:100%;width:3%;background:var(--gold);transition:width .15s}
+#error{position:absolute;z-index:13;left:50%;top:50%;transform:translate(-50%,-50%);max-width:88vw;padding:20px;background:#fff;border:1px solid var(--border);border-radius:12px;text-align:center;box-shadow:0 10px 30px #0002}
 #error strong{display:block;margin-bottom:9px}
-#error span{font-size:12px;line-height:1.8}
-.toolbar{position:absolute;z-index:9;bottom:max(16px,env(safe-area-inset-bottom,0px) + 11px);left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:3px;direction:ltr;background:rgba(255,255,255,.96);border:1px solid #e7e8e5;border-radius:30px;box-shadow:0 5px 25px #00000015;padding:5px}
-.toolbar button{width:41px;height:39px;background:transparent;border:0;border-radius:20px;color:#273435;font-size:24px;display:grid;place-items:center}
-.toolbar button:hover{background:#f1f3f2}
-.toolbar button[aria-pressed="true"]{color:#9e7a34;background:#faf6ee}
-.toolbar svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;width:21px;height:21px}
-.parts-panel{min-width:0;min-height:0;direction:rtl;background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column;z-index:13;overflow:hidden}
-.parts-top{flex:0 0 auto;min-height:51px;display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:1px solid var(--line)}
-.parts-title{flex:1;white-space:nowrap;font-size:13px;font-weight:800}
-.parts-trigger{width:100%;border:0;background:#fff;min-width:0;text-align:right;color:#273335;cursor:pointer;touch-action:manipulation;user-select:none}.parts-trigger:hover,.parts-trigger:focus-visible{background:#f6f7f5}.parts-arrow{flex:0 0 27px;height:29px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;font-size:18px;background:#fff;color:#344047}
-.parts-scroll{min-height:0;display:flex;flex-direction:column;flex:1;overflow:hidden}
-.parts-list{flex:0 1 auto;min-height:68px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:6px 7px;display:flex;flex-direction:column;gap:4px}
-.part-row{flex:0 0 auto;min-height:44px;width:100%;border:1px solid #e9e9e7;background:#fff;border-radius:10px;padding:5px;display:flex;align-items:center;gap:7px;color:#263134;text-align:right}
-.part-row:hover{background:#f7f8f7;border-color:#d7dad6}
-.part-row[aria-selected="true"]{border-color:#9bb3d0;background:#f1f6fc;color:#155593}
-.part-row img{flex:0 0 32px;height:33px;width:32px;object-fit:contain;background:#f8f8f8;border-radius:6px}
-.part-row span{flex:1;min-width:0;font-size:11px;font-weight:700;line-height:1.5;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
-.part-row .arrow{font-size:16px;color:#929b9c}
-.part-details{flex:1 1 36%;min-height:0;display:flex;flex-direction:column;margin:3px 7px 8px;border:1px solid #e7e9e7;border-radius:13px;background:#fff;overflow:hidden}
-.part-details[hidden]{display:none!important}
-.detail-title{padding:9px 11px;font-size:12px;font-weight:800;line-height:1.5;border-bottom:1px solid #eceeeb}
-.detail-photo{flex:0 1 auto;display:block;min-height:80px;max-height:clamp(96px,24vh,260px);width:100%;object-fit:contain;padding:5px;background:#f8f9f8;cursor:zoom-in}
-.detail-description{flex:1 1 auto;overflow-y:auto;min-height:24px;padding:9px 11px;font-size:11.5px;line-height:1.75;color:#4d5755;overscroll-behavior:contain}
-.part-placeholder{padding:10px 13px;color:#666;font-size:12px}
-.workspace.panel-closed .parts-top{padding:7px 5px;flex-direction:column}
-.workspace.panel-closed .parts-title,.workspace.panel-closed .parts-scroll{display:none}
-.workspace.panel-closed .parts-arrow{width:31px;height:31px;flex-basis:31px}
-
-#photoModal{position:fixed;z-index:100;inset:0;background:rgba(9,17,19,.96);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:15px}
-#photoModal .modal-top{display:flex;justify-content:space-between;align-items:center;gap:10px;width:min(980px,100%);color:#fff;margin-bottom:8px}
-#photoModal .modal-top strong{font-size:14px}
-#photoModal button{width:37px;height:37px;border-radius:10px;border:1px solid #747a7b;background:#30393b;color:#fff;font-size:25px}
-#modalPhoto{height:calc(100% - 50px);width:100%;max-width:1050px;object-fit:contain}
+#error span{font-size:12px;line-height:1.75}
+.catalog-cta{position:absolute;right:clamp(12px,2.6vw,36px);top:clamp(15px,3.5vh,31px);z-index:11;display:flex;align-items:center;gap:11px;padding:12px 16px;min-height:70px;max-width:min(290px,67vw);color:#fff;background:linear-gradient(128deg,#17292c,#304347);border:1px solid #a6a7a1;border-radius:17px;box-shadow:0 8px 26px #1b2e3230,0 0 0 3px #c8ad7440;text-align:right}
+.catalog-cta:hover,.catalog-cta:focus-visible{background:linear-gradient(128deg,#1b3638,#3d5758);transform:translateY(-1px)}
+.cta-icon{width:38px;height:38px;display:grid;place-items:center;flex:0 0 38px;background:#c8a260;border-radius:11px;color:#1b2b2c}
+.cta-icon svg{height:24px;width:24px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round}
+.cta-text{min-width:0;display:flex;flex-direction:column;gap:4px}
+.cta-text strong{font-size:15px;font-weight:800;line-height:1.3;white-space:nowrap}
+.cta-text small{font-size:11px;opacity:.83;white-space:nowrap}
+.cta-arrow{font-size:24px;color:#dfc18c;margin-right:auto}
+.toolbar{position:absolute;z-index:10;bottom:max(14px,env(safe-area-inset-bottom,0px) + 10px);left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;direction:ltr;background:#fffffff2;border:1px solid var(--border);border-radius:25px;padding:5px;box-shadow:0 5px 25px #0002}
+.toolbar button{width:42px;height:42px;background:transparent;border:0;border-radius:22px;color:#304143;display:grid;place-items:center;font-size:23px}
+.toolbar button[aria-pressed="true"]{color:#9a782f;background:#f9f4eb}
+.toolbar svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.catalog-overlay{position:fixed;z-index:60;inset:0;background:#0e1c21b8;display:flex;align-items:center;justify-content:center;padding:clamp(12px,3vh,30px) clamp(12px,2vw,28px);overscroll-behavior:contain}
+.catalog-window{background:#fff;border:1px solid #d9dfdc;border-radius:20px;box-shadow:0 20px 60px #0005;width:min(1050px,100%);height:min(785px,100%);display:flex;flex-direction:column;overflow:hidden;min-width:0;min-height:0}
+.catalog-head{display:flex;align-items:center;gap:13px;flex:0 0 auto;padding:16px 21px;border-bottom:1px solid var(--border);background:#fff}
+.catalog-heading{flex:1;min-width:0}
+.catalog-heading h2{margin:0;font-size:clamp(17px,2vw,22px);line-height:1.4;color:#1b2c2c}
+.catalog-heading small{display:block;margin-top:4px;font-size:12px;color:#687574}
+.count-label{font-size:12px;background:#f6f0e4;color:#8f6e32;padding:7px 10px;border-radius:30px;font-weight:800}
+.catalog-close{width:41px;height:41px;flex:0 0 41px;border:1px solid #dfe3df;border-radius:12px;background:#f8f9f8;color:#243435;font-size:28px;display:grid;place-items:center;padding:0}
+.catalog-content{display:grid;grid-template-columns:270px minmax(0,1fr);direction:rtl;flex:1;min-height:0;overflow:hidden}
+.catalog-nav{min-width:0;overflow-y:auto;overscroll-behavior:contain;background:#f8f9f7;border-left:1px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:7px;scrollbar-width:thin}
+.catalog-nav button{width:100%;min-height:55px;flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:8px;border:1px solid #e6e8e5;border-radius:13px;background:#fff;text-align:right;color:#26383a;transition:background .12s,border-color .12s}
+.catalog-nav button:hover{background:#fff9ef;border-color:#d5c09b}
+.catalog-nav button[aria-selected="true"]{background:#f5eee1;border-color:#ba9656;box-shadow:inset 3px 0 #b69150}
+.catalog-nav img{flex:0 0 47px;width:47px;height:43px;background:#f5f6f5;border-radius:8px;object-fit:contain}
+.catalog-nav span{flex:1;font-size:12.5px;font-weight:700;line-height:1.55;min-width:0}
+.catalog-detail{display:flex;flex-direction:column;min-height:0;min-width:0;background:#fff;overflow:hidden}
+.detail-head{flex:0 0 auto;padding:15px 22px 12px;border-bottom:1px solid #eceeed}
+.detail-head .eyebrow{display:block;color:#a58043;font-size:11px;font-weight:800;margin-bottom:5px}
+.detail-title{margin:0;font-size:clamp(15px,1.55vw,19px);line-height:1.55;font-weight:800}
+.detail-img-box{position:relative;flex:1 1 0;min-height:80px;display:flex;align-items:center;justify-content:center;background:#f8faf9;padding:12px}
+#detailPhoto{display:block;width:100%;height:100%;min-height:0;object-fit:contain;cursor:zoom-in}
+.zoom-hint{position:absolute;bottom:13px;left:14px;color:#37474a;background:#ffffffe3;border:1px solid #e2e6e4;border-radius:30px;padding:7px 12px;font-size:11px;pointer-events:none}
+.detail-desc{flex:0 0 auto;max-height:29%;min-height:120px;overflow-y:auto;padding:17px 22px 23px;border-top:1px solid #e8ebe9;color:#394845;font-size:14px;line-height:1.95;scrollbar-width:thin}
+.detail-desc strong{display:block;font-size:12px;color:#93713a;margin-bottom:4px}
+#detailDescription{margin:0;white-space:pre-line}
+.lightbox{position:fixed;inset:0;z-index:100;background:#0e1719f2;display:flex;flex-direction:column;align-items:center;padding:16px 12px}
+.lightbox-top{flex:0 0 auto;width:min(1050px,100%);display:flex;justify-content:space-between;align-items:center;gap:16px;color:#fff;padding-bottom:12px}
+.lightbox-top strong{font-size:14px;line-height:1.5}
+.lightbox-close{width:42px;height:42px;border:1px solid #747e7e;border-radius:12px;background:#2f3b3e;color:#fff;font-size:27px}
+#modalPhoto{min-height:0;min-width:0;flex:1;width:100%;max-width:1120px;object-fit:contain}
 @media(max-width:700px){
- :root{--h:55px}
- .topbar{padding:0 8px;gap:4px}
- .topbar h1{font-size:12px;line-height:1.45}
- .brand{flex-basis:34px;font-size:9px}
- .back{padding:7px;gap:3px;font-size:11px}
- .workspace,.workspace.panel-closed{position:relative;display:block;height:100%}
- .stage{height:100%;width:100%}
- .parts-panel{position:absolute;top:9px;right:8px;bottom:auto;width:min(204px,52vw);max-height:calc(100% - 88px);border:1px solid #e4e7e4;border-radius:13px;box-shadow:0 5px 22px #00000014;transition:width .16s}
- .parts-panel:not(.is-open){width:112px;max-height:44px}
- .parts-panel:not(.is-open) .parts-scroll{display:none}
- .parts-panel:not(.is-open) .parts-top{min-height:44px;padding:5px 7px;border-bottom:0;gap:4px;flex-direction:row}
- .parts-panel:not(.is-open) .parts-title{font-size:11px}
- .parts-panel:not(.is-open) .parts-arrow{flex-basis:20px;width:20px;height:26px;font-size:14px}
- .parts-panel.is-open .parts-scroll{min-height:0}
- .parts-panel.is-open .parts-list{max-height:42vh;flex:0 1 auto}
- .parts-panel.is-open .part-details{flex:0 1 auto;max-height:35vh}
- .part-row{min-height:39px}
- .part-row img{height:27px;width:26px;flex-basis:26px}
- .part-row span{font-size:10.5px}
- .detail-photo{max-height:clamp(84px,16vh,150px);min-height:68px}
- .detail-description{max-height:14vh;min-height:40px;font-size:10.5px}
- .detail-title{font-size:11px}
- .toolbar{bottom:max(11px,env(safe-area-inset-bottom,0px) + 6px)}
- .toolbar button{height:38px;width:40px}
- .workspace.panel-closed .parts-top{flex-direction:row}
+ :root{--head:56px}
+ .site-header{padding:0 9px;gap:5px}
+ .site-header h1{font-size:12px}
+ .brand{flex-basis:43px;font-size:10px}
+ .back{padding:8px;font-size:11px}
+ .catalog-cta{right:12px;top:14px;padding:10px 12px;min-height:60px;gap:9px;border-radius:13px}
+ .cta-icon{flex-basis:33px;width:33px;height:33px;border-radius:9px}
+ .cta-icon svg{width:21px;height:21px}
+ .cta-text strong{font-size:13px}
+ .cta-text small{font-size:10px}
+ .cta-arrow{font-size:19px}
+ .toolbar button{width:39px;height:39px}
+ .catalog-overlay{padding:0;align-items:stretch}
+ .catalog-window{width:100%;height:100%;height:100dvh;max-width:none;max-height:none;border-radius:0;border:0}
+ .catalog-head{padding:calc(12px + env(safe-area-inset-top,0px)) 12px 12px}
+ .catalog-heading h2{font-size:18px}
+ .catalog-heading small{font-size:11px}
+ .count-label{font-size:10px;padding:6px 8px}
+ .catalog-close{width:40px;height:40px;flex-basis:40px}
+ .catalog-content{display:flex;flex-direction:column;min-height:0}
+ .catalog-nav{display:flex;flex-direction:row;flex:0 0 auto;gap:7px;padding:9px 10px;min-height:96px;max-height:110px;overflow-x:auto;overflow-y:hidden;border-left:0;border-bottom:1px solid var(--border);scroll-snap-type:x proximity}
+ .catalog-nav button{width:clamp(156px,44vw,205px);height:73px;min-height:73px;scroll-snap-align:start}
+ .catalog-nav img{flex:0 0 43px;width:43px;height:52px}
+ .catalog-nav span{font-size:11.5px;line-height:1.5}
+ .catalog-detail{flex:1;min-height:0}
+ .detail-head{padding:11px 14px}
+ .detail-head .eyebrow{font-size:10px;margin-bottom:3px}
+ .detail-title{font-size:16px}
+ .detail-img-box{min-height:90px;padding:8px}
+ .zoom-hint{font-size:10px;bottom:9px;left:9px}
+ .detail-desc{max-height:28vh;min-height:120px;padding:14px 16px calc(16px + env(safe-area-inset-bottom,0px));font-size:13px;line-height:1.85}
 }
-@media(min-width:701px) and (max-height:620px){.part-details{flex-basis:31%}.detail-photo{max-height:21vh}.parts-list{flex:1 1 auto}}
+@media(max-height:590px){.detail-desc{min-height:75px;max-height:30%}.catalog-nav{min-height:75px}.catalog-head{padding-top:8px;padding-bottom:8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header class="topbar">
-  <button id="back" class="back" type="button" aria-label="الرجوع">‹ &nbsp; رجوع</button>
-  <h1>مكبس كوي كهرباء فاستر بي 42 بوصة</h1>
-  <span class="brand">FASTER B</span>
+<header class="site-header">
+ <button class="back" id="back" type="button" aria-label="رجوع">‹ &nbsp; رجوع</button>
+ <h1>مكبس كوي كهرباء فاستر بي 42 بوصة</h1>
+ <span class="brand">FASTER B</span>
 </header>
-<main class="workspace" id="workspace">
-  <section class="stage" id="stage" aria-label="مجسم مكبس الكوي ثلاثي الأبعاد">
-    <model-viewer id="viewer" camera-controls disable-pan disable-zoom auto-rotate interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="9deg" auto-rotate-delay="1300" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي">
-    </model-viewer>
-    <div class="loading" id="loading" aria-live="polite"><div class="loading-inner">
-      <img src="./current-poster.png" alt="مكبس كوي كهرباء فاستر بي" id="poster"/>
-      <span id="loadLabel">جارِ تحضير المجسم ثلاثي الأبعاد…</span>
-      <div class="track"><div id="progress"></div></div>
-    </div></div>
-    <div id="error" hidden role="alert"><strong>تعذّر تحميل العارض</strong><span id="errorText"></span></div>
-    <nav class="toolbar" aria-label="أدوات التحكم بالمجسم">
-      <button id="rotate" type="button" title="إيقاف أو تشغيل الدوران التلقائي" aria-label="التحكم بالدوران" aria-pressed="true">Ⅱ</button>
-      <button id="reset" type="button" title="إعادة ضبط موضع المجسم" aria-label="إعادة الضبط">
-        <svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg>
-      </button>
-      <button id="fullscreen" type="button" title="ملء الشاشة" aria-label="ملء الشاشة">
-        <svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg>
-      </button>
-    </nav>
-  </section>
-  <aside class="parts-panel" id="partsPanel" aria-label="قائمة أجزاء مكبس الكوي">
-    <button id="partsToggle" class="parts-top parts-trigger" type="button" aria-controls="partsScroll" aria-expanded="true" aria-label="فتح قائمة أجزاء المكبس">
-      <span class="parts-title">أجزاء المكبس</span><span class="parts-arrow" aria-hidden="true">‹</span>
-    </button>
-    <div id="partsScroll" class="parts-scroll">
-      <nav id="partsList" class="parts-list" aria-label="اختيار الجزء"></nav>
-      <section class="part-details" id="partDetails" aria-live="polite">
-        <div class="detail-title" id="detailTitle"></div>
-        <img class="detail-photo" id="detailPhoto" alt="الصورة الحقيقية المعتمدة للجزء" loading="lazy" decoding="async" title="اضغط لتكبير الصورة"/>
-        <div class="detail-description" id="detailDescription"></div>
-      </section>
-    </div>
-  </aside>
+<main class="stage" id="stage">
+ <model-viewer id="viewer" camera-controls disable-pan disable-zoom auto-rotate interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="9deg" auto-rotate-delay="1300" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
+ <div class="loading" id="loading" aria-live="polite"><div class="loading-inner">
+  <img src="./current-poster.png" alt="مكبس كوي كهرباء فاستر بي" id="poster">
+  <span id="loadLabel">جارِ تحضير المجسم ثلاثي الأبعاد…</span>
+  <div class="track"><div id="progress"></div></div>
+ </div></div>
+ <div id="error" hidden role="alert"><strong>تعذّر تحميل العارض</strong><span id="errorText"></span></div>
+ <button type="button" class="catalog-cta" id="catalogOpen" aria-haspopup="dialog" aria-controls="catalogOverlay" aria-label="استكشف أجزاء المكبس، صور ومواصفات">
+  <span class="cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 6h6M14 9h4M14 16h6M14 19h4"/></svg></span>
+  <span class="cta-text"><strong>استكشف أجزاء المكبس</strong><small>12 جزء • صور ومواصفات</small></span>
+  <span class="cta-arrow" aria-hidden="true">‹</span>
+ </button>
+ <nav class="toolbar" aria-label="أدوات التحكم بالمجسم">
+  <button type="button" id="rotate" title="تشغيل أو إيقاف الدوران" aria-label="التحكم بالدوران" aria-pressed="true">Ⅱ</button>
+  <button type="button" id="reset" title="إعادة ضبط المجسم" aria-label="إعادة ضبط المجسم"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg></button>
+  <button type="button" id="fullscreen" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button>
+ </nav>
 </main>
-<div id="photoModal" hidden role="dialog" aria-modal="true" aria-label="الصورة المكبرة للجزء">
-  <div class="modal-top"><strong id="modalTitle"></strong><button id="modalClose" type="button" aria-label="إغلاق الصورة">×</button></div>
-  <img id="modalPhoto" alt="الصورة المكبرة"/>
-</div>
+<section id="catalogOverlay" class="catalog-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="catalogTitle">
+ <div class="catalog-window">
+  <div class="catalog-head">
+   <div class="catalog-heading"><h2 id="catalogTitle">دليل أجزاء مكبس الكوي</h2><small>اختر الجزء لعرض صورته الحقيقية ووظيفته بالتفصيل</small></div>
+   <span class="count-label">12 جزء</span>
+   <button type="button" class="catalog-close" id="catalogClose" aria-label="إغلاق دليل الأجزاء">×</button>
+  </div>
+  <div class="catalog-content">
+   <nav class="catalog-nav" id="partsList" aria-label="أجزاء مكبس الكوي"></nav>
+   <article class="catalog-detail" aria-live="polite">
+    <div class="detail-head"><small class="eyebrow">مواصفات الجزء</small><h3 class="detail-title" id="detailTitle"></h3></div>
+    <div class="detail-img-box"><img id="detailPhoto" alt="صورة حقيقية للجزء" loading="lazy" decoding="async" tabindex="0" role="button" aria-label="تكبير صورة الجزء"><span class="zoom-hint">⌕ اضغط لتكبير الصورة</span></div>
+    <div class="detail-desc"><strong>الوظيفة والمواصفات</strong><p id="detailDescription"></p></div>
+   </article>
+  </div>
+ </div>
+</section>
+<section id="photoModal" class="lightbox" hidden role="dialog" aria-modal="true" aria-label="الصورة المكبرة">
+ <div class="lightbox-top"><strong id="modalTitle"></strong><button id="modalClose" class="lightbox-close" type="button" aria-label="إغلاق الصورة المكبرة">×</button></div>
+ <img id="modalPhoto" alt="صورة مكبرة للجزء">
+</section>
 <script type="module">
-const viewer=document.getElementById('viewer');
-const stage=document.getElementById('stage');
-const loading=document.getElementById('loading');
-const loadLabel=document.getElementById('loadLabel');
-const progress=document.getElementById('progress');
-const error=document.getElementById('error');
-const workspace=document.getElementById('workspace');
-const panel=document.getElementById('partsPanel');
-const toggle=document.getElementById('partsToggle');
-const list=document.getElementById('partsList');
-const title=document.getElementById('detailTitle');
-const photo=document.getElementById('detailPhoto');
-const description=document.getElementById('detailDescription');
+const viewer=document.getElementById('viewer'),stage=document.getElementById('stage');
+const loading=document.getElementById('loading'),loadLabel=document.getElementById('loadLabel');
+const progress=document.getElementById('progress'),error=document.getElementById('error');
+const overlay=document.getElementById('catalogOverlay'),openButton=document.getElementById('catalogOpen'),closeButton=document.getElementById('catalogClose');
+const partsList=document.getElementById('partsList'),title=document.getElementById('detailTitle');
+const photo=document.getElementById('detailPhoto'),description=document.getElementById('detailDescription');
+const modal=document.getElementById('photoModal'),modalPhoto=document.getElementById('modalPhoto'),modalTitle=document.getElementById('modalTitle');
 const rotateButton=document.getElementById('rotate');
-const modal=document.getElementById('photoModal');
-const modalPhoto=document.getElementById('modalPhoto');
-const modalTitle=document.getElementById('modalTitle');
-const START_AZIMUTH=-36, POLAR=74, FOV=38, PADDING=1.065;
-let modelReady=false,lastAspect=0,selectedId='',wasAutoRotating=false;
+const START_AZIMUTH=-36,POLAR=74,FOV=38,PADDING=1.065;
+let modelReady=false,lastAspect=0,wasAutoRotating=false,selectedId='';
 const PARTS=[
   {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.19800m 1.40800m 0.24300m",normal:"0 -0.65 0.76",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
   {id:"lowerSurface",name:"سطح الكوي السفلي – 42 بوصة",tile:9,position:"-0.19800m 1.15400m 0.25500m",normal:"0 0.97 0.24",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
@@ -175,52 +182,54 @@ const PARTS=[
   {id:"powerCable",name:"كيبل التوصيل الكهربائي (3 فاز)",tile:10,position:"0.10100m 0.15700m -0.71100m",normal:"0 0 -1",description:"كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"}
 ];
 const CATALOG=[
-  PARTS.find(p=>p.id==='upperSurface'),
-  ...['footPedals','waterLevel','controlPanel','pressureControl','pressureGauge','suctionBlower','steamTrap','waterPump','safetyValve','drainAndCable'].map(id=>PARTS.find(p=>p.id===id)),
-  {id:'heater',name:'سخانات مكبس الكوي 18 كيلو واط عدد 3',description:'سخانات مكبس الكوي الكهربائية بقدرة إجمالية 18 كيلو واط، عدد 3 سخانات.',image:'./photos/heater_left.webp?v=20261018r2'}
+ PARTS.find(p=>p.id==='upperSurface'),
+ ...['footPedals','waterLevel','controlPanel','pressureControl','pressureGauge','suctionBlower','steamTrap','waterPump','safetyValve','drainAndCable'].map(id=>PARTS.find(p=>p.id===id)),
+ {id:'heater',name:'سخانات مكبس الكوي 18 كيلو واط عدد 3',description:'سخانات مكبس الكوي الكهربائية بقدرة إجمالية 18 كيلو واط، عدد 3 سخانات.',image:'./photos/heater_left.webp?v=20261018r2'}
 ];
-if(CATALOG.some(x=>!x))throw new Error('بيانات جزء معتمد غير موجودة.');
-const mobile=matchMedia('(max-width:700px)');
-function setPanel(open){
-  const m=mobile.matches;
-  panel.classList.toggle('is-open',open);
-  workspace.classList.toggle('panel-closed',!m&&!open);
-  toggle.querySelector('.parts-arrow').textContent=open?'›':'‹';
-  toggle.setAttribute('aria-expanded',String(open));
-  toggle.setAttribute('aria-label',open?'إغلاق قائمة أجزاء المكبس':'فتح قائمة أجزاء المكبس');
-  requestAnimationFrame(()=>{if(modelReady&&!m)fitWholeMachine()});
+if(CATALOG.length!==12||CATALOG.some(x=>!x))throw new Error('بيانات الأجزاء المعتمدة غير مكتملة.');
+function openCatalog(){
+ overlay.hidden=false; document.body.classList.add('catalog-open');
+ closeButton.focus({preventScroll:true});
 }
-function initPanel(){setPanel(!mobile.matches)}
-toggle.addEventListener('click',()=>setPanel(!panel.classList.contains('is-open')));
-mobile.addEventListener?.('change',initPanel);
-function selectPart(part){
-  selectedId=part.id;
-  title.textContent=part.name;
-  description.textContent=part.description;
-  photo.alt='صورة أصلية: '+part.name;
-  photo.onerror=()=>{description.textContent=part.description+' — تعذّر تحميل صورة هذا الجزء.';};
-  photo.src=new URL(part.image,document.baseURI).href;
-  for(const b of list.children)b.setAttribute('aria-selected',String(b.dataset.id===part.id));
-  if(mobile.matches&&!panel.classList.contains('is-open'))setPanel(true);
+function closeCatalog(){
+ if(!modal.hidden)closeModal();
+ overlay.hidden=true;document.body.classList.remove('catalog-open');
+ openButton.focus({preventScroll:true});
+}
+openButton.addEventListener('click',openCatalog);
+closeButton.addEventListener('click',closeCatalog);
+overlay.addEventListener('click',e=>{if(e.target===overlay)closeCatalog()});
+function choosePart(part){
+ selectedId=part.id;title.textContent=part.name;
+ description.textContent=part.description;photo.alt='الصورة الأصلية: '+part.name;
+ photo.onerror=()=>{description.textContent=part.description+' (تعذر تحميل صورة هذا الجزء، حاول تحديث الصفحة).'};
+ photo.src=new URL(part.image,document.baseURI).href;
+ for(const b of partsList.children)b.setAttribute('aria-selected',String(b.dataset.id===part.id));
 }
 function renderCatalog(){
-  const fragment=document.createDocumentFragment();
-  for(const part of CATALOG){
-    const b=document.createElement('button');
-    b.type='button';b.className='part-row';b.dataset.id=part.id;
-    b.setAttribute('aria-selected','false');b.setAttribute('aria-label','عرض '+part.name);
-    const img=document.createElement('img');
-    img.src=new URL(part.image,document.baseURI).href;
-    img.alt='';img.loading='lazy';img.decoding='async';
-    const name=document.createElement('span');name.textContent=part.name;
-    const arrow=document.createElement('span');arrow.className='arrow';arrow.textContent='‹';arrow.setAttribute('aria-hidden','true');
-    b.append(img,name,arrow);
-    b.addEventListener('click',()=>selectPart(part));
-    fragment.appendChild(b);
-  }
-  list.appendChild(fragment);
-  selectPart(CATALOG[0]);
+ const fragment=document.createDocumentFragment();
+ for(const part of CATALOG){
+  const btn=document.createElement('button');btn.type='button';btn.dataset.id=part.id;btn.setAttribute('aria-selected','false');btn.setAttribute('aria-label','عرض '+part.name);
+  const img=document.createElement('img');img.src=new URL(part.image,document.baseURI).href;img.loading='lazy';img.decoding='async';img.alt='';
+  const label=document.createElement('span');label.textContent=part.name;
+  btn.append(img,label);
+  btn.addEventListener('click',()=>choosePart(part));
+  fragment.append(btn);
+ }
+ partsList.append(fragment);choosePart(CATALOG[0]);
 }
+function openModal(){
+ if(!photo.complete||!photo.naturalWidth)return;
+ modalTitle.textContent=title.textContent;modalPhoto.src=photo.src;modalPhoto.alt=photo.alt;modal.hidden=false;
+ document.getElementById('modalClose').focus({preventScroll:true});
+}
+function closeModal(){modal.hidden=true;modalPhoto.removeAttribute('src');photo.focus({preventScroll:true})}
+photo.addEventListener('click',openModal);
+photo.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal()}});
+document.getElementById('modalClose').onclick=closeModal;
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!modal.hidden)closeModal();else if(!overlay.hidden)closeCatalog()}});
+document.getElementById('back').onclick=()=>{if(!overlay.hidden)closeCatalog();else if(history.length>1)history.back();else if(window.opener)window.close()};
 function updateRotateButton(){
  const enabled=viewer.hasAttribute('auto-rotate');
  rotateButton.setAttribute('aria-pressed',String(enabled));
@@ -245,29 +254,13 @@ function fitWholeMachine(){
  const distance=(Math.max(halfWidth/horizTan,halfHeight/vertTan)+halfDepth)*PADDING;
  viewer.cameraTarget=`${center.x}m ${center.y}m ${center.z}m`;
  viewer.cameraOrbit=`${START_AZIMUTH}deg ${POLAR}deg ${distance.toFixed(3)}m`;
- viewer.jumpCameraToGoal?.();
- lastAspect=w/Math.max(1,h);
+ viewer.jumpCameraToGoal?.();lastAspect=w/Math.max(1,h);
 }
-document.getElementById('back').onclick=()=>{if(history.length>1)history.back();else if(window.opener)window.close();};
 document.getElementById('reset').onclick=()=>{fitWholeMachine();setRotation(true)};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){console.warn('ملء الشاشة غير متاح',e)}};
-function closeModal(){modal.hidden=true;modalPhoto.removeAttribute('src')}
-function openModal(){
- if(!photo.complete||!photo.naturalWidth)return;
- modalTitle.textContent=title.textContent;modalPhoto.src=photo.src;modalPhoto.alt=photo.alt;modal.hidden=false;
- document.getElementById('modalClose').focus({preventScroll:true});
-}
-photo.tabIndex=0;photo.setAttribute('role','button');photo.setAttribute('aria-label','تكبير صورة الجزء');
-photo.addEventListener('click',openModal);
-photo.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal()}});
-document.getElementById('modalClose').addEventListener('click',closeModal);
-modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!modal.hidden)closeModal();else if(mobile.matches&&panel.classList.contains('is-open'))setPanel(false)}});
-function fail(msg){loading.hidden=true;error.hidden=false;document.getElementById('errorText').textContent=msg||'تعذر فتح المجسم. جرب Chrome أو Edge.'}
+function fail(msg){loading.hidden=true;error.hidden=false;document.getElementById('errorText').textContent=msg||'تعذر فتح المجسم. حاول تحديث Chrome أو Edge.'}
 viewer.addEventListener('progress',ev=>{progress.style.width=Math.max(5,Math.round((ev.detail?.totalProgress||0)*100))+'%'});
-viewer.addEventListener('load',()=>{
- modelReady=true;requestAnimationFrame(()=>{fitWholeMachine();loading.hidden=true;progress.style.width='100%';setRotation(true)});
-});
+viewer.addEventListener('load',()=>{modelReady=true;requestAnimationFrame(()=>{fitWholeMachine();loading.hidden=true;progress.style.width='100%';setRotation(true)})});
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذّر قراءة المجسم ثلاثي الأبعاد. يُرجى تحديث Chrome وإعادة المحاولة.')});
 new ResizeObserver(()=>{if(!modelReady)return;const asp=stage.clientWidth/Math.max(1,stage.clientHeight);if(Math.abs(asp-lastAspect)>.08)requestAnimationFrame(fitWholeMachine)}).observe(stage);
 document.addEventListener('visibilitychange',()=>{if(document.hidden){wasAutoRotating=viewer.hasAttribute('auto-rotate');setRotation(false)}else if(wasAutoRotating){setRotation(true);wasAutoRotating=false}});
@@ -300,13 +293,11 @@ async function boot(){
    })()
   ]);
   customElements.get('model-viewer').minimumRenderScale=.35;
-  updateRotateButton();
-  loadLabel.textContent='جارِ عرض مجسم المكبس…';
+  updateRotateButton();loadLabel.textContent='جارِ عرض مجسم المكبس…';
   viewer.src=url;
  }catch(e){console.error(e);fail(e?.message)}
 }
 renderCatalog();
-initPanel();
 boot();
 </script>
 </body>
