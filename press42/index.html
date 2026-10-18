@@ -40,7 +40,7 @@ model-viewer{width:100%;height:100%;display:block;--poster-color:#fff;--progress
 .parts-panel{min-width:0;min-height:0;direction:rtl;background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column;z-index:13;overflow:hidden}
 .parts-top{flex:0 0 auto;min-height:51px;display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:1px solid var(--line)}
 .parts-title{flex:1;white-space:nowrap;font-size:13px;font-weight:800}
-.parts-toggle{flex:0 0 auto;min-height:32px;min-width:32px;padding:4px 8px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:12px;color:#344047}
+.parts-trigger{width:100%;border:0;background:#fff;min-width:0;text-align:right;color:#273335;cursor:pointer;touch-action:manipulation;user-select:none}.parts-trigger:hover,.parts-trigger:focus-visible{background:#f6f7f5}.parts-arrow{flex:0 0 27px;height:29px;display:grid;place-items:center;border:1px solid var(--line);border-radius:8px;font-size:18px;background:#fff;color:#344047}
 .parts-scroll{min-height:0;display:flex;flex-direction:column;flex:1;overflow:hidden}
 .parts-list{flex:0 1 auto;min-height:68px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:6px 7px;display:flex;flex-direction:column;gap:4px}
 .part-row{flex:0 0 auto;min-height:44px;width:100%;border:1px solid #e9e9e7;background:#fff;border-radius:10px;padding:5px;display:flex;align-items:center;gap:7px;color:#263134;text-align:right}
@@ -57,8 +57,8 @@ model-viewer{width:100%;height:100%;display:block;--poster-color:#fff;--progress
 .part-placeholder{padding:10px 13px;color:#666;font-size:12px}
 .workspace.panel-closed .parts-top{padding:7px 5px;flex-direction:column}
 .workspace.panel-closed .parts-title,.workspace.panel-closed .parts-scroll{display:none}
-.workspace.panel-closed .parts-toggle{width:34px;padding:2px;min-width:34px}
-.workspace.panel-closed .parts-toggle::after{content:""}
+.workspace.panel-closed .parts-arrow{width:31px;height:31px;flex-basis:31px}
+
 #photoModal{position:fixed;z-index:100;inset:0;background:rgba(9,17,19,.96);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:15px}
 #photoModal .modal-top{display:flex;justify-content:space-between;align-items:center;gap:10px;width:min(980px,100%);color:#fff;margin-bottom:8px}
 #photoModal .modal-top strong{font-size:14px}
@@ -73,11 +73,11 @@ model-viewer{width:100%;height:100%;display:block;--poster-color:#fff;--progress
  .workspace,.workspace.panel-closed{position:relative;display:block;height:100%}
  .stage{height:100%;width:100%}
  .parts-panel{position:absolute;top:9px;right:8px;bottom:auto;width:min(204px,52vw);max-height:calc(100% - 88px);border:1px solid #e4e7e4;border-radius:13px;box-shadow:0 5px 22px #00000014;transition:width .16s}
- .parts-panel:not(.is-open){width:79px;max-height:44px}
+ .parts-panel:not(.is-open){width:112px;max-height:44px}
  .parts-panel:not(.is-open) .parts-scroll{display:none}
- .parts-panel:not(.is-open) .parts-top{min-height:44px;padding:5px 7px;border-bottom:0;gap:4px}
+ .parts-panel:not(.is-open) .parts-top{min-height:44px;padding:5px 7px;border-bottom:0;gap:4px;flex-direction:row}
  .parts-panel:not(.is-open) .parts-title{font-size:11px}
- .parts-panel:not(.is-open) .parts-toggle{min-width:25px;min-height:28px;width:25px;padding:0;font-size:13px}
+ .parts-panel:not(.is-open) .parts-arrow{flex-basis:20px;width:20px;height:26px;font-size:14px}
  .parts-panel.is-open .parts-scroll{min-height:0}
  .parts-panel.is-open .parts-list{max-height:42vh;flex:0 1 auto}
  .parts-panel.is-open .part-details{flex:0 1 auto;max-height:35vh}
@@ -122,9 +122,9 @@ model-viewer{width:100%;height:100%;display:block;--poster-color:#fff;--progress
     </nav>
   </section>
   <aside class="parts-panel" id="partsPanel" aria-label="قائمة أجزاء مكبس الكوي">
-    <div class="parts-top"><span class="parts-title">أجزاء المكبس</span>
-      <button id="partsToggle" class="parts-toggle" type="button" aria-controls="partsScroll" aria-expanded="true">‹</button>
-    </div>
+    <button id="partsToggle" class="parts-top parts-trigger" type="button" aria-controls="partsScroll" aria-expanded="true" aria-label="فتح قائمة أجزاء المكبس">
+      <span class="parts-title">أجزاء المكبس</span><span class="parts-arrow" aria-hidden="true">‹</span>
+    </button>
     <div id="partsScroll" class="parts-scroll">
       <nav id="partsList" class="parts-list" aria-label="اختيار الجزء"></nav>
       <section class="part-details" id="partDetails" aria-live="polite">
@@ -185,9 +185,9 @@ function setPanel(open){
   const m=mobile.matches;
   panel.classList.toggle('is-open',open);
   workspace.classList.toggle('panel-closed',!m&&!open);
-  toggle.textContent=open?'›':'‹';
+  toggle.querySelector('.parts-arrow').textContent=open?'›':'‹';
   toggle.setAttribute('aria-expanded',String(open));
-  toggle.setAttribute('aria-label',open?'إخفاء قائمة الأجزاء':'عرض قائمة الأجزاء');
+  toggle.setAttribute('aria-label',open?'إغلاق قائمة أجزاء المكبس':'فتح قائمة أجزاء المكبس');
   requestAnimationFrame(()=>{if(modelReady&&!m)fitWholeMachine()});
 }
 function initPanel(){setPanel(!mobile.matches)}
