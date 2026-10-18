@@ -42,8 +42,12 @@ const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
    }else{
     assert(!state.panelOpen,'Mobile catalog must start collapsed');
     assert(state.stageRatio>.98,'Collapsed mobile catalog must not consume 3D viewport width');
-    await page.locator('#partsToggle').click();
-    assert(await page.locator('#partsPanel').evaluate(el=>el.classList.contains('is-open')),'Catalog did not open on mobile');
+    // Reproduce actual customer action: tap the visible Arabic label, not the tiny arrow.
+    const hit=await page.locator('.parts-title').evaluate(label=>{const box=label.getBoundingClientRect();const node=document.elementFromPoint(box.left+box.width/2,box.top+box.height/2);return {text:label.textContent,hit:node?.id||node?.className,insideToggle:!!node?.closest?.('#partsToggle'),width:label.closest('button')?.getBoundingClientRect().width};});
+    console.log('MOBILE_MENU_TAP_TARGET',JSON.stringify(hit));
+    assert(hit.insideToggle&&hit.width>=108,'Arabic menu label does not have a full-size clickable button');
+    await page.getByText('أجزاء المكبس',{exact:true}).click();
+    assert(await page.locator('#partsPanel').evaluate(el=>el.classList.contains('is-open')),'Tap on Arabic title did not open the catalog');
    }
    for(const id of ['pressureGauge','waterLevel','steamTrap','drainAndCable','heater','upperSurface']){
     const row=page.locator('.part-row[data-id="'+id+'"]');
