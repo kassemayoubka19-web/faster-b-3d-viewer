@@ -17,7 +17,7 @@ button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 [hidden]{display:none!important}
 header.site-header{height:var(--head);flex:0 0 var(--head);display:flex;align-items:center;gap:12px;padding:0 18px;z-index:12;background:#fff;border-bottom:1px solid var(--border)}
 .site-header h1{margin:0;min-width:0;flex:1;text-align:center;font-size:clamp(13px,1.4vw,18px);line-height:1.45;font-weight:800}
-.brand{flex:0 0 85px;font-weight:900;letter-spacing:.02em;direction:ltr;text-align:left;font-size:13px}
+.brand{flex:0 0 156px;min-width:0;display:flex;align-items:center;gap:7px;font-weight:900;letter-spacing:.01em;direction:ltr;text-align:left;font-size:14px;color:#cc9c21;line-height:1.25}.brand img{display:block;flex:0 0 46px;width:46px;height:48px;object-fit:contain}.brand span{display:flex;flex-direction:column;gap:3px}.brand small{font-size:8px;letter-spacing:.05em;color:#263236;white-space:nowrap}
 .back{background:#fff;border:1px solid var(--border);padding:9px 13px;border-radius:10px;font-size:12px;font-weight:700;white-space:nowrap}
 .stage{position:relative;flex:1;min-height:0;background:radial-gradient(ellipse at 50% 52%,#fff 24%,#f7f8f7 95%)}
 model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress-bar-color:var(--gold);--progress-bar-height:3px;background:transparent}
@@ -76,7 +76,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  :root{--head:56px}
  .site-header{padding:0 9px;gap:5px}
  .site-header h1{font-size:12px}
- .brand{flex-basis:43px;font-size:10px}
+ .brand{flex-basis:73px;gap:2px;font-size:9px}.brand img{flex-basis:32px;width:32px;height:34px}.brand small{display:none}.brand span{gap:0}
  .back{padding:8px;font-size:11px}
  .catalog-cta{right:12px;top:14px;padding:10px 12px;min-height:60px;gap:9px;border-radius:13px}
  .cta-icon{flex-basis:33px;width:33px;height:33px;border-radius:9px}
@@ -113,7 +113,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
 <header class="site-header">
  <button class="back" id="back" type="button" aria-label="رجوع">‹ &nbsp; رجوع</button>
  <h1>مكبس كوي كهرباء فاستر بي 42 بوصة</h1>
- <span class="brand">FASTER B</span>
+ <span class="brand" aria-label="FASTER B LAUNDRY EQUIPMENT"><img src="./faster-b-official-logo.webp" alt="شعار فاستر بي الرسمي" width="48" height="48"><span>FASTER B<small>LAUNDRY EQUIPMENT</small></span></span>
 </header>
 <main class="stage" id="stage">
  <model-viewer id="viewer" camera-controls disable-pan disable-zoom auto-rotate interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="9deg" auto-rotate-delay="1300" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
@@ -125,7 +125,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <div id="error" hidden role="alert"><strong>تعذّر تحميل العارض</strong><span id="errorText"></span></div>
  <button type="button" class="catalog-cta" id="catalogOpen" aria-haspopup="dialog" aria-controls="catalogOverlay" aria-label="استكشف أجزاء المكبس، صور ومواصفات">
   <span class="cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 6h6M14 9h4M14 16h6M14 19h4"/></svg></span>
-  <span class="cta-text"><strong>استكشف أجزاء المكبس</strong><small>12 جزء • صور ومواصفات</small></span>
+  <span class="cta-text"><strong>استكشف أجزاء المكبس</strong><small>14 خيارًا • صور ومواصفات</small></span>
   <span class="cta-arrow" aria-hidden="true">‹</span>
  </button>
  <nav class="toolbar" aria-label="أدوات التحكم بالمجسم">
@@ -138,7 +138,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <div class="catalog-window">
   <div class="catalog-head">
    <div class="catalog-heading"><h2 id="catalogTitle">دليل أجزاء مكبس الكوي</h2><small>اختر الجزء لعرض صورته الحقيقية ووظيفته بالتفصيل</small></div>
-   <span class="count-label">12 جزء</span>
+   <span class="count-label">14 خيارًا</span>
    <button type="button" class="catalog-close" id="catalogClose" aria-label="إغلاق دليل الأجزاء">×</button>
   </div>
   <div class="catalog-content">
@@ -182,11 +182,14 @@ const PARTS=[
   {id:"powerCable",name:"كيبل التوصيل الكهربائي (3 فاز)",tile:10,position:"0.10100m 0.15700m -0.71100m",normal:"0 0 -1",description:"كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"}
 ];
 const CATALOG=[
+ {id:'machineOverview',name:'مكبس الكوي الكهربائي FASTER B – قياس 42 بوصة',description:'أداء احترافي وكفاءة عالية في الكوي، مزود بأسطح علوية وسفلية مثقبة مع فلاتر داخلية، ونظام بخار وشفط متكامل لضمان إزالة التجاعيد والحصول على نتائج مثالية. تصميم متين وتشغيل سهل، الخيار الأمثل للمغاسل التجارية والاحترافية.',image:'./current-poster.png'},
  PARTS.find(p=>p.id==='upperSurface'),
- ...['footPedals','waterLevel','controlPanel','pressureControl','pressureGauge','suctionBlower','steamTrap','waterPump','safetyValve','drainAndCable'].map(id=>PARTS.find(p=>p.id===id)),
+ ...['footPedals','waterLevel','controlPanel','pressureControl','pressureGauge','suctionBlower','steamTrap','waterPump','safetyValve'].map(id=>PARTS.find(p=>p.id===id)),
+ {id:'drainValve',name:'صمام تصريف مياه الخزان',description:'صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، للمساعدة في تنظيف الخزان والحفاظ على كفاءة التشغيل. تظهر الصورة الصمام بذراعه الأحمر في مؤخرة المعدة.',image:'./photos/drain_valve.webp'},
+ {id:'powerCable',name:'كيبل التوصيل الكهربائي – 3 فاز',description:'كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد للمكبس. تظهر الصورة غلاف مسار الكيبل الكهربائي بجانب صمام التصريف.',image:'./photos/power_cable.webp'},
  {id:'heater',name:'سخانات مكبس الكوي 18 كيلو واط عدد 3',description:'سخانات مكبس الكوي الكهربائية بقدرة إجمالية 18 كيلو واط، عدد 3 سخانات.',image:'./photos/heater_left.webp?v=20261018r2'}
 ];
-if(CATALOG.length!==12||CATALOG.some(x=>!x))throw new Error('بيانات الأجزاء المعتمدة غير مكتملة.');
+if(CATALOG.length!==14||CATALOG.some(x=>!x)||new Set(CATALOG.map(x=>x.id)).size!==14)throw new Error('بيانات الأجزاء المعتمدة غير مكتملة.');
 function openCatalog(){
  overlay.hidden=false; document.body.classList.add('catalog-open');
  closeButton.focus({preventScroll:true});
