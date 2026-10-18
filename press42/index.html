@@ -128,7 +128,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <span class="brand" aria-label="FASTER B LAUNDRY EQUIPMENT"><img src="./faster-b-official-logo.webp" alt="شعار فاستر بي الرسمي" width="48" height="48"><span>FASTER B<small>LAUNDRY EQUIPMENT</small></span></span>
 </header>
 <main class="stage" id="stage">
- <model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="9deg" auto-rotate-delay="1300" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
+ <model-viewer id="viewer" camera-controls disable-pan auto-rotate interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
  <div class="loading" id="loading" aria-live="polite"><div class="loading-inner">
   <img src="./current-poster.png" alt="مكبس كوي كهرباء فاستر بي" id="poster">
   <span id="loadLabel">جارِ تحضير المجسم ثلاثي الأبعاد…</span>
@@ -141,7 +141,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
   <span class="cta-arrow" aria-hidden="true">‹</span>
  </button>
  <nav class="toolbar" aria-label="أدوات التحكم بالمجسم">
-  <button type="button" id="rotate" title="تشغيل أو إيقاف الدوران" aria-label="التحكم بالدوران" aria-pressed="false">↻</button>
+  <button type="button" id="rotate" title="تشغيل أو إيقاف الدوران" aria-label="التحكم بالدوران" aria-pressed="true">Ⅱ</button>
   <button type="button" id="reset" title="إعادة ضبط المجسم" aria-label="إعادة ضبط المجسم"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg></button>
   <button type="button" id="fullscreen" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button>
  </nav>
@@ -177,7 +177,7 @@ const photo=document.getElementById('detailPhoto'),description=document.getEleme
 const modal=document.getElementById('photoModal'),modalPhoto=document.getElementById('modalPhoto'),modalTitle=document.getElementById('modalTitle');
 const rotateButton=document.getElementById('rotate');
 const START_AZIMUTH=-36,POLAR=74,FOV=38,PADDING=1.065;
-let modelReady=false,lastAspect=0,wasAutoRotating=false,selectedId='';
+let modelReady=false,lastAspect=0,wasAutoRotating=false,selectedId='',resumeRotateAfterCatalog=false;
 const PARTS=[
   {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.19800m 1.40800m 0.24300m",normal:"0 -0.65 0.76",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
   {id:"lowerSurface",name:"سطح الكوي السفلي – 42 بوصة",tile:9,position:"-0.19800m 0.94100m 0.25500m",normal:"0 0.97 0.24",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
@@ -230,12 +230,16 @@ function mountHotspots(){
 }
 
 function openCatalog(){
+ resumeRotateAfterCatalog=viewer.hasAttribute('auto-rotate');
+ setRotation(false);
  overlay.hidden=false; document.body.classList.add('catalog-open');
  closeButton.focus({preventScroll:true});
 }
 function closeCatalog(){
  if(!modal.hidden)closeModal();
  overlay.hidden=true;document.body.classList.remove('catalog-open');
+ if(resumeRotateAfterCatalog&&!document.hidden)setRotation(true);
+ resumeRotateAfterCatalog=false;
  openButton.focus({preventScroll:true});
 }
 openButton.addEventListener('click',openCatalog);
@@ -299,6 +303,8 @@ function updateRotateButton(){
 }
 function setRotation(enabled){viewer.toggleAttribute('auto-rotate',!!enabled);updateRotateButton()}
 rotateButton.addEventListener('click',()=>setRotation(!viewer.hasAttribute('auto-rotate')));
+// Respect manual control: first touch/drag stops auto-rotation until play or reset.
+viewer.addEventListener('pointerdown',()=>{if(viewer.hasAttribute('auto-rotate'))setRotation(false)});
 function fitWholeMachine(){
  if(!modelReady)return;
  const d=viewer.getDimensions?.(),center=viewer.getBoundingBoxCenter?.();
@@ -317,11 +323,11 @@ function fitWholeMachine(){
  viewer.cameraOrbit=`${START_AZIMUTH}deg ${POLAR}deg ${distance.toFixed(3)}m`;
  viewer.jumpCameraToGoal?.();lastAspect=w/Math.max(1,h);
 }
-document.getElementById('reset').onclick=()=>{setRotation(false);fitWholeMachine()};
+document.getElementById('reset').onclick=()=>{fitWholeMachine();setRotation(true)};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){console.warn('ملء الشاشة غير متاح',e)}};
 function fail(msg){loading.hidden=true;error.hidden=false;document.getElementById('errorText').textContent=msg||'تعذر فتح المجسم. حاول تحديث Chrome أو Edge.'}
 viewer.addEventListener('progress',ev=>{progress.style.width=Math.max(5,Math.round((ev.detail?.totalProgress||0)*100))+'%'});
-viewer.addEventListener('load',()=>{modelReady=true;requestAnimationFrame(()=>{fitWholeMachine();loading.hidden=true;progress.style.width='100%';setRotation(false)})});
+viewer.addEventListener('load',()=>{modelReady=true;requestAnimationFrame(()=>{fitWholeMachine();loading.hidden=true;progress.style.width='100%';setRotation(true)})});
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذّر قراءة المجسم ثلاثي الأبعاد. يُرجى تحديث Chrome وإعادة المحاولة.')});
 // model-viewer adjusts its canvas to screen resize automatically. Don't override a user-controlled camera.
 document.addEventListener('visibilitychange',()=>{if(document.hidden){wasAutoRotating=viewer.hasAttribute('auto-rotate');setRotation(false)}else if(wasAutoRotating){setRotation(true);wasAutoRotating=false}});
