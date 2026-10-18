@@ -54,6 +54,28 @@ model-viewer .press-hotspot:active{background:#182d36!important}
 #partDescription{font-size:14px;line-height:1.75}
 #partPhotoCaption{display:none!important}
 @media(max-width:600px){#partCard{width:min(410px,100%);max-height:68vh}#partPhoto{height:clamp(180px,30vh,285px);padding:8px}}
+
+/* Version 3: readable true-reference photos, no cramped thumbnail cards. */
+#partCard{width:min(485px,calc(100vw - 26px));max-height:min(80vh,720px);display:grid;grid-template-columns:100%;grid-template-areas:"header" "image" "description";overflow:hidden;}
+#partCardHeader{grid-area:header;background:#fff}
+#partPhoto{grid-area:image;width:100%;height:min(44vh,430px);max-height:430px;object-fit:contain;object-position:center;background:#f6f7f6;padding:0;border:0;cursor:zoom-in}
+#partDescription{grid-area:description;margin:0!important;padding:13px 17px 17px!important;max-height:20vh;overflow:auto;font-size:14px;line-height:1.8}
+#partPhotoCaption{display:none!important}
+#partCard img:focus-visible{outline:3px solid #ba9242;outline-offset:-4px}
+#photoLightbox{position:absolute;inset:0;z-index:31;display:grid;grid-template-rows:auto minmax(0,1fr);place-items:center;background:rgba(13,20,22,.96);padding:env(safe-area-inset-top,12px) 12px env(safe-area-inset-bottom,12px);color:#fff}
+#photoLightbox[hidden]{display:none!important}
+#photoZoomHead{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 4px;max-width:980px}
+#photoZoomTitle{font-size:14px;font-weight:700;line-height:1.4}
+#photoZoomClose{width:36px;height:36px;border:1px solid #888;color:#fff;background:#313a3c;border-radius:10px;font-size:25px;line-height:1}
+#photoLightboxImg{display:block;width:100%;height:100%;max-height:88dvh;max-width:min(96vw,1050px);object-fit:contain}
+@media(max-width:600px){
+ #partCard{max-height:72vh;width:min(420px,calc(100vw - 20px))}
+ #partCard.portrait-photo{grid-template-columns:46% 54%;grid-template-areas:"header header" "image description"}
+ #partCard.portrait-photo #partPhoto{height:min(43vh,415px);max-height:none;align-self:stretch;object-fit:contain}
+ #partCard.portrait-photo #partDescription{height:min(43vh,415px);max-height:none;overflow-y:auto;padding:11px!important;font-size:12.5px}
+ #partCard:not(.portrait-photo) #partPhoto{height:min(36vh,340px)}
+ #partCard:not(.portrait-photo) #partDescription{max-height:24vh}
+}
 </style>
 </head>
 <body>
@@ -85,9 +107,14 @@ model-viewer .press-hotspot:active{background:#182d36!important}
     <p id="partDescription"></p>
   </section>
 </div>
+
+<div id="photoLightbox" hidden role="dialog" aria-modal="true" aria-label="تكبير صورة الجزء">
+  <div id="photoZoomHead"><strong id="photoZoomTitle"></strong><button type="button" id="photoZoomClose" aria-label="إغلاق الصورة">×</button></div>
+  <img id="photoLightboxImg" alt="صورة مكبرة للجزء"/>
+</div>
 </main>
 <script type="module">
-import {createHotspotOverlay} from './hotspot-overlay.js?v=20261018r2';
+import {createHotspotOverlay} from './hotspot-overlay.js?v=20261018r3';
 const viewer=document.getElementById('viewer');
 const area=document.getElementById('area');
 const loading=document.getElementById('loading');
@@ -102,24 +129,48 @@ const partPhoto=document.getElementById('partPhoto');
 const partDescription=document.getElementById('partDescription');
 const partPhotoCaption=document.getElementById('partPhotoCaption');
 const partClose=document.getElementById('partClose');
+const partCard=document.getElementById('partCard');
+const zoom=document.getElementById('photoLightbox');
+const zoomClose=document.getElementById('photoZoomClose');
+const zoomImage=document.getElementById('photoLightboxImg');
+const zoomTitle=document.getElementById('photoZoomTitle');
+partPhoto.addEventListener('load',()=>{
+ partCard.classList.toggle('portrait-photo',partPhoto.naturalHeight>partPhoto.naturalWidth*1.2);
+});
+function closeZoom(){zoom.hidden=true;zoomImage.removeAttribute('src');}
+function openZoom(){
+ if(!partPhoto.complete||!partPhoto.naturalWidth)return;
+ zoomTitle.textContent=partTitle.textContent;
+ zoomImage.src=partPhoto.src;
+ zoomImage.alt=partPhoto.alt;
+ zoom.hidden=false;
+ zoomClose.focus({preventScroll:true});
+}
+partPhoto.tabIndex=0;partPhoto.setAttribute('role','button');
+partPhoto.setAttribute('aria-label','تكبير صورة الجزء');
+partPhoto.addEventListener('click',openZoom);
+partPhoto.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openZoom()}});
+zoomClose.addEventListener('click',closeZoom);
+zoom.addEventListener('click',e=>{if(e.target===zoom)closeZoom()});
+
 const rotateButton=document.getElementById('rotate');
 
 const START_AZIMUTH=-36, POLAR=74, FOV=38, PADDING=1.065;
 let modelReady=false, lastAspect=0, resumeRotate=false;
 const PARTS=[
-  {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.17000m 1.38000m 0.25800m",normal:"0 -0.82 0.57",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
-  {id:"lowerSurface",name:"سطح الكوي السفلي – 42 بوصة",tile:9,position:"-0.17000m 1.14700m 0.26500m",normal:"0 0.96 0.28",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
-  {id:"controlPanel",name:"لوحة التحكم الكهربائية (Control Panel)",tile:6,position:"0.41700m 0.44000m 0.39400m",normal:"0.30 0 0.96",description:"تتيح التحكم بتشغيل وإيقاف الأنظمة الرئيسية لمكبس الكوي، ومراقبة حالة التشغيل عبر المؤشرات الضوئية، بالإضافة إلى زر إيقاف الطوارئ لقطع التشغيل سريعًا عند الحاجة، مما يضمن سهولة التحكم وسلامة الاستخدام.",image:"./photos/control_panel.webp?v=20261018r2"},
-  {id:"footPedals",name:"مجموعة دواسات التحكم (Foot Control Pedals)",tile:8,position:"-0.17200m 0.13300m 0.69600m",normal:"0 0.2 0.98",description:"تتيح التحكم بوظائف مكبس الكوي باستخدام القدم، مما يسهّل التشغيل ويترك يدي المستخدم حرتين لترتيب الملابس أثناء الكوي.",image:"./photos/foot_pedals.webp?v=20261018r2"},
-  {id:"pressureGauge",name:"ساعة قياس ضغط البخار (Pressure Gauge)",tile:3,position:"0.19200m 1.48800m -0.22200m",normal:"0 0 -1",description:"تعمل على قياس وعرض ضغط البخار داخل مكبس الكوي بشكل مباشر، مما يساعد على مراقبة مستوى الضغط والتأكد من بقائه ضمن الحدود الآمنة لضمان كفاءة التشغيل وسلامة المعدة.",image:"./photos/pressure_gauge.webp?v=20261018r2"},
-  {id:"pressureControl",name:"مفتاح التحكم بضغط البخار (Honeywell Pressuretrol)",tile:5,position:"0.38500m 1.50000m -0.26900m",normal:"0 0 -1",description:"يعمل على مراقبة ضغط البخار داخل مكبس الكوي والتحكم بتشغيل وإيقاف التسخين تلقائيًا وفق حدود الضغط المحددة، مما يساعد على استقرار الضغط وضمان التشغيل الآمن والفعّال للمعدة.",image:"./photos/pressuretrol.webp?v=20261018r2"},
-  {id:"safetyValve",name:"صمام الأمان",tile:0,position:"0.37500m 0.94900m -0.32500m",normal:"0.99 0 -0.11",description:"حماية مكبس الكوي من ارتفاع ضغط البخار عن الحد المسموح، حيث يقوم بتنفيس الضغط الزائد تلقائيًا للحفاظ على سلامة المعدة والمستخدم.",image:"./photos/safety_valve.webp?v=20261018r2"},
-  {id:"steamTrap",name:"مصيدة البخار (Steam Trap)",tile:2,position:"-0.68100m 0.65400m 0.00300m",normal:"-1 0 0",description:"تعمل على تصريف المياه المتكثفة تلقائيًا من نظام البخار في مكبس الكوي، مع الحد من فقدان البخار، مما يساهم في الحفاظ على كفاءة التسخين واستقرار أداء المكبس.",image:"./photos/steam_trap.webp?v=20261018r2"},
-  {id:"suctionBlower",name:"مضخة شفط الهواء (Vacuum Blower)",tile:4,position:"-0.70400m 0.25800m -0.49300m",normal:"-0.9 0 -0.45",description:"تعمل على سحب الهواء والبخار والرطوبة من سطح الكوي، مما يساعد على تثبيت الملابس أثناء الكوي وتسريع تجفيفها للحصول على نتائج كوي احترافية.",image:"./photos/vacuum_blower.webp?v=20261018r2"},
-  {id:"waterLevel",name:"مؤشر مستوى المياه (Water Level Gauge)",tile:7,position:"0.69900m 0.48100m -0.12800m",normal:"1 0 0",description:"يُستخدم لمراقبة مستوى المياه داخل الخزان الداخلي لمكبس الكوي بشكل مباشر، مما يساعد على التأكد من توفر الكمية المناسبة من المياه لإنتاج البخار، وتجنب انخفاض مستواها أثناء التشغيل.",image:"./photos/water_level_gauge.webp?v=20261018r2"},
-  {id:"waterPump",name:"مضخة تغذية المياه (دينمو المياه)",tile:1,position:"0.60800m 0.13900m -0.47500m",normal:"0.98 0 -0.2",description:"تعمل على ضخ المياه إلى الخزان الداخلي لمكبس الكوي، لضمان توفير المياه اللازمة لإنتاج البخار بشكل مستمر ومنتظم، والمساهمة في الحفاظ على كفاءة التشغيل.",image:"./photos/water_feed_pump.webp?v=20261018r2"},
-  {id:"drainAndCable",name:"صمام التصريف وكيبل التوصيل الكهربائي",tile:10,position:"-0.53600m 0.56100m -0.45400m",normal:"-0.45 0 -0.89",description:"صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، مع كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"},
-  {id:"powerCable",name:"كيبل التوصيل الكهربائي (3 فاز)",tile:10,position:"0.10100m 0.08200m -0.53800m",normal:"0 0 -1",description:"كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"}
+  {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.19800m 1.40800m 0.24300m",normal:"0 -0.95 0.32",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
+  {id:"lowerSurface",name:"سطح الكوي السفلي – 42 بوصة",tile:9,position:"-0.19800m 1.15400m 0.25500m",normal:"0 0.97 0.24",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
+  {id:"controlPanel",name:"لوحة التحكم الكهربائية (Control Panel)",tile:6,position:"0.47500m 0.45000m 0.40200m",normal:"0 0 1",description:"تتيح التحكم بتشغيل وإيقاف الأنظمة الرئيسية لمكبس الكوي، ومراقبة حالة التشغيل عبر المؤشرات الضوئية، بالإضافة إلى زر إيقاف الطوارئ لقطع التشغيل سريعًا عند الحاجة، مما يضمن سهولة التحكم وسلامة الاستخدام.",image:"./photos/control_panel.webp?v=20261018r2"},
+  {id:"footPedals",name:"مجموعة دواسات التحكم (Foot Control Pedals)",tile:8,position:"-0.17200m 0.14000m 0.70800m",normal:"0 0.1 0.995",description:"تتيح التحكم بوظائف مكبس الكوي باستخدام القدم، مما يسهّل التشغيل ويترك يدي المستخدم حرتين لترتيب الملابس أثناء الكوي.",image:"./photos/foot_pedals.webp?v=20261018r2"},
+  {id:"pressureGauge",name:"ساعة قياس ضغط البخار (Pressure Gauge)",tile:3,position:"0.19200m 1.48800m -0.16500m",normal:"0 0 1",description:"تعمل على قياس وعرض ضغط البخار داخل مكبس الكوي بشكل مباشر، مما يساعد على مراقبة مستوى الضغط والتأكد من بقائه ضمن الحدود الآمنة لضمان كفاءة التشغيل وسلامة المعدة.",image:"./photos/pressure_gauge.webp?v=20261018r2"},
+  {id:"pressureControl",name:"مفتاح التحكم بضغط البخار (Honeywell Pressuretrol)",tile:5,position:"0.38500m 1.50000m -0.15800m",normal:"0 0 1",description:"يعمل على مراقبة ضغط البخار داخل مكبس الكوي والتحكم بتشغيل وإيقاف التسخين تلقائيًا وفق حدود الضغط المحددة، مما يساعد على استقرار الضغط وضمان التشغيل الآمن والفعّال للمعدة.",image:"./photos/pressuretrol.webp?v=20261018r2"},
+  {id:"safetyValve",name:"صمام الأمان",tile:0,position:"0.38700m 0.94800m -0.32600m",normal:"0.98 0 -0.2",description:"حماية مكبس الكوي من ارتفاع ضغط البخار عن الحد المسموح، حيث يقوم بتنفيس الضغط الزائد تلقائيًا للحفاظ على سلامة المعدة والمستخدم.",image:"./photos/safety_valve.webp?v=20261018r2"},
+  {id:"steamTrap",name:"مصيدة البخار (Steam Trap)",tile:2,position:"-0.69100m 0.65300m -0.01100m",normal:"-1 0 0",description:"تعمل على تصريف المياه المتكثفة تلقائيًا من نظام البخار في مكبس الكوي، مع الحد من فقدان البخار، مما يساهم في الحفاظ على كفاءة التسخين واستقرار أداء المكبس.",image:"./photos/steam_trap.webp?v=20261018r2"},
+  {id:"suctionBlower",name:"مضخة شفط الهواء (Vacuum Blower)",tile:4,position:"-0.56000m 0.24300m -0.51100m",normal:"0 0 -1",description:"تعمل على سحب الهواء والبخار والرطوبة من سطح الكوي، مما يساعد على تثبيت الملابس أثناء الكوي وتسريع تجفيفها للحصول على نتائج كوي احترافية.",image:"./photos/vacuum_blower.webp?v=20261018r2"},
+  {id:"waterLevel",name:"مؤشر مستوى المياه (Water Level Gauge)",tile:7,position:"0.70500m 0.46600m -0.12800m",normal:"1 0 0",description:"يُستخدم لمراقبة مستوى المياه داخل الخزان الداخلي لمكبس الكوي بشكل مباشر، مما يساعد على التأكد من توفر الكمية المناسبة من المياه لإنتاج البخار، وتجنب انخفاض مستواها أثناء التشغيل.",image:"./photos/water_level_gauge.webp?v=20261018r2"},
+  {id:"waterPump",name:"مضخة تغذية المياه (دينمو المياه)",tile:1,position:"0.62000m 0.14300m -0.46900m",normal:"1 0 -0.05",description:"تعمل على ضخ المياه إلى الخزان الداخلي لمكبس الكوي، لضمان توفير المياه اللازمة لإنتاج البخار بشكل مستمر ومنتظم، والمساهمة في الحفاظ على كفاءة التشغيل.",image:"./photos/water_feed_pump.webp?v=20261018r2"},
+  {id:"drainAndCable",name:"صمام التصريف وكيبل التوصيل الكهربائي",tile:10,position:"-0.53600m 0.61000m -0.45900m",normal:"0 0 -1",description:"صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، مع كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"},
+  {id:"powerCable",name:"كيبل التوصيل الكهربائي (3 فاز)",tile:10,position:"0.10100m 0.15700m -0.71100m",normal:"0 0 -1",description:"كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"}
 ];
 function fail(message){loading.hidden=true;error.style.display='block';document.getElementById('errorText').textContent=message||'تعذر فتح المجسم. تأكد من الإنترنت وجرب Chrome أو Edge.';}
 back.onclick=()=>{if(history.length>1) history.back();else if(window.opener)window.close();else window.close();};
@@ -161,6 +212,7 @@ function openPart(part){
  partDescription.textContent=part.description;
  partPhotoCaption.textContent='صورة أصلية معتمدة للجزء';
  partPhoto.alt='صورة حقيقية: '+part.name;
+ partCard.classList.remove('portrait-photo');
  partPhoto.src=part.image;
  partPhoto.onerror=()=>{partPhoto.removeAttribute('src');partPhoto.alt='تعذر عرض الصورة المعتمدة: '+part.name;};
  partBackdrop.hidden=false;
@@ -168,6 +220,7 @@ function openPart(part){
  partClose.focus({preventScroll:true});
 }
 function closePart(){
+ closeZoom();
  partBackdrop.hidden=true;
  if(resumeRotate&&!document.hidden) setRotation(true);
  resumeRotate=false;
@@ -193,8 +246,8 @@ function addHotspots(){
 }
 partClose.addEventListener('click',closePart);
 partBackdrop.addEventListener('click',ev=>{ if(ev.target===partBackdrop) closePart(); });
-document.addEventListener('keydown',ev=>{ if(ev.key==='Escape') closePart(); });
-document.getElementById('reset').onclick=()=>{closePart(); setRotation(false); fitWholeMachine();};
+document.addEventListener('keydown',ev=>{ if(ev.key==='Escape'){ if(!zoom.hidden)closeZoom();else closePart(); } });
+document.getElementById('reset').onclick=()=>{closePart(); fitWholeMachine(); setRotation(true);};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen();}catch(e){console.warn('Fullscreen unavailable',e);}};
 viewer.addEventListener('progress',event=>{const pct=Math.round((event.detail?.totalProgress||0)*100);progress.style.width=Math.max(8,pct)+'%';});
 viewer.addEventListener('load',()=>{modelReady=true; requestAnimationFrame(()=>{fitWholeMachine(); loading.hidden=true; progress.style.width='100%'; hint.hidden=false; setTimeout(()=>hint.hidden=true,6500);});});
