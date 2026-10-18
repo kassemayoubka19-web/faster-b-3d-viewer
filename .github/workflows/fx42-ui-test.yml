@@ -5,6 +5,7 @@ on:
       - press42/index.html
       - press42/hotspot-overlay.js
       - scripts/test_press42_ui.cjs
+      - scripts/test_press42_fallback.cjs
       - .github/workflows/fx42-ui-test.yml
   workflow_dispatch:
 permissions:
@@ -25,6 +26,8 @@ jobs:
           curl -f http://127.0.0.1:8795/press42/index.html -o /dev/null
       - name: Check prominent catalog UX and 12 real part photographs at three screen sizes
         run: node scripts/test_press42_ui.cjs
+      - name: Check local runtime and WebView decompression fallback
+        run: node scripts/test_press42_fallback.cjs
       - name: Upload mobile screenshot
         if: always()
         uses: actions/upload-artifact@v4
