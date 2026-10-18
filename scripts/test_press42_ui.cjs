@@ -17,13 +17,15 @@ const assert=require('node:assert/strict');
    const init=await page.evaluate(()=>{
     const box=id=>{const b=document.getElementById(id).getBoundingClientRect();return {width:b.width,height:b.height,left:b.left,top:b.top,right:b.right}};
     const m=document.getElementById('viewer');
-    return {loaded:document.getElementById('loading').hidden,failed:!document.getElementById('error').hidden,model:!!m.src,rotation:m.hasAttribute('auto-rotate'),manual:m.hasAttribute('camera-controls'),markers:document.querySelectorAll('.press-hotspot,.press3d-overlay-marker,[slot^="hotspot-"]').length,catalogHidden:document.getElementById('catalogOverlay').hidden,cta:box('catalogOpen'),stage:box('stage'),navItems:document.querySelectorAll('#partsList button').length};
+    return {loaded:document.getElementById('loading').hidden,failed:!document.getElementById('error').hidden,model:!!m.src,rotation:m.hasAttribute('auto-rotate'),manual:m.hasAttribute('camera-controls'),markers:document.querySelectorAll('.press-hotspot,.press3d-overlay-marker,[slot^="hotspot-"]').length,catalogHidden:document.getElementById('catalogOverlay').hidden,cta:box('catalogOpen'),stage:box('stage'),navItems:document.querySelectorAll('#partsList button').length,brandLoaded:document.querySelector('.brand img')?.naturalWidth>0,firstCatalogItem:document.querySelector('#partsList button')?.dataset.id};
    });
    console.log('VIEW_STATE',spec.name,JSON.stringify(init));
    assert(init.loaded&&!init.failed&&init.model,'Model failed to load');
    assert(init.rotation&&init.manual,'3D model must rotate automatically and allow touch rotation');
    assert.equal(init.markers,0,'Hotspot marks must remain removed');
-   assert.equal(init.navItems,12,'12 approved parts/heater expected');
+   assert.equal(init.navItems,14,'14 items expected including overview, valve, cable and heaters');
+   assert(init.brandLoaded,'Official FASTER B branding image must load in viewer');
+   assert.equal(init.firstCatalogItem,'machineOverview','Complete machine must be first option');
    assert(init.catalogHidden&&init.cta.width>=160&&init.cta.height>=55,'Parts CTA must be prominent at load');
    assert(init.stage.width>=spec.width-2,'Model should fill entire available width');
    await page.locator('#catalogOpen').click();
@@ -40,7 +42,7 @@ const assert=require('node:assert/strict');
    assert(opened.descHeight>=75,'Description must be readable');
    assert(opened.closeButton>=40,'Close control should be touch-friendly');
    await page.waitForFunction(()=>document.getElementById('detailPhoto').naturalWidth>0,null,{timeout:15000});
-   for(const id of ['footPedals','pressureGauge','controlPanel','waterLevel','steamTrap','safetyValve','waterPump','suctionBlower','pressureControl','drainAndCable','heater','upperSurface']){
+   for(const id of ['machineOverview','footPedals','pressureGauge','controlPanel','waterLevel','steamTrap','safetyValve','waterPump','suctionBlower','pressureControl','drainValve','powerCable','heater','upperSurface']){
     await page.locator('#partsList button[data-id="'+id+'"]').click();
     await page.waitForFunction((part)=>{
      const img=document.getElementById('detailPhoto');
