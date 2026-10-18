@@ -334,34 +334,76 @@ viewer.addEventListener('load',()=>{modelReady=true;requestAnimationFrame(()=>{f
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذّر قراءة المجسم ثلاثي الأبعاد. يُرجى تحديث Chrome وإعادة المحاولة.')});
 // model-viewer adjusts its canvas to screen resize automatically. Don't override a user-controlled camera.
 document.addEventListener('visibilitychange',()=>{if(document.hidden){wasAutoRotating=viewer.hasAttribute('auto-rotate');setRotation(false)}else if(wasAutoRotating){setRotation(true);wasAutoRotating=false}});
+// Fetch two compressed pieces concurrently and decompress their ordered bytes
+// as they arrive. This avoids holding a separate 26 MB download buffer in memory.
+async function loadFflate(){
+ if(window.fflate?.gunzipSync)return window.fflate;
+ await new Promise((resolve,reject)=>{
+  const script=document.createElement('script');
+  script.src=new URL('./vendor/fflate-0.8.2.min.js',document.baseURI).href;
+  script.onload=resolve;
+  script.onerror=()=>reject(new Error('تعذّر تحميل مكوّن فك الضغط على هذا المتصفح.'));
+  document.head.appendChild(script);
+ });
+ if(!window.fflate?.gunzipSync)throw new Error('مكوّن فك الضغط غير متاح. افتح الرابط في Chrome.');
+ return window.fflate;
+}
 async function prepareModel(){
- if(!('DecompressionStream' in window))throw Error('المتصفح لا يدعم فك ضغط المجسم. حدّث Chrome أو Edge.');
  const urls=['press42-mobile-1.gzpart','press42-mobile-2.gzpart'];
  setLoadingStage('download','جارٍ تنزيل بيانات العرض…');
- const compressedParts=await Promise.all(urls.map(async file=>{
-  const response=await fetch(new URL(file,document.baseURI),{cache:'force-cache'});
-  if(!response.ok)throw Error('فشل تحميل '+file+' (HTTP '+response.status+')');
-  if(!response.body?.getReader){
-   const blob=await response.blob();downloadedBytes+=blob.size;updateDownloadProgress();return blob;
-  }
-  const reader=response.body.getReader(),chunks=[];
-  while(true){
-   const {done,value}=await reader.read();
-   if(done)break;
-   chunks.push(value);
-   downloadedBytes+=value.byteLength;
-   updateDownloadProgress();
-  }
-  return new Blob(chunks);
+ const responses=await Promise.all(urls.map(async name=>{
+  const address=new URL(name,document.baseURI);
+  let response;
+  try{response=await fetch(address,{cache:'force-cache'});}
+  catch(e){response=await fetch(address,{cache:'reload'});}
+  if(!response.ok)throw Error('تعذّر تنزيل بيانات المكبس ('+response.status+').');
+  return response;
  }));
+ let result;
+ if(typeof DecompressionStream==='function'&&typeof ReadableStream==='function'&&responses.every(r=>r.body?.getReader)){
+  // A byte stream maintains the gzip order while fetches stay concurrent.
+  const readers=responses.map(r=>r.body.getReader());
+  let active=0;
+  const orderedStream=new ReadableStream({
+   async pull(controller){
+    try{
+     while(active<readers.length){
+      const {done,value}=await readers[active].read();
+      if(done){active++;continue;}
+      downloadedBytes+=value.byteLength;
+      updateDownloadProgress();
+      controller.enqueue(value);
+      return;
+     }
+     controller.close();
+    }catch(error){controller.error(error);}
+   },
+   cancel(reason){for(const reader of readers)reader.cancel(reason).catch(()=>{});}
+  });
+  // Decompression overlaps the network download instead of waiting for 26.6 MB.
+  result=await new Response(orderedStream.pipeThrough(new DecompressionStream('gzip'))).blob();
+ }else{
+  // Embedded browsers with no DecompressionStream get a local, same-origin fallback.
+  const [packed,fflate]=await Promise.all([
+   Promise.all(responses.map(async response=>{
+    const bytes=new Uint8Array(await response.arrayBuffer());
+    downloadedBytes+=bytes.byteLength;updateDownloadProgress();
+    return bytes;
+   })),
+   loadFflate()
+  ]);
+  setLoadingStage('prepare','جارٍ تجهيز المجسم ثلاثي الأبعاد…');
+  const compressed=new Uint8Array(packed.reduce((sum,chunk)=>sum+chunk.length,0));
+  let offset=0;
+  for(const chunk of packed){compressed.set(chunk,offset);offset+=chunk.length;}
+  result=new Blob([fflate.gunzipSync(compressed)],{type:'model/gltf-binary'});
+ }
  updateDownloadProgress();
  setLoadingStage('prepare','جارٍ تجهيز المجسم ثلاثي الأبعاد…');
- const stream=new Blob(compressedParts,{type:'application/gzip'}).stream();
- const result=await new Response(stream.pipeThrough(new DecompressionStream('gzip'))).blob();
- if(result.size!==59795428)throw Error('بيانات المجسم غير مكتملة أو تالفة.');
+ if(result.size!==59795428)throw Error('بيانات المجسم غير مكتملة أو تالفة. يُرجى إعادة تحميل الصفحة.');
  const signature=new Uint8Array(await result.slice(0,4).arrayBuffer());
  if(signature[0]!==103||signature[1]!==108||signature[2]!==84||signature[3]!==70)throw Error('صيغة GLB غير صالحة.');
- return URL.createObjectURL(new Blob([result],{type:'model/gltf-binary'}));
+ return URL.createObjectURL(result);
 }
 async function boot(){
  try{
@@ -369,7 +411,8 @@ async function boot(){
   const [url]=await Promise.all([
    prepareModel(),
    (async()=>{
-    await import('https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js').catch(()=>import('https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js'));
+    // Host the pinned viewer locally: embedded browsers may block public CDNs.
+    await import('./vendor/model-viewer-4.3.1.min.js');
     await customElements.whenDefined('model-viewer');
    })()
   ]);
