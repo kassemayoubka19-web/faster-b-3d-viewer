@@ -1,0 +1,30 @@
+name: Prepare separated drain valve and power cable photographs
+on:
+  push:
+    paths:
+      - scripts/fx42_photo_extract.py
+      - .github/workflows/fx42-photo-extract.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - run: python3 -m pip install --user pillow
+      - run: python3 scripts/fx42_photo_extract.py
+      - name: Publish true cropped images
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add press42/photos/drain_valve.webp press42/photos/power_cable.webp
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish approved separated FX42 drain valve and electrical cable photos"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
