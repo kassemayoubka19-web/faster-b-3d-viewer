@@ -1,0 +1,27 @@
+name: Publish user-approved FASTER B press photograph
+on:
+  push:
+    paths:
+      - scripts/install_approved_press_photo.py
+      - .github/workflows/approved-press-photo.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install image dependencies
+        run: pip install --quiet requests Pillow
+      - name: Retrieve and validate user-approved press photograph
+        run: python scripts/install_approved_press_photo.py
+      - name: Publish approved photograph
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add press42/photos/press42-overview-approved.webp
+          git commit -m "Use customer's exact press photo in product overview" || exit 0
+          git push origin HEAD:main
