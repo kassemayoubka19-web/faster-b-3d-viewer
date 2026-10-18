@@ -60,7 +60,7 @@ model-viewer .press-hotspot:active{background:#182d36!important}
 </header>
 <main id="area">
 <aside class="heaterPanel" aria-label="سخانات مكبس الكوي 18 كيلو واط عدد 3"><img src="./heater.webp?v=1810" alt="سخان كهربائي أصلي لمكبس الكوي"/><div>سخانات مكبس الكوي<br>18 كيلو واط عدد 3</div></aside>
-<model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="5deg" auto-rotate-delay="1200" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس كوي كهرباء فاستر بي 42 بوصة">
+<model-viewer id="viewer" camera-controls disable-pan disable-zoom auto-rotate interaction-prompt="none" touch-action="pan-y" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="10deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس كوي كهرباء فاستر بي 42 بوصة">
 </model-viewer>
 <section class="loading" id="loading" aria-live="polite"><div class="loadingBox">
 <img src="./current-poster.png" alt="صورة مكبس الكوي" id="poster">
@@ -99,7 +99,7 @@ const partDescription=document.getElementById('partDescription');
 const partPhotoCaption=document.getElementById('partPhotoCaption');
 const partClose=document.getElementById('partClose');
 const rotateButton=document.getElementById('rotate');
-const START_AZIMUTH=-36, POLAR=74, FOV=38, PADDING=1.12;
+const START_AZIMUTH=-36, POLAR=74, FOV=38, PADDING=1.065;
 let modelReady=false, lastAspect=0, resumeRotate=false;
 const PARTS=[
   {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.31879m 1.54527m 0.17203m",normal:"0.1108 0.7847 0.6099",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",photo:'صورة الجزء المعتمدة من العميل'},
@@ -113,7 +113,7 @@ const PARTS=[
   {id:"suctionBlower",name:"مضخة شفط الهواء (Vacuum Blower)",tile:4,position:"-0.54705m 0.24893m -0.16032m",normal:"-0.9939 -0.0073 0.11",description:"تعمل على سحب الهواء والبخار والرطوبة من سطح الكوي، مما يساعد على تثبيت الملابس أثناء الكوي وتسريع تجفيفها للحصول على نتائج كوي احترافية.",photo:'صورة الجزء المعتمدة من العميل'},
   {id:"waterLevel",name:"مؤشر مستوى المياه (Water Level Gauge)",tile:7,position:"0.65937m 0.50069m -0.11322m",normal:"0.9914 0 0.1305",description:"يُستخدم لمراقبة مستوى المياه داخل الخزان الداخلي لمكبس الكوي بشكل مباشر، مما يساعد على التأكد من توفر الكمية المناسبة من المياه لإنتاج البخار، وتجنب انخفاض مستواها أثناء التشغيل.",photo:'صورة الجزء المعتمدة من العميل'},
   {id:"waterPump",name:"مضخة تغذية المياه (دينمو المياه)",tile:1,position:"0.60717m 0.14433m -0.45383m",normal:"0.9951 0.098 -0.0129",description:"تعمل على ضخ المياه إلى الخزان الداخلي لمكبس الكوي، لضمان توفير المياه اللازمة لإنتاج البخار بشكل مستمر ومنتظم، والمساهمة في الحفاظ على كفاءة التشغيل.",photo:'صورة الجزء المعتمدة من العميل'},
-  {id:"drainAndCable",name:"صمام التصريف وكيبل التوصيل الكهربائي",tile:10,position:"0.60717m 0.14433m -0.45383m",normal:"0.9951 0.098 -0.0129",description:"صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، مع كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",photo:'صورة الجزء المعتمدة من العميل'}
+  {id:"drainAndCable",name:"صمام التصريف وكيبل التوصيل الكهربائي",tile:10,position:"-0.53600m 0.61300m -0.43900m",normal:"0 0 -1",description:"صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، مع كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",photo:'صورة الجزء المعتمدة من العميل'}
 ];
 function fail(message){loading.hidden=true;error.style.display='block';document.getElementById('errorText').textContent=message||'تعذر فتح المجسم. تأكد من الإنترنت وجرب Chrome أو Edge.';}
 back.onclick=()=>{if(history.length>1) history.back();else if(window.opener)window.close();else window.close();};
