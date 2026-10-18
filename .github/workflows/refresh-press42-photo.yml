@@ -12,6 +12,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Install image decoder
+        run: python3 -m pip install --quiet --user Pillow
       - name: Fetch approved exact photo at original resolution
         env:
           SOURCE_THUMBNAIL_URL: "https://media.canva.com/v2/image-resize/format:JPG/height:200/quality:75/uri:ifs%3A%2F%2FM%2Fbb344f00-5f5c-4c0e-9819-61cdb4608711/watermark:F/width:161?csig=AAAAAAAAAAAAAAAAAAAAAO40EXYAmePIGZJukQbn41dK7FrQ1d8Nt2SwePSazrgn&exp=1792359263&osig=AAAAAAAAAAAAAAAAAAAAAO4UiySg9l30b8qfLFCEZZbsznNP8D_JW9olcPTggpIR&signer=media-rpc&token=AAIAAU0AJGJiMzQ0ZjAwLTVmNWMtNGMwZS05ODE5LTYxY2RiNDYwODcxMQAAAAABoVDv6xgcx3wbHUU8MgGmPle_EORZVGMChvkvNStinUM3W1v67g&x-canva-quality=thumbnail"
