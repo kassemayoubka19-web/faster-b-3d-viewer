@@ -19,7 +19,7 @@ export function createHotspotOverlay(viewer, area, parts, onOpen) {
     btn.textContent='+';
     btn.title=part.name;
     btn.setAttribute('aria-label','عرض معلومات '+part.name);
-    btn.style.cssText='position:absolute;left:0;top:0;display:none;pointer-events:auto;transform:translate3d(-100px,-100px,0) translate(-50%,-50%);width:31px;height:31px;border-radius:50%;border:2px solid white;background:#ab832f;color:white;box-shadow:0 2px 9px #0009,0 0 0 2px #ab832f;font:700 23px/1 Arial,sans-serif;align-items:center;justify-content:center;padding:0;touch-action:manipulation;cursor:pointer;will-change:transform;';
+    btn.style.cssText='position:absolute;left:0;top:0;display:none;pointer-events:auto;transform:translate3d(-100px,-100px,0) translate(-50%,-50%);width:21px;height:21px;border-radius:50%;border:2px solid white;background:#ab832f;color:white;box-shadow:0 2px 9px #0009,0 0 0 1px #ab832f;font:700 15px/1 Arial,sans-serif;align-items:center;justify-content:center;padding:0;touch-action:manipulation;cursor:pointer;will-change:transform;';
     btn.addEventListener('pointerdown',e=>e.stopPropagation());
     btn.addEventListener('click',e=>{e.stopPropagation();onOpen(part)});
     layer.appendChild(btn);
