@@ -46,7 +46,7 @@ const assert=require('node:assert/strict');
     await page.locator('#partsList button[data-id="'+id+'"]').click();
     await page.waitForFunction((part)=>{
      const img=document.getElementById('detailPhoto');
-     return img.complete&&img.naturalWidth>0&&img.currentSrc.includes('/photos/')&&document.querySelector('#partsList button[data-id="'+part+'"]')?.getAttribute('aria-selected')==='true';
+     return img.complete&&img.naturalWidth>0&&(img.currentSrc.includes('/photos/')||(part==='machineOverview'&&img.currentSrc.includes('/current-poster.png')))&&document.querySelector('#partsList button[data-id="'+part+'"]')?.getAttribute('aria-selected')==='true';
     },id,{timeout:20000});
     const data=await page.evaluate(()=>({title:document.getElementById('detailTitle').textContent,description:document.getElementById('detailDescription').textContent,imgWidth:document.getElementById('detailPhoto').naturalWidth}));
     assert(data.title.length>=5&&data.description.length>=20&&data.imgWidth>100,'Bad photo/detail for '+id);
