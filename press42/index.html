@@ -182,7 +182,7 @@ const PARTS=[
   {id:"powerCable",name:"كيبل التوصيل الكهربائي (3 فاز)",tile:10,position:"0.10100m 0.15700m -0.71100m",normal:"0 0 -1",description:"كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"}
 ];
 const CATALOG=[
- {id:'machineOverview',name:'مكبس الكوي الكهربائي FASTER B – قياس 42 بوصة',description:'أداء احترافي وكفاءة عالية في الكوي، مزود بأسطح علوية وسفلية مثقبة مع فلاتر داخلية، ونظام بخار وشفط متكامل لضمان إزالة التجاعيد والحصول على نتائج مثالية. تصميم متين وتشغيل سهل، الخيار الأمثل للمغاسل التجارية والاحترافية.',image:'./current-poster.png'},
+ {id:'machineOverview',name:'مكبس كوي كهرباء وطني فاستر بي – 42 بوصة',description:"مكبس كوي كهرباء وطني فاستر بي FASTER B قياس 42 بوصة، بقدرة تسخين 18 كيلوواط، متوفر بخيار شفاط جانبي أو بدون شفاط حسب احتياجات التشغيل. يتميز بأسطح كوي علوية وسفلية مثقبة مع فلاتر داخلية تساعد على توزيع البخار بانتظام وتحسين جودة الكوي. تصميم صناعي متين ومكونات تحكم عملية لسهولة الاستخدام، مناسب للمغاسل التجارية الباحثة عن أداء ثابت، إزالة فعالة للتجاعيد، وتشطيب احترافي للملابس.",image:'./photos/press42-overview-approved.webp'},
  PARTS.find(p=>p.id==='upperSurface'),
  ...['footPedals','waterLevel','controlPanel','pressureControl','pressureGauge','suctionBlower','steamTrap','waterPump','safetyValve'].map(id=>PARTS.find(p=>p.id===id)),
  {id:'drainValve',name:'صمام تصريف مياه الخزان',description:'صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، للمساعدة في تنظيف الخزان والحفاظ على كفاءة التشغيل. تظهر الصورة الصمام بذراعه الأحمر في مؤخرة المعدة.',image:'./photos/drain_valve.webp'},
@@ -202,24 +202,43 @@ function closeCatalog(){
 openButton.addEventListener('click',openCatalog);
 closeButton.addEventListener('click',closeCatalog);
 overlay.addEventListener('click',e=>{if(e.target===overlay)closeCatalog()});
+const photoCache=new Map();
+function urlFor(part){return new URL(part.image,document.baseURI).href;}
+function preloadPhoto(part){
+ const url=urlFor(part);
+ if(photoCache.has(url))return photoCache.get(url);
+ const image=new Image();image.decoding='async';image.src=url;
+ const ready=image.decode?image.decode().catch(()=>null):new Promise(resolve=>{image.onload=resolve;image.onerror=resolve});
+ photoCache.set(url,ready);return ready;
+}
+function warmAllPhotos(){
+ if('requestIdleCallback' in window){
+   requestIdleCallback(()=>CATALOG.forEach(p=>preloadPhoto(p)),{timeout:1800});
+ }else{CATALOG.forEach(p=>preloadPhoto(p))}
+}
+let photoRequestId=0;
 function choosePart(part){
  selectedId=part.id;title.textContent=part.name;
  description.textContent=part.description;photo.alt='الصورة الأصلية: '+part.name;
- photo.onerror=()=>{description.textContent=part.description+' (تعذر تحميل صورة هذا الجزء، حاول تحديث الصفحة).'};
- photo.src=new URL(part.image,document.baseURI).href;
+ const requestId=++photoRequestId;
+ const next=urlFor(part);
+ photo.onerror=()=>{if(requestId===photoRequestId)description.textContent=part.description+' (تعذر تحميل صورة هذا الجزء، حاول تحديث الصفحة).'};
+ // Update immediately; predecoded images from the cache render without an extra decode flash.
+ photo.src=next;
+ preloadPhoto(part);
  for(const b of partsList.children)b.setAttribute('aria-selected',String(b.dataset.id===part.id));
 }
 function renderCatalog(){
  const fragment=document.createDocumentFragment();
  for(const part of CATALOG){
   const btn=document.createElement('button');btn.type='button';btn.dataset.id=part.id;btn.setAttribute('aria-selected','false');btn.setAttribute('aria-label','عرض '+part.name);
-  const img=document.createElement('img');img.src=new URL(part.image,document.baseURI).href;img.loading='lazy';img.decoding='async';img.alt='';
+  const img=document.createElement('img');img.src=urlFor(part);img.loading='lazy';img.decoding='async';img.alt='';
   const label=document.createElement('span');label.textContent=part.name;
   btn.append(img,label);
   btn.addEventListener('click',()=>choosePart(part));
   fragment.append(btn);
  }
- partsList.append(fragment);choosePart(CATALOG[0]);
+ partsList.append(fragment);choosePart(CATALOG[0]);warmAllPhotos();
 }
 function openModal(){
  if(!photo.complete||!photo.naturalWidth)return;
