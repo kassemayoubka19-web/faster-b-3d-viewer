@@ -1,0 +1,38 @@
+name: Analyze FX42 compressed model components
+on:
+  push:
+    paths:
+      - .github/workflows/inspect-fx42-sizes.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit-model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - name: Analyze embedded textures, meshes, and size
+        run: |
+          python3 - <<'PY'
+          import gzip,struct,json,pathlib,collections
+          root=pathlib.Path('press42')
+          gz=(root/'press42-mobile-1.gzpart').read_bytes()+(root/'press42-mobile-2.gzpart').read_bytes()
+          raw=gzip.decompress(gz)
+          n=struct.unpack_from('<I',raw,12)[0]
+          j=json.loads(raw[20:20+n])
+          print('COMPRESSED_BYTES',len(gz))
+          print('GLB_BYTES',len(raw))
+          print('NUM_IMAGES',len(j.get('images',[])))
+          print('IMAGE_BYTES',[(im.get('mimeType'),j['bufferViews'][im['bufferView']]['byteLength']) for im in j.get('images',[])])
+          c=collections.Counter()
+          for m in j['meshes']:
+              for p in m['primitives']:
+                  for k,aidx in p['attributes'].items():
+                      a=j['accessors'][aidx];v=j['bufferViews'][a['bufferView']]
+                      c[k]+=v['byteLength']
+                  if 'indices' in p:
+                      c['INDICES']+=j['bufferViews'][j['accessors'][p['indices']]['bufferView']]['byteLength']
+          print('ATTR_BYTES',dict(c))
+          print('MESHES',len(j['meshes']),'MATERIALS',len(j.get('materials',[])))
+          PY
