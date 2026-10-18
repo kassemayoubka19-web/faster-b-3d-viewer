@@ -1,0 +1,34 @@
+name: Test FX42 3D viewer on mobile Chrome
+on:
+  push:
+    paths:
+      - press42/index.html
+      - press42/hotspot-overlay.js
+      - scripts/test_press42_ui.cjs
+      - .github/workflows/fx42-ui-test.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-3d-viewer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install browser controller
+        run: npm install --no-save --no-audit --no-fund playwright-core
+      - name: Serve repository with its exact GitHub Pages paths
+        shell: bash
+        run: |
+          python3 -m http.server 8795 --bind 127.0.0.1 > /tmp/fx42-server.log 2>&1 &
+          sleep 2
+          curl -f http://127.0.0.1:8795/press42/index.html -o /dev/null
+      - name: Verify real 3D load, 13 anchors, reference photos and rotation
+        run: node scripts/test_press42_ui.cjs
+      - name: Upload mobile screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fx42-mobile-ui-check
+          path: press42-mobile-ui.png
+          if-no-files-found: ignore
