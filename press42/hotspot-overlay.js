@@ -64,18 +64,15 @@ export function createHotspotOverlay(viewer, area, parts, onOpen) {
     const fov=viewer.getFieldOfView?.()||38;
     for(let i=0;i<markers.length;i++){
       const m=markers[i];
-      const native=viewer.queryHotspot?.('hotspot-'+m.part.id);
-      const nativePos=native?.canvasPosition;
-      const coords=Number.isFinite(nativePos?.x)&&Number.isFinite(nativePos?.y)
-        ?{x:nativePos.x,y:nativePos.y}
-        :analyticProject(m,orbit,target,fov,w,h);
+      // Always project directly from the model's 3D anchor and the live orbit.
+      // Native queryHotspot canvas coordinates can be stale during rapid rotation.
+      const coords=analyticProject(m,orbit,target,fov,w,h);
       const [x,y,z]=m.pos,[nx,ny,nz]=m.normal;
       const side=nx*(camera[0]-x)+ny*(camera[1]-y)+nz*(camera[2]-z);
       const frontFacing=side>=-0.007;
       const onScreen=!!coords&&coords.x>8&&coords.y>8&&coords.x<w-8&&coords.y<h-8;
       // Reject far-side anchors immediately; do not rely on arbitrary 2D pins.
-      const nativeFacing=typeof native?.facingCamera==='boolean' ? native.facingCamera : true;
-      const visible=frontFacing&&onScreen;
+        const visible=frontFacing&&onScreen;
       if(m.visible!==visible){m.btn.style.display=visible?'flex':'none';m.visible=visible}
       if(visible && (Math.abs(coords.x-m.lastX)>.18||Math.abs(coords.y-m.lastY)>.18||!Number.isFinite(m.lastX))){
         m.btn.style.transform='translate3d('+coords.x.toFixed(1)+'px,'+coords.y.toFixed(1)+'px,0) translate(-50%,-50%)';
