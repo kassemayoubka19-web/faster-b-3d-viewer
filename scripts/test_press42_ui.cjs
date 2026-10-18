@@ -34,6 +34,7 @@ const {chromium}=require('playwright-core');
         await page.evaluate(({az,polar})=>{
           const v=document.getElementById('viewer');
           const r=v.getCameraOrbit().radius;
+          v.removeAttribute('auto-rotate'); 
           v.cameraOrbit=az+'deg '+polar+'deg '+r+'m';
           v.jumpCameraToGoal?.();
         },{az,polar});
