@@ -2,162 +2,163 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%23142124%27/%3E%3Ctext x=%2732%27 y=%2744%27 font-size=%2731%27 font-weight=%27700%27 text-anchor=%27middle%27 fill=%27%23b5954d%27%3EFB%3C/text%3E%3C/svg%3E">
-<meta name="color-scheme" content="only light">
 <title>مكبس كوي كهرباء فاستر بي 42 بوصة | FASTER B 3D</title>
 <style>
-:root{font-family:Arial,"Noto Sans Arabic",Tahoma,sans-serif;color:#202426;background:#fff;color-scheme:only light;--dark:#142124;--gold:#b5954d;--header:64px}
+:root{font-family:Arial,"Noto Sans Arabic",Tahoma,sans-serif;color:#1c282a;background:#fff;color-scheme:only light;--gold:#b5954d;--line:#e8e9e7;--h:61px}
 *,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#fff}
-body{height:100dvh;position:relative}
+html,body{height:100%;margin:0;overflow:hidden;background:#fff}
+body{height:100dvh;display:flex;flex-direction:column}
 button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:focus-visible{outline:2px solid #bc9541;outline-offset:2px}
 [hidden]{display:none!important}
-header{position:absolute;z-index:15;inset:0 0 auto;height:var(--header);display:flex;align-items:center;gap:16px;padding:0 20px;background:rgba(255,255,255,.96);border-bottom:1px solid #eceae3}
-header h1{margin:0;flex:1;text-align:center;font-size:17px;font-weight:700;min-width:0;line-height:1.4}
-header .brand{color:#383a31;font-weight:900;letter-spacing:.04em;width:92px;text-align:left;flex:0 0 auto;font-size:15px}
-.back{border:1px solid #e9e8e2;background:#fff;border-radius:10px;padding:8px 12px;min-width:92px;height:38px;display:flex;align-items:center;justify-content:center;gap:7px;color:#292c27;font-weight:700;font-size:12px}
-.back:hover{background:#f7f6f2}.back svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-#area{position:absolute;inset:var(--header) 0 0;background:#fff}
-model-viewer{height:100%;width:100%;display:block;background:#fff;--poster-color:#fff;--progress-bar-color:#aa925a;--progress-bar-height:3px}
-.loading{position:absolute;inset:0;display:grid;place-items:center;z-index:7;background:#fff;pointer-events:none}
-.loadingBox{width:min(410px,82vw);display:grid;justify-items:center;gap:12px;text-align:center;color:#3f4843;padding:20px}
-.loading img{max-width:100%;max-height:53vh;object-fit:contain}.loading label{font-size:13px}
-.track{width:min(250px,72vw);height:4px;background:#e9e8e3;border-radius:4px;overflow:hidden}#progress{height:100%;width:3%;background:#aa9054;transition:width .15s}
-#error{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:85vw;text-align:center;background:white;border:1px solid #e2dfd8;border-radius:14px;z-index:25;padding:20px;box-shadow:0 12px 35px #0001}
-#error b{display:block;margin-bottom:9px}#error span{display:block;line-height:1.65;font-size:12px}
-.toolbar{position:absolute;z-index:10;bottom:max(20px, env(safe-area-inset-bottom, 0px) + 12px);left:50%;transform:translateX(-50%);direction:ltr;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.96);border:1px solid #e6e6e0;border-radius:15px;padding:6px;box-shadow:0 8px 30px rgba(34,40,35,.10)}
-.toolbar button{background:transparent;border:0;color:#35403c;display:grid;place-items:center;border-radius:10px;width:42px;height:41px}.toolbar button:hover,.toolbar button:focus-visible{background:#f1f0ed;outline:none}.toolbar button svg{fill:none;stroke:currentColor;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round;width:22px;height:22px}
-.toolbar .divider{width:1px;height:22px;background:#e3e3de}.toolbar button[aria-pressed="true"]{color:#96702d;background:#fff7e5}
-#partsHint{position:absolute;z-index:9;left:50%;bottom:84px;transform:translateX(-50%);color:#363b37;background:#fffef3;border:1px solid #e7d6aa;border-radius:30px;padding:8px 12px;font:600 12px Arial,sans-serif;white-space:nowrap;pointer-events:none;box-shadow:0 2px 15px #0001;max-width:96%;text-align:center}
-#partsHint[hidden]{display:none!important}
-#partBackdrop{position:absolute;inset:0;z-index:20;display:flex;justify-content:center;align-items:flex-end;background:rgba(0,0,0,.12);padding:12px 12px max(82px,env(safe-area-inset-bottom,0px) + 76px)}
-#partBackdrop[hidden]{display:none!important}
-#partCard{width:min(354px,100%);max-height:min(69vh,510px);overflow:auto;background:#fff;border:1px solid #ddd7c9;border-radius:17px;box-shadow:0 12px 34px #0004;color:#152327;direction:rtl;font:400 14px/1.65 Arial,"Noto Sans Arabic",sans-serif}
-#partCardHeader{display:flex;align-items:center;gap:9px;padding:12px 14px;border-bottom:1px solid #efede8}#partTitle{flex:1;min-width:0;margin:0;font-size:15px;font-weight:800;line-height:1.4}
-#partClose{border:1px solid #ddd;background:#fff;width:32px;height:32px;min-width:32px;border-radius:9px;color:#2d3334;font-size:23px;line-height:1;display:grid;place-items:center;padding:0}
-#partPhoto{display:block;width:100%;height:clamp(170px,31vh,330px);object-fit:contain;object-position:center;background:#f9faf9;padding:11px 13px;border-bottom:1px solid #e8e7e2}
-#partPhotoCaption{display:none}#partDescription{margin:4px 14px 14px;font-size:13px;line-height:1.7;color:#3e4543}
-model-viewer .press-hotspot{--min-hotspot-opacity:0;appearance:none;-webkit-appearance:none;border:2px solid #fff!important;background:#a88030!important;color:#fff!important;--min-hotspot-opacity:1;border-radius:50%;width:21px;height:21px;padding:0;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;font-size:15px;line-height:1;font-weight:700;box-shadow:0 2px 10px #0006,0 0 0 2px #a88030;cursor:pointer;touch-action:manipulation;pointer-events:auto;user-select:none}
-model-viewer .press-hotspot{opacity:0!important;visibility:hidden!important;pointer-events:none!important}model-viewer:not(:defined) .press-hotspot{display:none}
-model-viewer .press-hotspot:focus-visible{outline:3px solid #15242a;outline-offset:4px}
-model-viewer .press-hotspot:active{background:#182d36!important}
-@media(max-width:680px){:root{--header:56px}header{padding:0 9px;gap:4px}header h1{font-size:12px}header .brand{width:40px;font-size:11px}header .back{min-width:58px;height:34px;padding:6px;gap:2px;font-size:11px}.back svg{width:13px;height:13px}.toolbar{bottom:max(11px, env(safe-area-inset-bottom,0px) + 7px)}.toolbar button{width:38px;height:38px}.toolbar button svg{width:20px;height:20px}model-viewer .press-hotspot{width:20px;height:20px;font-size:14px;border-width:2px}#partsHint{bottom:72px;font-size:11px}#partBackdrop{padding-bottom:max(68px,env(safe-area-inset-bottom,0px) + 62px)}#partCard{max-height:64vh}}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-
-.heaterPanel{position:absolute;top:13px;left:13px;z-index:12;width:138px;background:rgba(255,255,255,.94);border:1px solid #e8e5db;border-radius:13px;padding:8px 7px 10px;text-align:center;box-shadow:0 4px 16px #00000017;pointer-events:none;direction:rtl}
-.heaterPanel img{display:block;height:95px;max-width:100%;margin:auto;object-fit:contain}
-.heaterPanel div{font-size:11px;font-weight:700;line-height:1.65;color:#20282c}
-@media (min-width:681px){.heaterPanel{top:20px;left:20px;width:180px;padding:10px}.heaterPanel img{height:135px}.heaterPanel div{font-size:13px}}
-@media (max-width:360px){.heaterPanel{width:114px;left:9px;top:9px}.heaterPanel img{height:73px}.heaterPanel div{font-size:10px}}
-#partCard{width:min(405px,calc(100vw - 24px));max-height:min(74vh,655px)}
-#partDescription{font-size:14px;line-height:1.75}
-#partPhotoCaption{display:none!important}
-@media(max-width:600px){#partCard{width:min(410px,100%);max-height:68vh}#partPhoto{height:clamp(180px,30vh,285px);padding:8px}}
-
-/* Version 3: readable true-reference photos, no cramped thumbnail cards. */
-#partCard{width:min(485px,calc(100vw - 26px));max-height:min(80vh,720px);display:grid;grid-template-columns:100%;grid-template-areas:"header" "image" "description";overflow:hidden;}
-#partCardHeader{grid-area:header;background:#fff}
-#partPhoto{grid-area:image;width:100%;height:min(44vh,430px);max-height:430px;object-fit:contain;object-position:center;background:#f6f7f6;padding:0;border:0;cursor:zoom-in}
-#partDescription{grid-area:description;margin:0!important;padding:13px 17px 17px!important;max-height:20vh;overflow:auto;font-size:14px;line-height:1.8}
-#partPhotoCaption{display:none!important}
-#partCard img:focus-visible{outline:3px solid #ba9242;outline-offset:-4px}
-#photoLightbox{position:absolute;inset:0;z-index:31;display:grid;grid-template-rows:auto minmax(0,1fr);place-items:center;background:rgba(13,20,22,.96);padding:env(safe-area-inset-top,12px) 12px env(safe-area-inset-bottom,12px);color:#fff}
-#photoLightbox[hidden]{display:none!important}
-#photoZoomHead{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 4px;max-width:980px}
-#photoZoomTitle{font-size:14px;font-weight:700;line-height:1.4}
-#photoZoomClose{width:36px;height:36px;border:1px solid #888;color:#fff;background:#313a3c;border-radius:10px;font-size:25px;line-height:1}
-#photoLightboxImg{display:block;width:100%;height:100%;max-height:88dvh;max-width:min(96vw,1050px);object-fit:contain}
-@media(max-width:600px){
- #partCard{max-height:72vh;width:min(420px,calc(100vw - 20px))}
- #partCard.portrait-photo{grid-template-columns:46% 54%;grid-template-areas:"header header" "image description"}
- #partCard.portrait-photo #partPhoto{height:min(43vh,415px);max-height:none;align-self:stretch;object-fit:contain}
- #partCard.portrait-photo #partDescription{height:min(43vh,415px);max-height:none;overflow-y:auto;padding:11px!important;font-size:12.5px}
- #partCard:not(.portrait-photo) #partPhoto{height:min(36vh,340px)}
- #partCard:not(.portrait-photo) #partDescription{max-height:24vh}
+.topbar{height:var(--h);flex:0 0 var(--h);display:flex;align-items:center;gap:12px;padding:0 18px;background:#fff;border-bottom:1px solid var(--line);z-index:30}
+.topbar h1{min-width:0;flex:1;margin:0;text-align:center;font-size:clamp(13px,1.45vw,18px);font-weight:800;line-height:1.5}
+.brand{flex:0 0 86px;direction:ltr;text-align:left;font-weight:900;font-size:13px;letter-spacing:.03em}
+.back{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:12px;font-weight:700}
+.workspace{min-height:0;flex:1;display:grid;grid-template-columns:minmax(0,1fr) clamp(196px,18vw,236px);direction:ltr;background:#fff}
+.workspace.panel-closed{grid-template-columns:minmax(0,1fr) 45px}
+.stage{min-width:0;min-height:0;position:relative;direction:rtl;background:radial-gradient(ellipse at 50% 48%,#fff 25%,#f8f9f8 95%)}
+model-viewer{width:100%;height:100%;display:block;--poster-color:#fff;--progress-bar-color:var(--gold);--progress-bar-height:3px;background:transparent}
+.loading{position:absolute;inset:0;z-index:8;display:grid;place-items:center;background:rgba(255,255,255,.96);pointer-events:none}
+.loading-inner{display:flex;flex-direction:column;align-items:center;gap:13px;width:min(310px,80%);text-align:center}
+.loading img{width:min(300px,82%);max-height:48vh;object-fit:contain}
+#loadLabel{font-size:12px;color:#5a615e;line-height:1.8}
+.track{height:4px;width:220px;max-width:90%;border-radius:30px;background:#e7e8e3;overflow:hidden}
+#progress{height:100%;width:3%;background:var(--gold);transition:width .2s}
+#error{position:absolute;z-index:13;left:50%;top:50%;transform:translate(-50%,-50%);width:min(390px,88vw);border:1px solid #dfdfda;background:#fff;box-shadow:0 12px 35px #0002;padding:22px;text-align:center;border-radius:13px}
+#error strong{display:block;margin-bottom:9px}
+#error span{font-size:12px;line-height:1.8}
+.toolbar{position:absolute;z-index:9;bottom:max(16px,env(safe-area-inset-bottom,0px) + 11px);left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:3px;direction:ltr;background:rgba(255,255,255,.96);border:1px solid #e7e8e5;border-radius:30px;box-shadow:0 5px 25px #00000015;padding:5px}
+.toolbar button{width:41px;height:39px;background:transparent;border:0;border-radius:20px;color:#273435;font-size:24px;display:grid;place-items:center}
+.toolbar button:hover{background:#f1f3f2}
+.toolbar button[aria-pressed="true"]{color:#9e7a34;background:#faf6ee}
+.toolbar svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;width:21px;height:21px}
+.parts-panel{min-width:0;min-height:0;direction:rtl;background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column;z-index:13;overflow:hidden}
+.parts-top{flex:0 0 auto;min-height:51px;display:flex;align-items:center;gap:8px;padding:9px 10px;border-bottom:1px solid var(--line)}
+.parts-title{flex:1;white-space:nowrap;font-size:13px;font-weight:800}
+.parts-toggle{flex:0 0 auto;min-height:32px;min-width:32px;padding:4px 8px;border:1px solid var(--line);border-radius:9px;background:#fff;font-size:12px;color:#344047}
+.parts-scroll{min-height:0;display:flex;flex-direction:column;flex:1;overflow:hidden}
+.parts-list{flex:0 1 auto;min-height:68px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:6px 7px;display:flex;flex-direction:column;gap:4px}
+.part-row{flex:0 0 auto;min-height:44px;width:100%;border:1px solid #e9e9e7;background:#fff;border-radius:10px;padding:5px;display:flex;align-items:center;gap:7px;color:#263134;text-align:right}
+.part-row:hover{background:#f7f8f7;border-color:#d7dad6}
+.part-row[aria-selected="true"]{border-color:#9bb3d0;background:#f1f6fc;color:#155593}
+.part-row img{flex:0 0 32px;height:33px;width:32px;object-fit:contain;background:#f8f8f8;border-radius:6px}
+.part-row span{flex:1;min-width:0;font-size:11px;font-weight:700;line-height:1.5;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.part-row .arrow{font-size:16px;color:#929b9c}
+.part-details{flex:1 1 36%;min-height:0;display:flex;flex-direction:column;margin:3px 7px 8px;border:1px solid #e7e9e7;border-radius:13px;background:#fff;overflow:hidden}
+.part-details[hidden]{display:none!important}
+.detail-title{padding:9px 11px;font-size:12px;font-weight:800;line-height:1.5;border-bottom:1px solid #eceeeb}
+.detail-photo{flex:0 1 auto;display:block;min-height:80px;max-height:clamp(96px,24vh,260px);width:100%;object-fit:contain;padding:5px;background:#f8f9f8;cursor:zoom-in}
+.detail-description{flex:1 1 auto;overflow-y:auto;min-height:24px;padding:9px 11px;font-size:11.5px;line-height:1.75;color:#4d5755;overscroll-behavior:contain}
+.part-placeholder{padding:10px 13px;color:#666;font-size:12px}
+.workspace.panel-closed .parts-top{padding:7px 5px;flex-direction:column}
+.workspace.panel-closed .parts-title,.workspace.panel-closed .parts-scroll{display:none}
+.workspace.panel-closed .parts-toggle{width:34px;padding:2px;min-width:34px}
+.workspace.panel-closed .parts-toggle::after{content:""}
+#photoModal{position:fixed;z-index:100;inset:0;background:rgba(9,17,19,.96);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:15px}
+#photoModal .modal-top{display:flex;justify-content:space-between;align-items:center;gap:10px;width:min(980px,100%);color:#fff;margin-bottom:8px}
+#photoModal .modal-top strong{font-size:14px}
+#photoModal button{width:37px;height:37px;border-radius:10px;border:1px solid #747a7b;background:#30393b;color:#fff;font-size:25px}
+#modalPhoto{height:calc(100% - 50px);width:100%;max-width:1050px;object-fit:contain}
+@media(max-width:700px){
+ :root{--h:55px}
+ .topbar{padding:0 8px;gap:4px}
+ .topbar h1{font-size:12px;line-height:1.45}
+ .brand{flex-basis:34px;font-size:9px}
+ .back{padding:7px;gap:3px;font-size:11px}
+ .workspace,.workspace.panel-closed{position:relative;display:block;height:100%}
+ .stage{height:100%;width:100%}
+ .parts-panel{position:absolute;top:9px;right:8px;bottom:auto;width:min(204px,52vw);max-height:calc(100% - 88px);border:1px solid #e4e7e4;border-radius:13px;box-shadow:0 5px 22px #00000014;transition:width .16s}
+ .parts-panel:not(.is-open){width:79px;max-height:44px}
+ .parts-panel:not(.is-open) .parts-scroll{display:none}
+ .parts-panel:not(.is-open) .parts-top{min-height:44px;padding:5px 7px;border-bottom:0;gap:4px}
+ .parts-panel:not(.is-open) .parts-title{font-size:11px}
+ .parts-panel:not(.is-open) .parts-toggle{min-width:25px;min-height:28px;width:25px;padding:0;font-size:13px}
+ .parts-panel.is-open .parts-scroll{min-height:0}
+ .parts-panel.is-open .parts-list{max-height:42vh;flex:0 1 auto}
+ .parts-panel.is-open .part-details{flex:0 1 auto;max-height:35vh}
+ .part-row{min-height:39px}
+ .part-row img{height:27px;width:26px;flex-basis:26px}
+ .part-row span{font-size:10.5px}
+ .detail-photo{max-height:clamp(84px,16vh,150px);min-height:68px}
+ .detail-description{max-height:14vh;min-height:40px;font-size:10.5px}
+ .detail-title{font-size:11px}
+ .toolbar{bottom:max(11px,env(safe-area-inset-bottom,0px) + 6px)}
+ .toolbar button{height:38px;width:40px}
+ .workspace.panel-closed .parts-top{flex-direction:row}
 }
+@media(min-width:701px) and (max-height:620px){.part-details{flex-basis:31%}.detail-photo{max-height:21vh}.parts-list{flex:1 1 auto}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header>
-<button class="back" id="back" aria-label="رجوع" type="button"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> رجوع</button>
-<h1>مكبس كوي كهرباء فاستر بي 42 بوصة</h1>
-<span class="brand">FASTER B</span>
+<header class="topbar">
+  <button id="back" class="back" type="button" aria-label="الرجوع">‹ &nbsp; رجوع</button>
+  <h1>مكبس كوي كهرباء فاستر بي 42 بوصة</h1>
+  <span class="brand">FASTER B</span>
 </header>
-<main id="area">
-<aside class="heaterPanel" aria-label="سخانات مكبس الكوي 18 كيلو واط عدد 3"><img src="./photos/heater_left.webp?v=20261018r2" alt="سخان مكبس الكوي الكهربائي، صورة القطعة اليسرى المعتمدة" loading="eager" decoding="async"/><div>سخانات مكبس الكوي<br>18 كيلو واط عدد 3</div></aside>
-<model-viewer id="viewer" camera-controls disable-pan disable-zoom auto-rotate interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="10deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس كوي كهرباء فاستر بي 42 بوصة">
-</model-viewer>
-<section class="loading" id="loading" aria-live="polite"><div class="loadingBox">
-<img src="./current-poster.png" alt="صورة مكبس الكوي" id="poster">
-<label id="loadLabel">جارِ تحضير المجسم ثلاثي الأبعاد…</label>
-<div class="track"><div id="progress"></div></div>
-</div></section>
-<div id="error" role="alert"><b>تعذّر تحميل العارض</b><span id="errorText">تحقق من اتصال الإنترنت وافتح الملف في متصفح Chrome أو Edge.</span></div>
-<nav class="toolbar" aria-label="أدوات تحريك المجسم">
-<button id="rotate" type="button" title="تشغيل الدوران التلقائي" aria-label="تشغيل الدوران التلقائي" aria-pressed="false" style="font-size:27px">↻</button><button id="reset" title="إعادة ضبط" aria-label="إعادة ضبط"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg></button>
-<button id="fullscreen" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button>
-</nav>
-<div id="partsHint" hidden>اضغط على علامة + لاستكشاف أجزاء المكبس</div>
-<div id="partBackdrop" hidden>
-  <section id="partCard" role="dialog" aria-modal="true" aria-labelledby="partTitle">
-    <div id="partCardHeader"><h2 id="partTitle"></h2><button id="partClose" type="button" aria-label="إغلاق معلومات الجزء">×</button></div>
-    <img id="partPhoto" alt="الصورة الحقيقية للجزء المعتمد" loading="lazy" decoding="async">
-    <small id="partPhotoCaption"></small>
-    <p id="partDescription"></p>
+<main class="workspace" id="workspace">
+  <section class="stage" id="stage" aria-label="مجسم مكبس الكوي ثلاثي الأبعاد">
+    <model-viewer id="viewer" camera-controls disable-pan disable-zoom auto-rotate interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="9deg" auto-rotate-delay="1300" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي">
+    </model-viewer>
+    <div class="loading" id="loading" aria-live="polite"><div class="loading-inner">
+      <img src="./current-poster.png" alt="مكبس كوي كهرباء فاستر بي" id="poster"/>
+      <span id="loadLabel">جارِ تحضير المجسم ثلاثي الأبعاد…</span>
+      <div class="track"><div id="progress"></div></div>
+    </div></div>
+    <div id="error" hidden role="alert"><strong>تعذّر تحميل العارض</strong><span id="errorText"></span></div>
+    <nav class="toolbar" aria-label="أدوات التحكم بالمجسم">
+      <button id="rotate" type="button" title="إيقاف أو تشغيل الدوران التلقائي" aria-label="التحكم بالدوران" aria-pressed="true">Ⅱ</button>
+      <button id="reset" type="button" title="إعادة ضبط موضع المجسم" aria-label="إعادة الضبط">
+        <svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg>
+      </button>
+      <button id="fullscreen" type="button" title="ملء الشاشة" aria-label="ملء الشاشة">
+        <svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg>
+      </button>
+    </nav>
   </section>
-</div>
-
-<div id="photoLightbox" hidden role="dialog" aria-modal="true" aria-label="تكبير صورة الجزء">
-  <div id="photoZoomHead"><strong id="photoZoomTitle"></strong><button type="button" id="photoZoomClose" aria-label="إغلاق الصورة">×</button></div>
-  <img id="photoLightboxImg" alt="صورة مكبرة للجزء"/>
-</div>
+  <aside class="parts-panel" id="partsPanel" aria-label="قائمة أجزاء مكبس الكوي">
+    <div class="parts-top"><span class="parts-title">أجزاء المكبس</span>
+      <button id="partsToggle" class="parts-toggle" type="button" aria-controls="partsScroll" aria-expanded="true">‹</button>
+    </div>
+    <div id="partsScroll" class="parts-scroll">
+      <nav id="partsList" class="parts-list" aria-label="اختيار الجزء"></nav>
+      <section class="part-details" id="partDetails" aria-live="polite">
+        <div class="detail-title" id="detailTitle"></div>
+        <img class="detail-photo" id="detailPhoto" alt="الصورة الحقيقية المعتمدة للجزء" loading="lazy" decoding="async" title="اضغط لتكبير الصورة"/>
+        <div class="detail-description" id="detailDescription"></div>
+      </section>
+    </div>
+  </aside>
 </main>
+<div id="photoModal" hidden role="dialog" aria-modal="true" aria-label="الصورة المكبرة للجزء">
+  <div class="modal-top"><strong id="modalTitle"></strong><button id="modalClose" type="button" aria-label="إغلاق الصورة">×</button></div>
+  <img id="modalPhoto" alt="الصورة المكبرة"/>
+</div>
 <script type="module">
-import {createHotspotOverlay} from './hotspot-overlay.js?v=20261018r6';
 const viewer=document.getElementById('viewer');
-const area=document.getElementById('area');
+const stage=document.getElementById('stage');
 const loading=document.getElementById('loading');
 const loadLabel=document.getElementById('loadLabel');
 const progress=document.getElementById('progress');
 const error=document.getElementById('error');
-const back=document.getElementById('back');
-const hint=document.getElementById('partsHint');
-const partBackdrop=document.getElementById('partBackdrop');
-const partTitle=document.getElementById('partTitle');
-const partPhoto=document.getElementById('partPhoto');
-const partDescription=document.getElementById('partDescription');
-const partPhotoCaption=document.getElementById('partPhotoCaption');
-const partClose=document.getElementById('partClose');
-const partCard=document.getElementById('partCard');
-const zoom=document.getElementById('photoLightbox');
-const zoomClose=document.getElementById('photoZoomClose');
-const zoomImage=document.getElementById('photoLightboxImg');
-const zoomTitle=document.getElementById('photoZoomTitle');
-partPhoto.addEventListener('load',()=>{
- partCard.classList.toggle('portrait-photo',partPhoto.naturalHeight>partPhoto.naturalWidth*1.2);
-});
-function closeZoom(){zoom.hidden=true;zoomImage.removeAttribute('src');}
-function openZoom(){
- if(!partPhoto.complete||!partPhoto.naturalWidth)return;
- zoomTitle.textContent=partTitle.textContent;
- zoomImage.src=partPhoto.src;
- zoomImage.alt=partPhoto.alt;
- zoom.hidden=false;
- zoomClose.focus({preventScroll:true});
-}
-partPhoto.tabIndex=0;partPhoto.setAttribute('role','button');
-partPhoto.setAttribute('aria-label','تكبير صورة الجزء');
-partPhoto.addEventListener('click',openZoom);
-partPhoto.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openZoom()}});
-zoomClose.addEventListener('click',closeZoom);
-zoom.addEventListener('click',e=>{if(e.target===zoom)closeZoom()});
-
+const workspace=document.getElementById('workspace');
+const panel=document.getElementById('partsPanel');
+const toggle=document.getElementById('partsToggle');
+const list=document.getElementById('partsList');
+const title=document.getElementById('detailTitle');
+const photo=document.getElementById('detailPhoto');
+const description=document.getElementById('detailDescription');
 const rotateButton=document.getElementById('rotate');
-
+const modal=document.getElementById('photoModal');
+const modalPhoto=document.getElementById('modalPhoto');
+const modalTitle=document.getElementById('modalTitle');
 const START_AZIMUTH=-36, POLAR=74, FOV=38, PADDING=1.065;
-let modelReady=false, lastAspect=0, resumeRotate=false;
+let modelReady=false,lastAspect=0,selectedId='',wasAutoRotating=false;
 const PARTS=[
   {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.19800m 1.40800m 0.24300m",normal:"0 -0.65 0.76",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
   {id:"lowerSurface",name:"سطح الكوي السفلي – 42 بوصة",tile:9,position:"-0.19800m 1.15400m 0.25500m",normal:"0 0.97 0.24",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
@@ -173,18 +174,71 @@ const PARTS=[
   {id:"drainAndCable",name:"صمام التصريف وكيبل التوصيل الكهربائي",tile:10,position:"-0.53600m 0.61000m -0.45900m",normal:"0 0 -1",description:"صمام مخصص لتصريف المياه والرواسب من الخزان الداخلي لمكبس الكوي، مع كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"},
   {id:"powerCable",name:"كيبل التوصيل الكهربائي (3 فاز)",tile:10,position:"0.10100m 0.15700m -0.71100m",normal:"0 0 -1",description:"كيبل توصيل كهربائي ثلاثي الطور (3 فاز) بجهد 220 أو 380 فولت، حسب نظام التغذية الكهربائية المعتمد.",image:"./photos/drain_valve_power_cable.webp?v=20261018r2"}
 ];
-function fail(message){loading.hidden=true;error.style.display='block';document.getElementById('errorText').textContent=message||'تعذر فتح المجسم. تأكد من الإنترنت وجرب Chrome أو Edge.';}
-back.onclick=()=>{if(history.length>1) history.back();else if(window.opener)window.close();else window.close();};
+const CATALOG=[
+  PARTS.find(p=>p.id==='upperSurface'),
+  ...['footPedals','waterLevel','controlPanel','pressureControl','pressureGauge','suctionBlower','steamTrap','waterPump','safetyValve','drainAndCable'].map(id=>PARTS.find(p=>p.id===id)),
+  {id:'heater',name:'سخانات مكبس الكوي 18 كيلو واط عدد 3',description:'سخانات مكبس الكوي الكهربائية بقدرة إجمالية 18 كيلو واط، عدد 3 سخانات.',image:'./photos/heater_left.webp?v=20261018r2'}
+];
+if(CATALOG.some(x=>!x))throw new Error('بيانات جزء معتمد غير موجودة.');
+const mobile=matchMedia('(max-width:700px)');
+function setPanel(open){
+  const m=mobile.matches;
+  panel.classList.toggle('is-open',open);
+  workspace.classList.toggle('panel-closed',!m&&!open);
+  toggle.textContent=open?'›':'‹';
+  toggle.setAttribute('aria-expanded',String(open));
+  toggle.setAttribute('aria-label',open?'إخفاء قائمة الأجزاء':'عرض قائمة الأجزاء');
+  requestAnimationFrame(()=>{if(modelReady&&!m)fitWholeMachine()});
+}
+function initPanel(){setPanel(!mobile.matches)}
+toggle.addEventListener('click',()=>setPanel(!panel.classList.contains('is-open')));
+mobile.addEventListener?.('change',initPanel);
+function selectPart(part){
+  selectedId=part.id;
+  title.textContent=part.name;
+  description.textContent=part.description;
+  photo.alt='صورة أصلية: '+part.name;
+  photo.onerror=()=>{description.textContent=part.description+' — تعذّر تحميل صورة هذا الجزء.';};
+  photo.src=new URL(part.image,document.baseURI).href;
+  for(const b of list.children)b.setAttribute('aria-selected',String(b.dataset.id===part.id));
+  if(mobile.matches&&!panel.classList.contains('is-open'))setPanel(true);
+}
+function renderCatalog(){
+  const fragment=document.createDocumentFragment();
+  for(const part of CATALOG){
+    const b=document.createElement('button');
+    b.type='button';b.className='part-row';b.dataset.id=part.id;
+    b.setAttribute('aria-selected','false');b.setAttribute('aria-label','عرض '+part.name);
+    const img=document.createElement('img');
+    img.src=new URL(part.image,document.baseURI).href;
+    img.alt='';img.loading='lazy';img.decoding='async';
+    const name=document.createElement('span');name.textContent=part.name;
+    const arrow=document.createElement('span');arrow.className='arrow';arrow.textContent='‹';arrow.setAttribute('aria-hidden','true');
+    b.append(img,name,arrow);
+    b.addEventListener('click',()=>selectPart(part));
+    fragment.appendChild(b);
+  }
+  list.appendChild(fragment);
+  selectPart(CATALOG[0]);
+}
+function updateRotateButton(){
+ const enabled=viewer.hasAttribute('auto-rotate');
+ rotateButton.setAttribute('aria-pressed',String(enabled));
+ rotateButton.textContent=enabled?'Ⅱ':'↻';
+ rotateButton.setAttribute('aria-label',enabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي');
+}
+function setRotation(enabled){viewer.toggleAttribute('auto-rotate',!!enabled);updateRotateButton()}
+rotateButton.addEventListener('click',()=>setRotation(!viewer.hasAttribute('auto-rotate')));
 function fitWholeMachine(){
- if(!modelReady) return;
- const d=viewer.getDimensions?.(), center=viewer.getBoundingBoxCenter?.();
- const w=area.clientWidth, h=area.clientHeight;
- if(!d||!center||w<50||h<50) return;
- const dx=Math.abs(d.x), dy=Math.abs(d.y), dz=Math.abs(d.z);
- const horizontalSpan=Math.hypot(dx,dz), polar=POLAR*Math.PI/180;
+ if(!modelReady)return;
+ const d=viewer.getDimensions?.(),center=viewer.getBoundingBoxCenter?.();
+ const w=stage.clientWidth,h=stage.clientHeight;
+ if(!d||!center||w<80||h<80)return;
+ const dx=Math.abs(d.x),dy=Math.abs(d.y),dz=Math.abs(d.z);
+ const horizontalSpan=Math.hypot(dx,dz),polar=POLAR*Math.PI/180;
  const actualFov=(viewer.getFieldOfView?.()||FOV)*Math.PI/360;
- const vertTan=Math.tan(actualFov), horizTan=vertTan*w/h;
- if(!(vertTan>0&&horizTan>0)) return;
+ const vertTan=Math.tan(actualFov),horizTan=vertTan*w/h;
+ if(!(vertTan>0&&horizTan>0))return;
  const halfWidth=horizontalSpan/2;
  const halfHeight=(Math.abs(Math.sin(polar))*dy+Math.abs(Math.cos(polar))*horizontalSpan)/2;
  const halfDepth=(Math.abs(Math.sin(polar))*horizontalSpan+Math.abs(Math.cos(polar))*dy)/2;
@@ -194,105 +248,66 @@ function fitWholeMachine(){
  viewer.jumpCameraToGoal?.();
  lastAspect=w/Math.max(1,h);
 }
-function updateRotateButton(){
- const enabled=viewer.hasAttribute('auto-rotate');
- rotateButton.setAttribute('aria-pressed',String(enabled));
- rotateButton.textContent=enabled?'Ⅱ':'↻';
- rotateButton.setAttribute('aria-label',enabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي');
- rotateButton.title=enabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي';
+document.getElementById('back').onclick=()=>{if(history.length>1)history.back();else if(window.opener)window.close();};
+document.getElementById('reset').onclick=()=>{fitWholeMachine();setRotation(true)};
+document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){console.warn('ملء الشاشة غير متاح',e)}};
+function closeModal(){modal.hidden=true;modalPhoto.removeAttribute('src')}
+function openModal(){
+ if(!photo.complete||!photo.naturalWidth)return;
+ modalTitle.textContent=title.textContent;modalPhoto.src=photo.src;modalPhoto.alt=photo.alt;modal.hidden=false;
+ document.getElementById('modalClose').focus({preventScroll:true});
 }
-function setRotation(enabled){
- viewer.toggleAttribute('auto-rotate',!!enabled);
- updateRotateButton();
-}
-rotateButton.addEventListener('click',()=>setRotation(!viewer.hasAttribute('auto-rotate')));
-function openPart(part){
- resumeRotate=viewer.hasAttribute('auto-rotate');
- setRotation(false);
- partTitle.textContent=part.name;
- partDescription.textContent=part.description;
- partPhotoCaption.textContent='صورة أصلية معتمدة للجزء';
- partPhoto.alt='صورة حقيقية: '+part.name;
- partCard.classList.remove('portrait-photo');
- partPhoto.src=part.image;
- partPhoto.onerror=()=>{partPhoto.removeAttribute('src');partPhoto.alt='تعذر عرض الصورة المعتمدة: '+part.name;};
- partBackdrop.hidden=false;
- hint.hidden=true;
- partClose.focus({preventScroll:true});
-}
-function closePart(){
- closeZoom();
- partBackdrop.hidden=true;
- if(resumeRotate&&!document.hidden) setRotation(true);
- resumeRotate=false;
-}
-let overlayController=null;
-function addHotspots(){
- for(const part of PARTS){
-   const b=document.createElement('button');
-   b.type='button';
-   b.className='press-hotspot';
-   b.slot=`hotspot-${part.id}`;
-   b.setAttribute('data-position',part.position);
-   b.setAttribute('data-normal',part.normal);
-   b.setAttribute('data-visibility-attribute','visible');
-   b.setAttribute('aria-label','عرض معلومات '+part.name);
-   b.setAttribute('title',part.name);
-   b.textContent='+';
-   b.addEventListener('pointerdown',e=>e.stopPropagation());
-   b.addEventListener('click',e=>{e.stopPropagation(); openPart(part);});
-   viewer.appendChild(b);
- }
- overlayController=createHotspotOverlay(viewer,area,PARTS,openPart);
-}
-partClose.addEventListener('click',closePart);
-partBackdrop.addEventListener('click',ev=>{ if(ev.target===partBackdrop) closePart(); });
-document.addEventListener('keydown',ev=>{ if(ev.key==='Escape'){ if(!zoom.hidden)closeZoom();else closePart(); } });
-document.getElementById('reset').onclick=()=>{closePart(); fitWholeMachine(); setRotation(true);};
-document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement) await document.exitFullscreen(); else await document.documentElement.requestFullscreen();}catch(e){console.warn('Fullscreen unavailable',e);}};
-viewer.addEventListener('progress',event=>{const pct=Math.round((event.detail?.totalProgress||0)*100);progress.style.width=Math.max(8,pct)+'%';});
-viewer.addEventListener('load',()=>{modelReady=true; requestAnimationFrame(()=>{fitWholeMachine(); loading.hidden=true; progress.style.width='100%'; hint.hidden=false; setTimeout(()=>hint.hidden=true,6500);});});
-viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذر قراءة ملف المجسم في هذا المتصفح. جرّب Chrome أو Edge.');});
-window.addEventListener('resize',()=>{if(!modelReady)return; const a=area.clientWidth/Math.max(1,area.clientHeight); if(Math.abs(a-lastAspect)>0.08) requestAnimationFrame(fitWholeMachine);},{passive:true});
-document.addEventListener('visibilitychange',()=>{if(document.hidden && viewer.hasAttribute('auto-rotate'))setRotation(false);});
+photo.tabIndex=0;photo.setAttribute('role','button');photo.setAttribute('aria-label','تكبير صورة الجزء');
+photo.addEventListener('click',openModal);
+photo.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal()}});
+document.getElementById('modalClose').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!modal.hidden)closeModal();else if(mobile.matches&&panel.classList.contains('is-open'))setPanel(false)}});
+function fail(msg){loading.hidden=true;error.hidden=false;document.getElementById('errorText').textContent=msg||'تعذر فتح المجسم. جرب Chrome أو Edge.'}
+viewer.addEventListener('progress',ev=>{progress.style.width=Math.max(5,Math.round((ev.detail?.totalProgress||0)*100))+'%'});
+viewer.addEventListener('load',()=>{
+ modelReady=true;requestAnimationFrame(()=>{fitWholeMachine();loading.hidden=true;progress.style.width='100%';setRotation(true)});
+});
+viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذّر قراءة المجسم ثلاثي الأبعاد. يُرجى تحديث Chrome وإعادة المحاولة.')});
+new ResizeObserver(()=>{if(!modelReady)return;const asp=stage.clientWidth/Math.max(1,stage.clientHeight);if(Math.abs(asp-lastAspect)>.08)requestAnimationFrame(fitWholeMachine)}).observe(stage);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){wasAutoRotating=viewer.hasAttribute('auto-rotate');setRotation(false)}else if(wasAutoRotating){setRotation(true);wasAutoRotating=false}});
 async function prepareModel(){
- if(!('DecompressionStream' in window)) throw new Error('المتصفح لا يدعم فك ضغط النموذج. حدّث Chrome أو Edge.');
+ if(!('DecompressionStream' in window))throw Error('المتصفح لا يدعم فك ضغط المجسم. حدّث Chrome أو Edge.');
  const urls=['press42-mobile-1.gzpart','press42-mobile-2.gzpart'];
  loadLabel.textContent='جارِ تنزيل ملفات المجسم المحسّن…';
- const compressedParts=await Promise.all(urls.map(async(file,k)=>{
-   const response=await fetch(new URL(file,document.baseURI),{cache:'force-cache'});
-   if(!response.ok) throw new Error(`فشل تحميل الملف ${file} (HTTP ${response.status}). تأكد من وجود الملفين.`);
-   const blob=await response.blob();
-   progress.style.width=`${Math.round((k+1)*22)}%`;
-   return blob;
+ const compressedParts=await Promise.all(urls.map(async file=>{
+  const response=await fetch(new URL(file,document.baseURI),{cache:'force-cache'});
+  if(!response.ok)throw Error('فشل تحميل '+file+' (HTTP '+response.status+')');
+  return response.blob();
  }));
- loadLabel.textContent='جارِ فك الضغط وتجهيز المجسم…';
- const compressedStream=new Blob(compressedParts,{type:'application/gzip'}).stream();
- const result=await new Response(compressedStream.pipeThrough(new DecompressionStream('gzip'))).blob();
- if(result.size!==59795428) throw new Error('بيانات المجسم غير مكتملة أو تالفة.');
+ progress.style.width='35%';loadLabel.textContent='جارِ فك ضغط المجسم وتجهيزه…';
+ const stream=new Blob(compressedParts,{type:'application/gzip'}).stream();
+ const result=await new Response(stream.pipeThrough(new DecompressionStream('gzip'))).blob();
+ if(result.size!==59795428)throw Error('بيانات المجسم غير مكتملة أو تالفة.');
  const signature=new Uint8Array(await result.slice(0,4).arrayBuffer());
- if(signature[0]!==103||signature[1]!==108||signature[2]!==84||signature[3]!==70) throw new Error('تعذر التحقق من صيغة GLB.');
+ if(signature[0]!==103||signature[1]!==108||signature[2]!==84||signature[3]!==70)throw Error('صيغة GLB غير صالحة.');
  progress.style.width='60%';
  return URL.createObjectURL(new Blob([result],{type:'model/gltf-binary'}));
 }
 async function boot(){
  try{
-   loadLabel.textContent='جارِ تحميل محرك العرض…';
-   if(location.protocol==='file:') throw new Error('افتح هذه الصفحة من رابط HTTPS المنشور، أو باستخدام خادم محلي.');
-   const [url]=await Promise.all([
-     prepareModel(),
-     (async()=>{
-       await import('https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js').catch(()=>import('https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js'));
-       await customElements.whenDefined('model-viewer');
-     })()
-   ]);
-   customElements.get('model-viewer').minimumRenderScale=0.35;
-   addHotspots();
-   updateRotateButton();
-   loadLabel.textContent='جارِ تجهيز المجسم…';
-   viewer.src=url;
- }catch(e){console.error(e); fail(e?.message||'تعذر تشغيل العارض. يرجى فتح الملف بمتصفح حديث مع اتصال بالإنترنت.');}
+  if(location.protocol==='file:')throw Error('افتح العارض من رابط HTTPS المنشور.');
+  const [url]=await Promise.all([
+   prepareModel(),
+   (async()=>{
+    await import('https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js').catch(()=>import('https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js'));
+    await customElements.whenDefined('model-viewer');
+   })()
+  ]);
+  customElements.get('model-viewer').minimumRenderScale=.35;
+  updateRotateButton();
+  loadLabel.textContent='جارِ عرض مجسم المكبس…';
+  viewer.src=url;
+ }catch(e){console.error(e);fail(e?.message)}
 }
+renderCatalog();
+initPanel();
 boot();
 </script>
-</body></html>
+</body>
+</html>
