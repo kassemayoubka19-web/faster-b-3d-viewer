@@ -98,7 +98,7 @@ viewer.addEventListener('load',()=>{ready=true;setRotation(false);requestAnimati
 viewer.addEventListener('error',()=>fail('تعذّر عرض المجسم. جرّب إعادة التحميل أو فتح الرابط في Chrome أو Edge.'));
 async function boot(){
  try{
-  const [mp,pp]=await Promise.all([fetch('./manifest.json'),fetch('./parts.json?v=boiler-specs-20261019-4',{cache:'no-store'})]);if(!mp.ok||!pp.ok)throw Error('تعذّر تحميل بيانات العارض.');
+  const [mp,pp]=await Promise.all([fetch('./manifest.json'),fetch('./parts.json?v=boiler-final-20261019-6',{cache:'no-store'})]);if(!mp.ok||!pp.ok)throw Error('تعذّر تحميل بيانات العارض.');
   const manifest=await mp.json();parts=await pp.json();renderParts();
   phase('جارٍ تنزيل نموذج البويلر…',0);
   const [url]=await Promise.all([download(manifest),import(manifest.runtime)]);
