@@ -129,7 +129,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <span class="brand" aria-label="FASTER B LAUNDRY EQUIPMENT"><img src="./faster-b-official-logo.webp" alt="شعار فاستر بي الرسمي" width="48" height="48"><span>FASTER B<small>LAUNDRY EQUIPMENT</small></span></span>
 </header>
 <main class="stage" id="stage">
- <model-viewer id="viewer" camera-controls disable-pan disable-zoom interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="-0.050m 0.825m -0.003m" camera-orbit="-36deg 74deg 5.5m" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
+ <model-viewer id="viewer" camera-controls disable-pan disable-zoom interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="-0.050m 0.825m -0.003m" camera-orbit="-36deg 74deg 4.4m" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
  <div class="loading" id="loading" data-phase="download"><div class="loading-inner">
   <img src="./current-poster.png" alt="مكبس كوي كهرباء فاستر بي" id="poster">
   <div class="loading-status">
@@ -181,7 +181,7 @@ const partsList=document.getElementById('partsList'),title=document.getElementBy
 const photo=document.getElementById('detailPhoto'),description=document.getElementById('detailDescription');
 const modal=document.getElementById('photoModal'),modalPhoto=document.getElementById('modalPhoto'),modalTitle=document.getElementById('modalTitle');
 const rotateButton=document.getElementById('rotate');
-const START_AZIMUTH=-36,POLAR=74,CAMERA_DISTANCE=5.5,ROTATE_DEG_PER_SECOND=8;
+const START_AZIMUTH=-36,POLAR=74,CAMERA_DISTANCE=4.4,ROTATE_DEG_PER_SECOND=8;
 const FIXED_TARGET="-0.050m 0.825m -0.003m";
 let modelReady=false,lastAspect=0,wasAutoRotating=false,selectedId='',resumeRotateAfterCatalog=false;
 let rotationEnabled=false,orbitAngle=START_AZIMUTH,orbitPolar=POLAR,orbitFrame=0,orbitLastTick=0;
