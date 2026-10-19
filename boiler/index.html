@@ -145,6 +145,28 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
 #boilerLogo:not([data-visible]){opacity:0}
 @media(max-width:650px){.boiler-specs{max-height:43vh;min-height:175px;padding:12px 13px;font-size:12px}.boiler-table{font-size:10px}.boiler-table-head>*,.boiler-table-row>*{padding:6px 5px}.boiler-specs .specs-heading{font-size:13px}#boilerLogo{padding:2px 4px;font-size:12px}#boilerLogo img{width:23px;height:22px}}
 
+
+/* Final retail presentation: correctly surfaced model-space label, never behind boiler skin */
+#boilerLogo{box-sizing:border-box;display:flex;align-items:center;gap:5px;
+  padding:3px 8px 3px 4px;background:#22272b;border:1px solid #b69b58;
+  border-radius:4px;box-shadow:0 1px 5px rgba(0,0,0,.24);
+  color:#edc565;font:800 12px/1 Arial,sans-serif;letter-spacing:.4px;
+  transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;}
+#boilerLogo img{width:27px;height:28px;object-fit:contain;display:block;flex-shrink:0;}
+#boilerLogo:not([data-visible]){opacity:0;}
+/* Specifications do not change when a new photo is selected. */
+.catalog-detail .boiler-specs{order:1;max-height:37%;min-height:175px;flex:0 0 auto;overflow:auto;
+ border-top:0;border-bottom:1px solid #e8ebe9;padding:15px 20px;}
+.catalog-detail .detail-img-box{order:2;flex:1 1 0;min-height:110px;}
+.catalog-detail .detail-head{order:0;}
+.boiler-specs .boiler-intro{margin:0 0 12px;}
+@media(max-width:650px){
+  #boilerLogo{padding:2px 5px 2px 3px;font-size:11px;gap:3px;}
+  #boilerLogo img{width:22px;height:24px;}
+  .catalog-detail .boiler-specs{max-height:43%;min-height:180px;padding:12px 13px;}
+  .catalog-detail .detail-img-box{min-height:125px;}
+}
+
 </style>
 </head>
 <body>
@@ -154,7 +176,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <span class="brand" aria-label="FASTER B LAUNDRY EQUIPMENT"><img src="../press42/faster-b-official-logo.webp" alt="شعار فاستر بي الرسمي" width="48" height="48"><span>FASTER B<small>LAUNDRY EQUIPMENT</small></span></span>
 </header>
 <main class="stage" id="stage">
- <model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="-0.084m 0.670m -0.030m" camera-orbit="-32deg 72deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد للبويلر الكهربائي فاستر بي"><div slot="hotspot-boiler-logo" id="boilerLogo" data-position="-0.100m 0.660m 0.375m" data-normal="0m 0m 1m" data-visibility-attribute="visible" aria-hidden="true"><img src="../press42/faster-b-official-logo.webp" alt=""><span>FASTER B</span></div></model-viewer>
+ <model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="-0.084m 0.670m -0.030m" camera-orbit="-32deg 72deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد للبويلر الكهربائي فاستر بي"><div slot="hotspot-boiler-logo" id="boilerLogo" data-position="-0.060m 0.850m 0.438m" data-normal="0m 0m 1m" data-visibility-attribute="visible" aria-hidden="true"><img src="../press42/faster-b-official-logo.webp" alt=""><span>FASTER B</span></div></model-viewer>
  <div class="loading" id="loading" data-phase="download"><div class="loading-inner">
   <img src="./poster.webp" alt="بويلر كهرباء فاستر بي" id="poster">
   <div class="loading-status">
@@ -198,7 +220,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
    <div class="boiler-table-row" role="row"><strong role="cell">54 كيلوواط</strong><span role="cell">130 كغ/ساعة</span><span role="cell">3 أجهزة: 3 مكابس كوي، أو مكبسا كوي ومجفف</span></div>
   </div>
   <p class="boiler-voltage"><b>الجهد الكهربائي:</b> 220 أو 380 فولت.</p>
-  <p class="boiler-note">عدد الأجهزة المذكور بحسب الفئة والتجهيز المناسب، ويُراعى الاستهلاك الفعلي للبخار لكل جهاز عند توصيله.</p>
+  
  </section>
    </article>
   </div>
@@ -208,6 +230,6 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <div class="lightbox-top"><strong id="modalTitle"></strong><button id="modalClose" class="lightbox-close" type="button" aria-label="إغلاق الصورة المكبرة">×</button></div>
  <img id="modalPhoto" alt="صورة مكبرة للجزء">
 </section>
-<script type="module" src="./app.js?v=boiler-specs-20261019-4"></script>
+<script type="module" src="./app.js?v=boiler-final-20261019-6"></script>
 </body>
 </html>
