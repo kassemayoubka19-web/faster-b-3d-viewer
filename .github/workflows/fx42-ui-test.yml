@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install browser controller
-        run: npm install --no-save --no-audit --no-fund playwright-core
+        run: npm install --no-save --no-audit --no-fund playwright-core pngjs
       - name: Serve repository with its exact GitHub Pages paths
         shell: bash
         run: |
