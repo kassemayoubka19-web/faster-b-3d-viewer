@@ -37,9 +37,9 @@ document.addEventListener('fullscreenchange',()=>{setRotation(false);requestAnim
 let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{setRotation(false);fit()},180)},{passive:true});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){visibilityRotation=rotating;setRotation(false)}else if(visibilityRotation&&overlay.hidden){setRotation(true);visibilityRotation=false}});
 function select(part){
- selected=part;$('detailTitle').textContent=part.name;$('detailDescription').textContent=part.description;
+ selected=part;$('detailTitle').textContent=part.name;
  photo.alt=`الصورة الأصلية للبويلر: ${part.name}`;photo.src=part.image;
- $('catalogDetail').scrollTop=0;document.querySelector('.detail-desc').scrollTop=0;
+ $('catalogDetail').scrollTop=0;
  for(const b of list.children)b.setAttribute('aria-selected',String(b.dataset.id===part.id));
 }
 function openCatalog(part=selected){
@@ -74,7 +74,7 @@ function renderParts(){
  }
  select(parts[0]);
 }
-photo.onerror=()=>{$('detailDescription').textContent=selected.description+'\nتعذّر تحميل الصورة. أعد فتحها بعد التحقق من الاتصال.'};
+photo.onerror=()=>{photo.alt='تعذّر تحميل صورة هذا الجزء، حاول تحديث الصفحة.'};
 function phase(message,percent=null){
  $('loadStep').textContent=message;const indeterminate=percent===null;$('loadTrack').classList.toggle('is-indeterminate',indeterminate);$('loadPercent').hidden=indeterminate;
  if(!indeterminate){const n=Math.min(100,Math.max(0,Math.floor(percent)));$('loadPercent').textContent=n+'%';$('progress').style.width=n+'%';$('loadTrack').setAttribute('aria-valuenow',n)}else $('loadTrack').removeAttribute('aria-valuenow');
@@ -98,7 +98,7 @@ viewer.addEventListener('load',()=>{ready=true;setRotation(false);requestAnimati
 viewer.addEventListener('error',()=>fail('تعذّر عرض المجسم. جرّب إعادة التحميل أو فتح الرابط في Chrome أو Edge.'));
 async function boot(){
  try{
-  const [mp,pp]=await Promise.all([fetch('./manifest.json'),fetch('./parts.json')]);if(!mp.ok||!pp.ok)throw Error('تعذّر تحميل بيانات العارض.');
+  const [mp,pp]=await Promise.all([fetch('./manifest.json'),fetch('./parts.json?v=boiler-specs-20261019-4',{cache:'no-store'})]);if(!mp.ok||!pp.ok)throw Error('تعذّر تحميل بيانات العارض.');
   const manifest=await mp.json();parts=await pp.json();renderParts();
   phase('جارٍ تنزيل نموذج البويلر…',0);
   const [url]=await Promise.all([download(manifest),import(manifest.runtime)]);
