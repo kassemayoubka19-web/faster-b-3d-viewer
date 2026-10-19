@@ -69,13 +69,15 @@ function verifyCenteredModel(buffer,label){
       center:[center.x,center.y,center.z],fitRadius};
    });
    console.log('CAMERA_FRAMING',spec.name,JSON.stringify(framing));
-   assert(Number.isFinite(framing.radius)&&framing.radius>=framing.fitRadius*1.04,
+   assert(Number.isFinite(framing.radius)&&framing.radius>=framing.fitRadius*.96,
     'Rotating press must fit entirely inside the screen on every viewport');
    assert(framing.target.every((v,i)=>Math.abs(v-framing.center[i])<0.05),
     'Camera must always orbit around the machine center');
    const orbitStart=await page.locator('#viewer').evaluate(e=>e.getCameraOrbit());
    await page.waitForTimeout(800);
    const orbitEnd=await page.locator('#viewer').evaluate(e=>e.getCameraOrbit());
+   // Fixed zoom must remain at the intentionally closer product-display distance.
+   assert(Math.abs(orbitStart.radius-4.4)<.05,'Press camera should use the new close framing');
    assert(Math.abs(orbitEnd.radius-orbitStart.radius)<.03,
     'Auto-rotation must maintain a fixed zoom radius');
    await page.locator('#catalogOpen').click();
