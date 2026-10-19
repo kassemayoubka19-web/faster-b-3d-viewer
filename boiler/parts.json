@@ -3,56 +3,56 @@
     "id": "overview",
     "photo": 18,
     "name": "البويلر الكهربائي — نظرة عامة",
-    "image": "./photos/photo-18.webp",
-    "thumb": "./thumbs/photo-18.webp"
+    "image": "./photos/photo-18.webp?v=20261019-WHITE-8-REPLACED",
+    "thumb": "./thumbs/photo-18.webp?v=20261019-WHITE-8-REPLACED"
   },
   {
     "id": "front-left",
     "photo": 10,
     "name": "الواجهة الأمامية والجانب",
-    "image": "./photos/photo-10.webp",
-    "thumb": "./thumbs/photo-10.webp"
+    "image": "./photos/photo-10.webp?v=20261019-WHITE-8-REPLACED",
+    "thumb": "./thumbs/photo-10.webp?v=20261019-WHITE-8-REPLACED"
   },
   {
     "id": "rear",
     "photo": 14,
     "name": "الواجهة الخلفية",
-    "image": "./photos/photo-14.webp",
-    "thumb": "./thumbs/photo-14.webp"
+    "image": "./photos/photo-14.webp?v=20261019-WHITE-8-REPLACED",
+    "thumb": "./thumbs/photo-14.webp?v=20261019-WHITE-8-REPLACED"
   },
   {
     "id": "top-overview",
     "photo": 5,
     "name": "تجهيزات البخار العلوية",
-    "image": "./photos/photo-05.webp",
-    "thumb": "./thumbs/photo-05.webp"
+    "image": "./photos/photo-05.webp?v=20261019-WHITE-8-REPLACED",
+    "thumb": "./thumbs/photo-05.webp?v=20261019-WHITE-8-REPLACED"
   },
   {
     "id": "gauge",
     "photo": 9,
     "name": "عداد الضغط ومنظّم الضغط",
-    "image": "./photos/photo-09.webp",
-    "thumb": "./thumbs/photo-09.webp"
+    "image": "./photos/photo-09.webp?v=20261019-WHITE-8-REPLACED",
+    "thumb": "./thumbs/photo-09.webp?v=20261019-WHITE-8-REPLACED"
   },
   {
     "id": "safety",
     "photo": 7,
     "name": "صمام الأمان",
-    "image": "./photos/photo-07.webp",
-    "thumb": "./thumbs/photo-07.webp"
+    "image": "./photos/photo-07.webp?v=20261019-WHITE-8-REPLACED",
+    "thumb": "./thumbs/photo-07.webp?v=20261019-WHITE-8-REPLACED"
   },
   {
     "id": "drain",
     "photo": 4,
     "name": "صمام التصريف",
-    "image": "./photos/photo-04.webp",
-    "thumb": "./thumbs/photo-04.webp"
+    "image": "./photos/photo-04.webp?v=20261019-WHITE-8-REPLACED",
+    "thumb": "./thumbs/photo-04.webp?v=20261019-WHITE-8-REPLACED"
   },
   {
     "id": "rear-straight",
     "photo": 16,
     "name": "الواجهة الخلفية — منظر مباشر",
-    "image": "./photos/photo-16.webp",
-    "thumb": "./thumbs/photo-16.webp"
+    "image": "./photos/photo-16.webp?v=20261019-WHITE-8-REPLACED",
+    "thumb": "./thumbs/photo-16.webp?v=20261019-WHITE-8-REPLACED"
   }
 ]
