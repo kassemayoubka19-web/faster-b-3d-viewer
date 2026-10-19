@@ -129,7 +129,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <span class="brand" aria-label="FASTER B LAUNDRY EQUIPMENT"><img src="./faster-b-official-logo.webp" alt="شعار فاستر بي الرسمي" width="48" height="48"><span>FASTER B<small>LAUNDRY EQUIPMENT</small></span></span>
 </header>
 <main class="stage" id="stage">
- <model-viewer id="viewer" camera-controls disable-pan disable-zoom interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="auto auto auto" camera-orbit="-36deg 74deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
+ <model-viewer id="viewer" camera-controls disable-pan disable-zoom interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="-0.050m 0.825m -0.003m" camera-orbit="-36deg 74deg 5.5m" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد لمكبس الكوي الكهربائي فاستر بي"></model-viewer>
  <div class="loading" id="loading" data-phase="download"><div class="loading-inner">
   <img src="./current-poster.png" alt="مكبس كوي كهرباء فاستر بي" id="poster">
   <div class="loading-status">
@@ -181,7 +181,8 @@ const partsList=document.getElementById('partsList'),title=document.getElementBy
 const photo=document.getElementById('detailPhoto'),description=document.getElementById('detailDescription');
 const modal=document.getElementById('photoModal'),modalPhoto=document.getElementById('modalPhoto'),modalTitle=document.getElementById('modalTitle');
 const rotateButton=document.getElementById('rotate');
-const START_AZIMUTH=-36,POLAR=74,FOV=38,PADDING=1.12;
+const START_AZIMUTH=-36,POLAR=74,CAMERA_DISTANCE=5.5;
+const FIXED_TARGET="-0.050m 0.825m -0.003m";
 let modelReady=false,lastAspect=0,wasAutoRotating=false,selectedId='',resumeRotateAfterCatalog=false;
 const PARTS=[
   {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.19800m 1.40800m 0.24300m",normal:"0 -0.65 0.76",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
@@ -284,23 +285,11 @@ function setRotation(enabled){viewer.toggleAttribute('auto-rotate',!!enabled);up
 rotateButton.addEventListener('click',()=>setRotation(!viewer.hasAttribute('auto-rotate')));
 // Respect manual control: first touch/drag stops auto-rotation until play or reset.
 viewer.addEventListener('pointerdown',()=>{if(viewer.hasAttribute('auto-rotate'))setRotation(false)});
+// Use a verified fixed, scene-space pivot. Repeated camera auto-fit on mobile
+// can push the renderer outside the viewport while native orbiting is active.
 function fitWholeMachine(){
- if(!modelReady)return;
- const d=viewer.getDimensions?.(),center=viewer.getBoundingBoxCenter?.();
- const w=stage.clientWidth,h=stage.clientHeight;
- if(!d||!center||w<80||h<80)return;
- const dx=Math.abs(d.x),dy=Math.abs(d.y),dz=Math.abs(d.z);
- const horizontalSpan=Math.hypot(dx,dz),polar=POLAR*Math.PI/180;
- const actualFov=(viewer.getFieldOfView?.()||FOV)*Math.PI/360;
- const vertTan=Math.tan(actualFov/2),horizTan=vertTan*w/h;
- if(!(vertTan>0&&horizTan>0))return;
- const halfWidth=horizontalSpan/2;
- const halfHeight=(Math.abs(Math.sin(polar))*dy+Math.abs(Math.cos(polar))*horizontalSpan)/2;
- const halfDepth=(Math.abs(Math.sin(polar))*horizontalSpan+Math.abs(Math.cos(polar))*dy)/2;
- const distance=(Math.max(halfWidth/horizTan,halfHeight/vertTan)+halfDepth)*PADDING;
- viewer.cameraTarget=`${center.x}m ${center.y}m ${center.z}m`;
- viewer.cameraOrbit=`${START_AZIMUTH}deg ${POLAR}deg ${distance.toFixed(3)}m`;
- viewer.jumpCameraToGoal?.();lastAspect=w/Math.max(1,h);
+ viewer.cameraTarget=FIXED_TARGET;
+ viewer.cameraOrbit=`${START_AZIMUTH}deg ${POLAR}deg ${CAMERA_DISTANCE}m`;
 }
 document.getElementById('reset').onclick=()=>{fitWholeMachine();setRotation(true)};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){console.warn('ملء الشاشة غير متاح',e)}};
@@ -334,7 +323,7 @@ viewer.addEventListener('load',()=>{
  modelReady=true;
  // Frame camera before enabling rotation and before revealing the first WebGL frame.
  setRotation(false);
- fitWholeMachine();
+ // The initial camera is configured in the model-viewer markup before loading.
  requestAnimationFrame(()=>requestAnimationFrame(()=>{
   loading.hidden=true;progress.style.width='100%';setRotation(true);
  }));
