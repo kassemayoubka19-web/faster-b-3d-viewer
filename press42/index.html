@@ -146,7 +146,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
   <span class="cta-arrow" aria-hidden="true">‹</span>
  </button>
  <nav class="toolbar" aria-label="أدوات التحكم بالمجسم">
-  <button type="button" id="rotate" title="تشغيل أو إيقاف الدوران" aria-label="التحكم بالدوران" aria-pressed="true">Ⅱ</button>
+  <button type="button" id="rotate" title="تشغيل أو إيقاف الدوران" aria-label="التحكم بالدوران" aria-pressed="false">↻</button>
   <button type="button" id="reset" title="إعادة ضبط المجسم" aria-label="إعادة ضبط المجسم"><svg viewBox="0 0 24 24"><path d="M3 11a9 9 0 1 1 2.6 6.4M3 5v6h6"/></svg></button>
   <button type="button" id="fullscreen" title="ملء الشاشة" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></svg></button>
  </nav>
@@ -181,9 +181,10 @@ const partsList=document.getElementById('partsList'),title=document.getElementBy
 const photo=document.getElementById('detailPhoto'),description=document.getElementById('detailDescription');
 const modal=document.getElementById('photoModal'),modalPhoto=document.getElementById('modalPhoto'),modalTitle=document.getElementById('modalTitle');
 const rotateButton=document.getElementById('rotate');
-const START_AZIMUTH=-36,POLAR=74,CAMERA_DISTANCE=5.5;
+const START_AZIMUTH=-36,POLAR=74,CAMERA_DISTANCE=5.5,ROTATE_DEG_PER_SECOND=8;
 const FIXED_TARGET="-0.050m 0.825m -0.003m";
 let modelReady=false,lastAspect=0,wasAutoRotating=false,selectedId='',resumeRotateAfterCatalog=false;
+let rotationEnabled=false,orbitAngle=START_AZIMUTH,orbitPolar=POLAR,orbitFrame=0,orbitLastTick=0;
 const PARTS=[
   {id:"upperSurface",name:"سطح الكوي العلوي – 42 بوصة",tile:9,position:"-0.19800m 1.40800m 0.24300m",normal:"0 -0.65 0.76",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
   {id:"lowerSurface",name:"سطح الكوي السفلي – 42 بوصة",tile:9,position:"-0.19800m 0.94100m 0.25500m",normal:"0 0.97 0.24",description:"أسطح كوي مزودة بثقوب موزعة على السطحين العلوي والسفلي، مع فلاتر داخلية تساعد على توزيع البخار ومروره بانتظام، مما يضمن كويًا متجانسًا، وإزالة التجاعيد بكفاءة، والحصول على نتائج احترافية مع الحفاظ على جودة الأقمشة.",image:"./photos/pressing_surfaces.webp?v=20261018r2"},
@@ -210,7 +211,7 @@ const CATALOG=[
 if(CATALOG.length!==14||CATALOG.some(x=>!x)||new Set(CATALOG.map(x=>x.id)).size!==14)throw new Error('بيانات الأجزاء المعتمدة غير مكتملة.');
 
 function openCatalog(){
- resumeRotateAfterCatalog=viewer.hasAttribute('auto-rotate');
+ resumeRotateAfterCatalog=rotationEnabled;
  setRotation(false);
  overlay.hidden=false; document.body.classList.add('catalog-open');
  closeButton.focus({preventScroll:true});
@@ -275,23 +276,53 @@ document.getElementById('modalClose').onclick=closeModal;
 modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!modal.hidden)closeModal();else if(!overlay.hidden)closeCatalog()}});
 document.getElementById('back').onclick=()=>{if(!overlay.hidden)closeCatalog();else if(history.length>1)history.back();else if(window.opener)window.close()};
+// The GLB's scene pivot is offset from the visible equipment.
+// model-viewer's native auto-rotate turns that scene around the wrong pivot;
+// instead move the CAMERA around a known, fixed machine center.
 function updateRotateButton(){
- const enabled=viewer.hasAttribute('auto-rotate');
- rotateButton.setAttribute('aria-pressed',String(enabled));
- rotateButton.textContent=enabled?'Ⅱ':'↻';
- rotateButton.setAttribute('aria-label',enabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي');
+ rotateButton.setAttribute('aria-pressed',String(rotationEnabled));
+ rotateButton.textContent=rotationEnabled?'Ⅱ':'↻';
+ rotateButton.setAttribute('aria-label',rotationEnabled?'إيقاف الدوران التلقائي':'تشغيل الدوران التلقائي');
+ viewer.dataset.rotationActive=String(rotationEnabled);
 }
-function setRotation(enabled){viewer.toggleAttribute('auto-rotate',!!enabled);updateRotateButton()}
-rotateButton.addEventListener('click',()=>setRotation(!viewer.hasAttribute('auto-rotate')));
-// Respect manual control: first touch/drag stops auto-rotation until play or reset.
-viewer.addEventListener('pointerdown',()=>{if(viewer.hasAttribute('auto-rotate'))setRotation(false)});
-// Use a verified fixed, scene-space pivot. Repeated camera auto-fit on mobile
-// can push the renderer outside the viewport while native orbiting is active.
+function animateOrbit(time){
+ if(!rotationEnabled){orbitFrame=0;return;}
+ orbitFrame=requestAnimationFrame(animateOrbit);
+ if(!orbitLastTick){orbitLastTick=time;return;}
+ // Cap long mobile frame stalls; a delayed frame must never jump the camera.
+ if(time-orbitLastTick<30)return;
+ const dt=Math.min((time-orbitLastTick)/1000,.055);
+ orbitLastTick=time;
+ orbitAngle=(orbitAngle+ROTATE_DEG_PER_SECOND*dt)%360;
+ viewer.cameraOrbit=`${orbitAngle.toFixed(3)}deg ${orbitPolar.toFixed(3)}deg ${CAMERA_DISTANCE}m`;
+ viewer.jumpCameraToGoal?.();
+}
+function setRotation(enabled){
+ enabled=!!enabled;
+ if(rotationEnabled===enabled){updateRotateButton();return;}
+ rotationEnabled=enabled;
+ if(rotationEnabled){
+  const orbit=viewer.getCameraOrbit?.();
+  if(orbit&&Number.isFinite(orbit.theta))orbitAngle=orbit.theta*180/Math.PI;
+  if(orbit&&Number.isFinite(orbit.phi))orbitPolar=orbit.phi*180/Math.PI;
+  orbitLastTick=0;
+  orbitFrame=requestAnimationFrame(animateOrbit);
+ }else{
+  if(orbitFrame)cancelAnimationFrame(orbitFrame);
+  orbitFrame=0;orbitLastTick=0;
+ }
+ updateRotateButton();
+}
+rotateButton.addEventListener('click',()=>setRotation(!rotationEnabled));
+// Manual gestures take priority and stop automatic camera movement.
+viewer.addEventListener('pointerdown',()=>{if(rotationEnabled)setRotation(false)});
 function fitWholeMachine(){
  viewer.cameraTarget=FIXED_TARGET;
+ orbitAngle=START_AZIMUTH;orbitPolar=POLAR;
  viewer.cameraOrbit=`${START_AZIMUTH}deg ${POLAR}deg ${CAMERA_DISTANCE}m`;
+ viewer.jumpCameraToGoal?.();
 }
-document.getElementById('reset').onclick=()=>{fitWholeMachine();setRotation(true)};
+document.getElementById('reset').onclick=()=>{setRotation(false);fitWholeMachine();setRotation(true)};
 document.getElementById('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){console.warn('ملء الشاشة غير متاح',e)}};
 function fail(msg){loading.hidden=true;error.hidden=false;document.getElementById('errorText').textContent=msg||'تعذر فتح المجسم. حاول تحديث Chrome أو Edge.'}
 // Measured download progress; processing and GPU preparation remain animated
@@ -330,7 +361,7 @@ viewer.addEventListener('load',()=>{
 });
 viewer.addEventListener('error',ev=>{console.error('3D viewer error',ev);fail('تعذّر قراءة المجسم ثلاثي الأبعاد. يُرجى تحديث Chrome وإعادة المحاولة.')});
 // model-viewer adjusts its canvas to screen resize automatically. Don't override a user-controlled camera.
-document.addEventListener('visibilitychange',()=>{if(document.hidden){wasAutoRotating=viewer.hasAttribute('auto-rotate');setRotation(false)}else if(wasAutoRotating){setRotation(true);wasAutoRotating=false}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){wasAutoRotating=rotationEnabled;setRotation(false)}else if(wasAutoRotating){setRotation(true);wasAutoRotating=false}});
 // Fetch two compressed pieces concurrently and decompress their ordered bytes
 // as they arrive. This avoids holding a separate 26 MB download buffer in memory.
 async function loadFflate(){
