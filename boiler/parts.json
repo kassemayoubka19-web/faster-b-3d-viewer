@@ -2,57 +2,57 @@
   {
     "id": "overview",
     "photo": 18,
-    "name": "البويلر الكهربائي — صورة عامة",
+    "name": "البويلر الكهربائي — نظرة عامة",
     "image": "./photos/photo-18.webp",
     "thumb": "./thumbs/photo-18.webp"
   },
   {
-    "id": "controls",
-    "photo": 1,
-    "name": "مفاتيح التشغيل والمؤشرات",
-    "image": "./photos/photo-01.webp",
-    "thumb": "./thumbs/photo-01.webp"
+    "id": "front-left",
+    "photo": 10,
+    "name": "الواجهة الأمامية والجانب",
+    "image": "./photos/photo-10.webp",
+    "thumb": "./thumbs/photo-10.webp"
+  },
+  {
+    "id": "rear",
+    "photo": 14,
+    "name": "الواجهة الخلفية",
+    "image": "./photos/photo-14.webp",
+    "thumb": "./thumbs/photo-14.webp"
+  },
+  {
+    "id": "top-overview",
+    "photo": 5,
+    "name": "تجهيزات البخار العلوية",
+    "image": "./photos/photo-05.webp",
+    "thumb": "./thumbs/photo-05.webp"
   },
   {
     "id": "gauge",
     "photo": 9,
-    "name": "مقياس الضغط وجهاز التحكم",
+    "name": "عداد الضغط ومنظّم الضغط",
     "image": "./photos/photo-09.webp",
     "thumb": "./thumbs/photo-09.webp"
   },
   {
-    "id": "pressure-switch",
-    "photo": 12,
-    "name": "منظّم الضغط ووصلاته",
-    "image": "./photos/photo-12.webp",
-    "thumb": "./thumbs/photo-12.webp"
-  },
-  {
     "id": "safety",
     "photo": 7,
-    "name": "صمام الأمان وذراع الاختبار",
+    "name": "صمام الأمان",
     "image": "./photos/photo-07.webp",
     "thumb": "./thumbs/photo-07.webp"
   },
   {
     "id": "drain",
     "photo": 4,
-    "name": "صمام التصريف السفلي",
+    "name": "صمام التصريف",
     "image": "./photos/photo-04.webp",
     "thumb": "./thumbs/photo-04.webp"
   },
   {
     "id": "electrical",
     "photo": 3,
-    "name": "باب صندوق الكهرباء",
+    "name": "صندوق الكهرباء",
     "image": "./photos/photo-03.webp",
     "thumb": "./thumbs/photo-03.webp"
-  },
-  {
-    "id": "top-overview",
-    "photo": 5,
-    "name": "توزيع المعدات فوق الغطاء",
-    "image": "./photos/photo-05.webp",
-    "thumb": "./thumbs/photo-05.webp"
   }
 ]
