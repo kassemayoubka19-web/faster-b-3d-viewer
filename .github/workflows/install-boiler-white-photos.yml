@@ -1,0 +1,60 @@
+name: Install approved boiler white-background photos
+
+on:
+  push:
+    paths:
+      - 'FASTER_B_BOILER_NEW_WHITE_BACKGROUND_IMAGES.zip'
+
+permissions:
+  contents: write
+
+jobs:
+  replace-boiler-photos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Verify and replace photos
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          import hashlib
+
+          archive=Path('FASTER_B_BOILER_NEW_WHITE_BACKGROUND_IMAGES.zip')
+          expected_sha='ff5848e7da790115b1a48986400477cf7a093a62429880086562330ea87066da'
+          if not archive.is_file():
+              raise SystemExit('Approved photo archive was not uploaded.')
+          if hashlib.sha256(archive.read_bytes()).hexdigest()!=expected_sha:
+              raise SystemExit('Wrong photo archive. Upload the approved ZIP unchanged.')
+          suffixes=('04','05','07','09','10','14','16','18')
+          expected={f'{kind}-{num}.webp' for kind in ('photo','thumb') for num in suffixes}
+          with ZipFile(archive) as z:
+              names=set(z.namelist())
+              if names!=expected:
+                  raise SystemExit(f'Unexpected ZIP entries: {names.symmetric_difference(expected)}')
+              data={name:z.read(name) for name in sorted(names)}
+          for kind,folder in (('photo','boiler/photos'),('thumb','boiler/thumbs')):
+              dest=Path(folder)
+              dest.mkdir(parents=True,exist_ok=True)
+              for path in dest.glob('*.webp'):
+                  path.unlink()
+              for name,contents in data.items():
+                  if name.startswith(kind+'-'):
+                      (dest/name).write_bytes(contents)
+          print('Uploaded and verified:',sorted(expected))
+          PY
+      - name: Commit photo replacement
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A boiler/photos boiler/thumbs
+          if git diff --cached --quiet; then
+            echo "Approved photos are already installed."
+          else
+            git commit -m "Replace old boiler gallery photos with eight approved white-background images"
+            git push
+          fi
