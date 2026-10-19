@@ -1,4 +1,3 @@
-import {createHotspotOverlay} from './hotspot-overlay.js';
 const $=id=>document.getElementById(id);
 const viewer=$('viewer'),stage=$('stage'),loading=$('loading'),error=$('error');
 const overlay=$('catalogOverlay'),modal=$('photoModal'),list=$('partsList'),photo=$('detailPhoto');
@@ -73,7 +72,6 @@ function renderParts(){
   const name=document.createElement('span');name.textContent=part.name;b.append(img,name);b.onclick=()=>select(part);list.append(b);
 
  }
- createHotspotOverlay(viewer,stage,parts.filter(p=>p.position),part=>openCatalog(part));
  select(parts[0]);
 }
 photo.onerror=()=>{$('detailDescription').textContent=selected.description+'\nتعذّر تحميل الصورة. أعد فتحها بعد التحقق من الاتصال.'};
