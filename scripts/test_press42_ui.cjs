@@ -2,6 +2,22 @@
 const fs=require('node:fs');
 const {chromium}=require('playwright-core');
 const assert=require('node:assert/strict');
+const {PNG}=require('pngjs');
+function verifyCenteredModel(buffer,label){
+ const png=PNG.sync.read(buffer),w=png.width,h=png.height;
+ let count=0,all=0,centerX=0;
+ for(let y=Math.round(h*.2);y<Math.round(h*.82);y+=3){
+  for(let x=Math.round(w*.15);x<Math.round(w*.85);x+=3){
+   const i=(y*w+x)*4;all++;
+   if(png.data[i]<185&&png.data[i+1]<185&&png.data[i+2]<180){count++;centerX+=x;}
+  }
+ }
+ const ratio=count/Math.max(all,1),meanX=count?centerX/count:0;
+ console.log('MODEL_PIXEL_CHECK',label,JSON.stringify({count,ratio,meanX,w,h}));
+ assert(count>75&&ratio>.005,'3D press is invisible or outside central viewport: '+label);
+ assert(meanX>w*.24&&meanX<w*.76,'3D press is no longer centered: '+label);
+}
+
 // Re-run after approved reference photograph is published.
 (async()=>{
  const exe=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium'].find(fs.existsSync);
@@ -30,6 +46,8 @@ const assert=require('node:assert/strict');
    assert.equal(init.firstCatalogItem,'machineOverview','Complete machine must be first option');
    assert(init.catalogHidden&&init.cta.width>=160&&init.cta.height>=55,'Parts CTA must be prominent at load');
    assert(init.stage.width>=spec.width-2,'Model should fill entire available width');
+   await page.waitForTimeout(500);
+   verifyCenteredModel(await page.locator('#viewer').screenshot(),spec.name+'-initial');
    // Regression: model must remain fully framed and centered while rotating.
    // The previous calculation used tan(full FOV) rather than tan(half FOV),
    // resulting in an oversized model clipped to the left on narrow phones.
@@ -92,6 +110,7 @@ const assert=require('node:assert/strict');
    await page.locator('#rotate').click();
    assert(await page.locator('#viewer').evaluate(e=>e.hasAttribute('auto-rotate')),'Play button should restart rotation');
    await page.screenshot({path:'press42-'+spec.name+'-viewer.png',fullPage:true});
+   verifyCenteredModel(await page.locator('#viewer').screenshot(),spec.name+'-after-catalog');
    console.log('BROWSER_ERRORS',spec.name,JSON.stringify(errors));
    assert.equal(errors.length,0,'Browser script error or missing approved image');
    await page.close();
