@@ -94,7 +94,7 @@ async function download(manifest){
  if(crypto.subtle){const digest=new Uint8Array(await crypto.subtle.digest('SHA-256',buf));const hash=[...digest].map(x=>x.toString(16).padStart(2,'0')).join('');if(hash!==manifest.sha256)throw Error('تعذّر التحقق من سلامة الملف. أعد تحميل الصفحة.')}
  return URL.createObjectURL(result);
 }
-viewer.addEventListener('load',()=>{ready=true;setRotation(false);requestAnimationFrame(()=>requestAnimationFrame(()=>{fit();loading.hidden=true;viewer.dataset.verified='true'}))});
+viewer.addEventListener('load',()=>{ready=true;requestAnimationFrame(()=>requestAnimationFrame(()=>{fit();loading.hidden=true;viewer.dataset.verified='true';setRotation(true)}))});
 viewer.addEventListener('error',()=>fail('تعذّر عرض المجسم. جرّب إعادة التحميل أو فتح الرابط في Chrome أو Edge.'));
 async function boot(){
  try{
