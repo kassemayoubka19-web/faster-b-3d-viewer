@@ -20,7 +20,7 @@ const {chromium}=require('playwright-core');
    decoderLoaded:!!window.fflate?.gunzipSync,
    modelReady:!!document.getElementById('viewer').src,
    fixedZoom:document.getElementById('viewer').hasAttribute('disable-zoom'),
-   autoRotate:document.getElementById('viewer').hasAttribute('auto-rotate'),
+   autoRotate:document.getElementById('viewer').dataset.rotationActive==='true',
    hotspots:document.querySelectorAll('[slot^="hotspot-"]').length
   }));
   console.log('IN_APP_FALLBACK_TEST',JSON.stringify({result,thirdParty}));
