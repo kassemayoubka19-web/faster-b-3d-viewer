@@ -115,13 +115,16 @@ function verifyCenteredModel(buffer,label){
    assert(!await page.locator('#viewer').evaluate(e=>e.dataset.rotationActive==='true'),'Pause button should stop automatic rotation');
    await page.locator('#rotate').click();
    assert(await page.locator('#viewer').evaluate(e=>e.dataset.rotationActive==='true'),'Play button should restart rotation');
-   await page.screenshot({path:'press42-'+spec.name+'-viewer.png',fullPage:true});
+   const finalScreenshot=await page.screenshot({path:'press42-'+spec.name+'-viewer.png',fullPage:true});
    console.log('AFTER_CATALOG_CAMERA',spec.name,JSON.stringify(await page.locator('#viewer').evaluate(e=>{
     const o=e.getCameraOrbit(),t=e.getCameraTarget(),c=e.getBoundingBoxCenter();
     return {theta:o.theta,phi:o.phi,radius:o.radius,target:[t.x,t.y,t.z],center:[c.x,c.y,c.z],
       auto:e.dataset.rotationActive==='true',contextLost:e.shadowRoot?.querySelector('canvas')?.getContext('webgl2')?.isContextLost?.()};
    })));
-   verifyCenteredModel(await page.locator('#viewer').screenshot(),spec.name+'-after-catalog');
+   // Check the same captured frame as the saved screenshot. On headless SwiftShader,
+   // taking another screenshot of the WebGL element immediately afterward can
+   // return a black/empty buffer even when the full-page screenshot is correct.
+   verifyCenteredModel(finalScreenshot,spec.name+'-after-catalog');
    console.log('BROWSER_ERRORS',spec.name,JSON.stringify(errors));
    assert.equal(errors.length,0,'Browser script error or missing approved image');
    await page.close();
