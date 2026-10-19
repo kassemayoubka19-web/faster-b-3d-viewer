@@ -1,3 +1,4 @@
+import {createHotspotOverlay} from './hotspot-overlay.js';
 const $=id=>document.getElementById(id);
 const viewer=$('viewer'),stage=$('stage'),loading=$('loading'),error=$('error');
 const overlay=$('catalogOverlay'),modal=$('photoModal'),list=$('partsList'),photo=$('detailPhoto');
@@ -70,11 +71,9 @@ function renderParts(){
   const b=document.createElement('button');b.type='button';b.dataset.id=part.id;b.setAttribute('aria-selected','false');b.setAttribute('aria-label',part.name);
   const img=document.createElement('img');img.src=part.thumb;img.alt='';img.loading='lazy';img.decoding='async';
   const name=document.createElement('span');name.textContent=part.name;b.append(img,name);b.onclick=()=>select(part);list.append(b);
-  if(part.position){
-   const pin=document.createElement('button');pin.type='button';pin.className='boiler-hotspot';pin.slot='hotspot-'+part.id;pin.dataset.position=part.position;pin.dataset.normal=part.normal;pin.dataset.visibilityAttribute='visible';pin.title=part.name;pin.setAttribute('aria-label','تفاصيل '+part.name);pin.textContent='+';
-   pin.addEventListener('pointerdown',e=>e.stopPropagation());pin.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();openCatalog(part)});viewer.append(pin);
-  }
+
  }
+ createHotspotOverlay(viewer,stage,parts.filter(p=>p.position),part=>openCatalog(part));
  select(parts[0]);
 }
 photo.onerror=()=>{$('detailDescription').textContent=selected.description+'\nتعذّر تحميل الصورة. أعد فتحها بعد التحقق من الاتصال.'};
