@@ -49,10 +49,10 @@
     "thumb": "./thumbs/photo-04.webp"
   },
   {
-    "id": "electrical",
-    "photo": 3,
-    "name": "صندوق الكهرباء",
-    "image": "./photos/photo-03.webp",
-    "thumb": "./thumbs/photo-03.webp"
+    "id": "rear-straight",
+    "photo": 16,
+    "name": "الواجهة الخلفية — منظر مباشر",
+    "image": "./photos/photo-16.webp",
+    "thumb": "./thumbs/photo-16.webp"
   }
 ]
