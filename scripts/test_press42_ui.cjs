@@ -34,7 +34,7 @@ function verifyCenteredModel(buffer,label){
    const init=await page.evaluate(()=>{
     const box=id=>{const b=document.getElementById(id).getBoundingClientRect();return {width:b.width,height:b.height,left:b.left,top:b.top,right:b.right}};
     const m=document.getElementById('viewer');
-    return {loaded:document.getElementById('loading').hidden,failed:!document.getElementById('error').hidden,model:!!m.src,rotation:m.hasAttribute('auto-rotate'),manual:m.hasAttribute('camera-controls'),markers:document.querySelectorAll('.press-hotspot,.press3d-overlay-marker,[slot^="hotspot-"]').length,catalogHidden:document.getElementById('catalogOverlay').hidden,cta:box('catalogOpen'),stage:box('stage'),navItems:document.querySelectorAll('#partsList button').length,brandLoaded:document.querySelector('.brand img')?.naturalWidth>0,firstCatalogItem:document.querySelector('#partsList button')?.dataset.id};
+    return {loaded:document.getElementById('loading').hidden,failed:!document.getElementById('error').hidden,model:!!m.src,rotation:m.dataset.rotationActive==='true',manual:m.hasAttribute('camera-controls'),markers:document.querySelectorAll('.press-hotspot,.press3d-overlay-marker,[slot^="hotspot-"]').length,catalogHidden:document.getElementById('catalogOverlay').hidden,cta:box('catalogOpen'),stage:box('stage'),navItems:document.querySelectorAll('#partsList button').length,brandLoaded:document.querySelector('.brand img')?.naturalWidth>0,firstCatalogItem:document.querySelector('#partsList button')?.dataset.id};
    });
    console.log('VIEW_STATE',spec.name,JSON.stringify(init));
    assert(init.loaded&&!init.failed&&init.model,'Model failed to load');
@@ -51,7 +51,7 @@ function verifyCenteredModel(buffer,label){
    await page.waitForTimeout(1200);
    console.log('AUTO_CAMERA',spec.name,JSON.stringify(await page.locator('#viewer').evaluate(e=>{
     const o=e.getCameraOrbit(),t=e.getCameraTarget();
-    return {theta:o.theta,radius:o.radius,target:[t.x,t.y,t.z],auto:e.hasAttribute('auto-rotate'),contextLost:e.shadowRoot?.querySelector('canvas')?.getContext('webgl2')?.isContextLost?.()};
+    return {theta:o.theta,radius:o.radius,target:[t.x,t.y,t.z],auto:e.dataset.rotationActive==='true',contextLost:e.shadowRoot?.querySelector('canvas')?.getContext('webgl2')?.isContextLost?.()};
    })));
    verifyCenteredModel(await page.locator('#viewer').screenshot(),spec.name+'-autospin');
    // Regression: model must remain fully framed and centered while rotating.
@@ -87,7 +87,7 @@ function verifyCenteredModel(buffer,label){
     return {visible:!document.getElementById('catalogOverlay').hidden,modalWidth:modal.width,modalHeight:modal.height,imgWidth:image.width,imgHeight:image.height,descHeight:desc.height,navWidth:nav.width,navHeight:nav.height,closeButton:document.getElementById('catalogClose').getBoundingClientRect().width};
    });
    console.log('CATALOG_OPEN',spec.name,JSON.stringify(opened));
-   assert(!await page.locator('#viewer').evaluate(e=>e.hasAttribute('auto-rotate')),'Rotation should pause while viewing the parts catalog');
+   assert(!await page.locator('#viewer').evaluate(e=>e.dataset.rotationActive==='true'),'Rotation should pause while viewing the parts catalog');
    assert(opened.visible&&opened.modalWidth>=Math.min(spec.width*.88,900),'Catalog is too small');
    assert(opened.imgHeight>=Math.min(spec.height*.24,200),'Photo is not displayed clearly');
    assert(opened.descHeight>=75,'Description must be readable');
@@ -110,16 +110,16 @@ function verifyCenteredModel(buffer,label){
    assert(await page.locator('#photoModal').evaluate(e=>e.hidden),'Photo zoom should close');
    await page.locator('#catalogClose').click();
    assert(await page.locator('#catalogOverlay').evaluate(e=>e.hidden),'Catalog should close');
-   assert(await page.locator('#viewer').evaluate(e=>e.hasAttribute('auto-rotate')),'3D should retain auto-rotation after closing');
+   assert(await page.locator('#viewer').evaluate(e=>e.dataset.rotationActive==='true'),'3D should retain auto-rotation after closing');
    await page.locator('#rotate').click();
-   assert(!await page.locator('#viewer').evaluate(e=>e.hasAttribute('auto-rotate')),'Pause button should stop automatic rotation');
+   assert(!await page.locator('#viewer').evaluate(e=>e.dataset.rotationActive==='true'),'Pause button should stop automatic rotation');
    await page.locator('#rotate').click();
-   assert(await page.locator('#viewer').evaluate(e=>e.hasAttribute('auto-rotate')),'Play button should restart rotation');
+   assert(await page.locator('#viewer').evaluate(e=>e.dataset.rotationActive==='true'),'Play button should restart rotation');
    await page.screenshot({path:'press42-'+spec.name+'-viewer.png',fullPage:true});
    console.log('AFTER_CATALOG_CAMERA',spec.name,JSON.stringify(await page.locator('#viewer').evaluate(e=>{
     const o=e.getCameraOrbit(),t=e.getCameraTarget(),c=e.getBoundingBoxCenter();
     return {theta:o.theta,phi:o.phi,radius:o.radius,target:[t.x,t.y,t.z],center:[c.x,c.y,c.z],
-      auto:e.hasAttribute('auto-rotate'),contextLost:e.shadowRoot?.querySelector('canvas')?.getContext('webgl2')?.isContextLost?.()};
+      auto:e.dataset.rotationActive==='true',contextLost:e.shadowRoot?.querySelector('canvas')?.getContext('webgl2')?.isContextLost?.()};
    })));
    verifyCenteredModel(await page.locator('#viewer').screenshot(),spec.name+'-after-catalog');
    console.log('BROWSER_ERRORS',spec.name,JSON.stringify(errors));
