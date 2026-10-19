@@ -1,0 +1,7 @@
+{
+  "model": "./FASTER_B_ELECTRIC_BOILER_REVISED.glb",
+  "bytes": 9432676,
+  "sha256": "8eaa19fbd9f2d6a2d21dde663e1f326f2a674bee2fc8985986cb6233afd896fe",
+  "images": 18,
+  "runtime": "../press42/vendor/model-viewer-4.3.1.min.js"
+}

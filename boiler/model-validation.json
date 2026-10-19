@@ -1,0 +1,46 @@
+{
+  "source_sha256": "445ff71e339ec85777a1394682e44bc6ada76e416013141b6a09987d80c7d92b",
+  "glb_sha256": "8eaa19fbd9f2d6a2d21dde663e1f326f2a674bee2fc8985986cb6233afd896fe",
+  "source": "User-modified SKP, not prior geometry",
+  "status": "GLB exported and independently reopened successfully",
+  "size_bytes": 9432676,
+  "size_MB": 9.433,
+  "mesh_objects": 214,
+  "triangles": 68436,
+  "embedded_images": 12,
+  "materials": 24,
+  "external_resources": false,
+  "position_roundtrip_error_mm": 0.0,
+  "visible_bounds_mm": [
+    [
+      -510.17,
+      341.85
+    ],
+    [
+      -361.5,
+      422.0
+    ],
+    [
+      0.0,
+      1339.0
+    ]
+  ],
+  "visible_dimensions_mm": [
+    852.02,
+    783.5,
+    1339.0
+  ],
+  "preserved_edits": [
+    "Electrical box scaled 0.85 and repositioned exactly as source",
+    "380V decal deleted as in source"
+  ],
+  "repairs": [
+    "Reattached service warning label to resized electrical door"
+  ],
+  "merged_duplicate_vertices": 170873,
+  "discarded_zero_area_triangles": 0,
+  "pbr": "Restored original metallic/roughness and fine surface normal maps while preserving modified SKP colors, textures, UV mapping and opacity",
+  "glTF_up": "Y",
+  "units": "meters",
+  "nonfinite_or_empty_meshes": []
+}
