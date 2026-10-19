@@ -30,6 +30,30 @@ const assert=require('node:assert/strict');
    assert.equal(init.firstCatalogItem,'machineOverview','Complete machine must be first option');
    assert(init.catalogHidden&&init.cta.width>=160&&init.cta.height>=55,'Parts CTA must be prominent at load');
    assert(init.stage.width>=spec.width-2,'Model should fill entire available width');
+   // Regression: model must remain fully framed and centered while rotating.
+   // The previous calculation used tan(full FOV) rather than tan(half FOV),
+   // resulting in an oversized model clipped to the left on narrow phones.
+   const framing=await page.evaluate(()=>{
+    const v=document.getElementById('viewer'),area=document.getElementById('stage');
+    const orbit=v.getCameraOrbit(),target=v.getCameraTarget(),center=v.getBoundingBoxCenter(),d=v.getDimensions();
+    const fov=v.getFieldOfView()*Math.PI/180;
+    const span=Math.hypot(d.x,d.z),angle=74*Math.PI/180;
+    const halfDepth=(Math.sin(angle)*span+Math.cos(angle)*d.y)/2;
+    const fitRadius=Math.max(span/2/(Math.tan(fov/2)*area.clientWidth/area.clientHeight),
+       (Math.sin(angle)*d.y+Math.cos(angle)*span)/2/Math.tan(fov/2))+halfDepth;
+    return {radius:orbit.radius,theta:orbit.theta,phi:orbit.phi,target:[target.x,target.y,target.z],
+      center:[center.x,center.y,center.z],fitRadius};
+   });
+   console.log('CAMERA_FRAMING',spec.name,JSON.stringify(framing));
+   assert(Number.isFinite(framing.radius)&&framing.radius>=framing.fitRadius*1.04,
+    'Rotating press must fit entirely inside the screen on every viewport');
+   assert(framing.target.every((v,i)=>Math.abs(v-framing.center[i])<0.05),
+    'Camera must always orbit around the machine center');
+   const orbitStart=await page.locator('#viewer').evaluate(e=>e.getCameraOrbit());
+   await page.waitForTimeout(800);
+   const orbitEnd=await page.locator('#viewer').evaluate(e=>e.getCameraOrbit());
+   assert(Math.abs(orbitEnd.radius-orbitStart.radius)<.03,
+    'Auto-rotation must maintain a fixed zoom radius');
    await page.locator('#catalogOpen').click();
    const opened=await page.evaluate(()=>{
     const modal=document.querySelector('.catalog-window').getBoundingClientRect();
