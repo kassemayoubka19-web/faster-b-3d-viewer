@@ -127,6 +127,24 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
 .detail-desc{white-space:pre-line}
 .catalog-nav button{flex-shrink:0}
 
+
+/* FASTER B technical catalogue: immutable boiler specifications and concise photo gallery */
+.boiler-specs{font-size:13px;line-height:1.75;padding:14px 20px 20px;max-height:45%;min-height:190px;overflow:auto;scrollbar-width:thin;background:#fff}
+.boiler-specs .specs-heading{display:block;font-size:14px;color:#283839;margin-bottom:7px}
+.boiler-intro{margin:0 0 12px;color:#354744}
+.boiler-table{width:100%;border:1px solid #e7e5df;border-radius:11px;overflow:hidden;font-size:12px;line-height:1.6}
+.boiler-table-head,.boiler-table-row{display:grid;grid-template-columns:23% 23% 54%;align-items:center}
+.boiler-table-head{background:#f3efe7;font-weight:800;color:#654e29}
+.boiler-table-row:nth-child(odd){background:#fafbf9}
+.boiler-table-head>* ,.boiler-table-row>*{padding:8px 10px;min-width:0;word-wrap:break-word}
+.boiler-table-row+ .boiler-table-row{border-top:1px solid #e6e9e5}
+.boiler-voltage{font-weight:600;margin:11px 0 0;color:#263f3c}
+.boiler-note{font-size:11px;margin:6px 0 0;color:#687773}
+#boilerLogo{display:flex;align-items:center;justify-content:center;gap:5px;direction:ltr;transform:translate(-50%,-50%);background:#202b2f;border:1px solid #a9915c;box-shadow:0 1px 4px #0003;border-radius:4px;color:#dfb858;font:bold 14px/1 Arial,sans-serif;letter-spacing:.35px;padding:3px 6px;pointer-events:none;white-space:nowrap}
+#boilerLogo img{display:block;width:28px;height:26px;object-fit:contain;flex:0 0 auto}
+#boilerLogo:not([data-visible]){opacity:0}
+@media(max-width:650px){.boiler-specs{max-height:43vh;min-height:175px;padding:12px 13px;font-size:12px}.boiler-table{font-size:10px}.boiler-table-head>*,.boiler-table-row>*{padding:6px 5px}.boiler-specs .specs-heading{font-size:13px}#boilerLogo{padding:2px 4px;font-size:12px}#boilerLogo img{width:23px;height:22px}}
+
 </style>
 </head>
 <body>
@@ -136,7 +154,7 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <span class="brand" aria-label="FASTER B LAUNDRY EQUIPMENT"><img src="../press42/faster-b-official-logo.webp" alt="شعار فاستر بي الرسمي" width="48" height="48"><span>FASTER B<small>LAUNDRY EQUIPMENT</small></span></span>
 </header>
 <main class="stage" id="stage">
- <model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="-0.084m 0.670m -0.030m" camera-orbit="-32deg 72deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد للبويلر الكهربائي فاستر بي"></model-viewer>
+ <model-viewer id="viewer" camera-controls disable-pan interaction-prompt="none" touch-action="none" shadow-intensity="0.12" shadow-softness="0.8" exposure="0.95" environment-image="neutral" tone-mapping="neutral" camera-target="-0.084m 0.670m -0.030m" camera-orbit="-32deg 72deg auto" min-camera-orbit="auto 22deg 0.8m" max-camera-orbit="auto 157deg 9m" field-of-view="38deg" min-field-of-view="38deg" max-field-of-view="38deg" loading="eager" reveal="auto" rotation-per-second="8deg" auto-rotate-delay="0" interpolation-decay="100" alt="مجسم ثلاثي الأبعاد للبويلر الكهربائي فاستر بي"><div slot="hotspot-boiler-logo" id="boilerLogo" data-position="-0.100m 0.660m 0.375m" data-normal="0m 0m 1m" data-visibility-attribute="visible" aria-hidden="true"><img src="../press42/faster-b-official-logo.webp" alt=""><span>FASTER B</span></div></model-viewer>
  <div class="loading" id="loading" data-phase="download"><div class="loading-inner">
   <img src="./poster.webp" alt="بويلر كهرباء فاستر بي" id="poster">
   <div class="loading-status">
@@ -147,9 +165,9 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
   </div>
  </div></div>
  <div id="error" hidden role="alert"><strong>تعذّر تحميل العارض</strong><span id="errorText"></span></div>
- <button type="button" class="catalog-cta" id="catalogOpen" aria-haspopup="dialog" aria-controls="catalogOverlay" aria-label="استكشف أجزاء البويلر، صور أصلية ومواصفات">
+ <button type="button" class="catalog-cta" id="catalogOpen" aria-haspopup="dialog" aria-controls="catalogOverlay" aria-label="مواصفات البويلر الكهربائي وصور أجزائه">
   <span class="cta-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 6h6M14 9h4M14 16h6M14 19h4"/></svg></span>
-  <span class="cta-text"><strong>استكشف أجزاء البويلر</strong><small>18 صورة • صور أصلية ومواصفات</small></span>
+  <span class="cta-text"><strong>المواصفات وصور البويلر</strong><small>3 فئات قدرة • 8 صور أساسية</small></span>
   <span class="cta-arrow" aria-hidden="true">‹</span>
  </button>
  <nav class="toolbar" aria-label="أدوات التحكم بالمجسم">
@@ -161,16 +179,27 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
 <section id="catalogOverlay" class="catalog-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="catalogTitle">
  <div class="catalog-window">
   <div class="catalog-head">
-   <div class="catalog-heading"><h2 id="catalogTitle">دليل أجزاء البويلر الكهربائي</h2><small>اختر الصورة لمشاهدة التفاصيل والمواصفات المرتبطة بها</small></div>
-   <span class="count-label">18 صورة</span>
+   <div class="catalog-heading"><h2 id="catalogTitle">مواصفات البويلر الكهربائي وصور أجزائه</h2><small>المواصفات ثابتة، ويمكن استعراض صور الأجزاء الأساسية</small></div>
+   <span class="count-label">8 صور مختارة</span>
    <button type="button" class="catalog-close" id="catalogClose" aria-label="إغلاق دليل الأجزاء">×</button>
   </div>
   <div class="catalog-content">
    <nav class="catalog-nav" id="partsList" aria-label="أجزاء البويلر الكهربائي"></nav>
    <article id="catalogDetail" class="catalog-detail" aria-live="polite">
-    <div class="detail-head"><small class="eyebrow">الصورة والمواصفات</small><h3 class="detail-title" id="detailTitle"></h3></div>
+    <div class="detail-head"><small class="eyebrow">صور الأجزاء الرئيسية</small><h3 class="detail-title" id="detailTitle"></h3></div>
     <div class="detail-img-box"><img id="detailPhoto" alt="صورة حقيقية للجزء" loading="lazy" decoding="async" tabindex="0" role="button" aria-label="تكبير صورة الجزء"><span class="zoom-hint">⌕ اضغط لتكبير الصورة</span></div>
-    <div class="detail-desc"><strong>الوظيفة والمواصفات</strong><p id="detailDescription"></p></div>
+    <section class="detail-desc boiler-specs" aria-label="مواصفات البويلر الثابتة">
+  <strong class="specs-heading">بويلر كهرباء فاستر بي — الوصف والمواصفات الفنية</strong>
+  <p class="boiler-intro">بويلر كهرباء عالي الكفاءة مصمم خصيصًا لأعمال المغاسل لتوليد بخار نقي وثابت لتشغيل مكابس الكوي والمجففات الحرارية بكفاءة وأمان، يضمن أداءً مستقرًا واستهلاكًا اقتصاديًا وحماية كاملة لأنظمة التشغيل.</p>
+  <div class="boiler-table" role="table" aria-label="مقارنة فئات البويلر الكهربائي">
+   <div class="boiler-table-head" role="row"><span role="columnheader">القدرة الكهربائية</span><span role="columnheader">إنتاج البخار</span><span role="columnheader">عدد الأجهزة المدعومة</span></div>
+   <div class="boiler-table-row" role="row"><strong role="cell">36 كيلوواط</strong><span role="cell">90 كغ/ساعة</span><span role="cell">جهاز واحد: مكبس كوي أو مجفف</span></div>
+   <div class="boiler-table-row" role="row"><strong role="cell">48 كيلوواط</strong><span role="cell">115 كغ/ساعة</span><span role="cell">جهازان: مكبسا كوي، أو مكبس كوي ومجفف</span></div>
+   <div class="boiler-table-row" role="row"><strong role="cell">54 كيلوواط</strong><span role="cell">130 كغ/ساعة</span><span role="cell">3 أجهزة: 3 مكابس كوي، أو مكبسا كوي ومجفف</span></div>
+  </div>
+  <p class="boiler-voltage"><b>الجهد الكهربائي:</b> 220 أو 380 فولت.</p>
+  <p class="boiler-note">عدد الأجهزة المذكور بحسب الفئة والتجهيز المناسب، ويُراعى الاستهلاك الفعلي للبخار لكل جهاز عند توصيله.</p>
+ </section>
    </article>
   </div>
  </div>
@@ -179,6 +208,6 @@ model-viewer{display:block;width:100%;height:100%;--poster-color:#fff;--progress
  <div class="lightbox-top"><strong id="modalTitle"></strong><button id="modalClose" class="lightbox-close" type="button" aria-label="إغلاق الصورة المكبرة">×</button></div>
  <img id="modalPhoto" alt="صورة مكبرة للجزء">
 </section>
-<script type="module" src="./app.js?v=boiler-20261019-3"></script>
+<script type="module" src="./app.js?v=boiler-specs-20261019-4"></script>
 </body>
 </html>
