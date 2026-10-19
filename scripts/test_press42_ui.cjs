@@ -48,6 +48,12 @@ function verifyCenteredModel(buffer,label){
    assert(init.stage.width>=spec.width-2,'Model should fill entire available width');
    await page.waitForTimeout(500);
    verifyCenteredModel(await page.locator('#viewer').screenshot(),spec.name+'-initial');
+   await page.waitForTimeout(1200);
+   console.log('AUTO_CAMERA',spec.name,JSON.stringify(await page.locator('#viewer').evaluate(e=>{
+    const o=e.getCameraOrbit(),t=e.getCameraTarget();
+    return {theta:o.theta,radius:o.radius,target:[t.x,t.y,t.z],auto:e.hasAttribute('auto-rotate'),contextLost:e.shadowRoot?.querySelector('canvas')?.getContext('webgl2')?.isContextLost?.()};
+   })));
+   verifyCenteredModel(await page.locator('#viewer').screenshot(),spec.name+'-autospin');
    // Regression: model must remain fully framed and centered while rotating.
    // The previous calculation used tan(full FOV) rather than tan(half FOV),
    // resulting in an oversized model clipped to the left on narrow phones.
@@ -110,6 +116,11 @@ function verifyCenteredModel(buffer,label){
    await page.locator('#rotate').click();
    assert(await page.locator('#viewer').evaluate(e=>e.hasAttribute('auto-rotate')),'Play button should restart rotation');
    await page.screenshot({path:'press42-'+spec.name+'-viewer.png',fullPage:true});
+   console.log('AFTER_CATALOG_CAMERA',spec.name,JSON.stringify(await page.locator('#viewer').evaluate(e=>{
+    const o=e.getCameraOrbit(),t=e.getCameraTarget(),c=e.getBoundingBoxCenter();
+    return {theta:o.theta,phi:o.phi,radius:o.radius,target:[t.x,t.y,t.z],center:[c.x,c.y,c.z],
+      auto:e.hasAttribute('auto-rotate'),contextLost:e.shadowRoot?.querySelector('canvas')?.getContext('webgl2')?.isContextLost?.()};
+   })));
    verifyCenteredModel(await page.locator('#viewer').screenshot(),spec.name+'-after-catalog');
    console.log('BROWSER_ERRORS',spec.name,JSON.stringify(errors));
    assert.equal(errors.length,0,'Browser script error or missing approved image');
