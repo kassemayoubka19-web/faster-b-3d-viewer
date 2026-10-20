@@ -53,7 +53,7 @@ function phase(message,percent=null){
 function fail(message){ready=false;syncRotation();loading.hidden=true;$('error').hidden=false;$('errorText').textContent=message;rotate.disabled=true;$('reset').disabled=true}
 async function download(manifest,signal){
  if(!Number.isSafeInteger(manifest.bytes)||manifest.bytes<12||!/^[0-9a-f]{64}$/.test(manifest.sha256))throw Error('بيانات المجسم غير صالحة.');
- const u=new URL(manifest.model,location.href);if(u.origin!==location.origin)throw Error('رابط المجسم غير صالح.');u.searchParams.set('v',manifest.sha256.slice(0,12));
+ const u=new URL(manifest.model,document.baseURI);if(u.origin!==location.origin)throw Error('رابط المجسم غير صالح.');u.searchParams.set('v',manifest.sha256.slice(0,12));
  const response=await fetch(u,{signal});if(!response.ok)throw Error('تعذّر تنزيل المجسم. تحقق من الاتصال وأعد المحاولة.');let result;
  if(response.body?.getReader){const chunks=[],reader=response.body.getReader();let count=0;
   while(true){const {done,value}=await reader.read();if(done)break;count+=value.length;if(count>manifest.bytes){await reader.cancel();throw Error('حجم المجسم لا يطابق بياناته.')}chunks.push(value);phase('جارٍ تنزيل مجسم البويلر…',count/manifest.bytes*100)}result=new Blob(chunks,{type:'model/gltf-binary'});
