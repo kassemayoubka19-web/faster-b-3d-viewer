@@ -148,16 +148,16 @@
     "slug": "fasterb-electric-boiler-36-48-54kw",
     "name": "بويلر كهرباء فاستر بي 36 / 48 / 54 كيلو واط",
     "category": "البويلرات الكهربائية",
-    "description": "Electric Steam Boiler\nPower: 36 / 48 / 54 kW\nCapacity: 90 / 115 / 130 kg/hr\nWorking Pressure: 6-12 bar G\nVoltage: 380 V / 3 Phase\nMade in KSA",
-    "model": "boiler/FASTER_B_ELECTRIC_BOILER_REVISED.glb",
+    "description": "Electric Steam Boiler\nPower: 36 / 48 / 54 kW\nCapacity: 90 / 115 / 130 kg/hr\nSupported equipment: 1 / 2 / 3\nVoltage: 220 or 380 V",
+    "model": "boiler/FASTER_B_ELECTRIC_BOILER_LOGO.glb",
     "reference": "boiler/photos/photo-18.webp",
     "modelStatus": "real_model_ready",
     "referenceSize": {
       "width": 560,
       "height": 560
     },
-    "sha256": "8eaa19fbd9f2d6a2d21dde663e1f326f2a674bee2fc8985986cb6233afd896fe",
-    "modelBuild": "user_modified_sketchup_pbr_20261019",
+    "sha256": "102fca60fdf75cf104a47274c3e4e6bf8d7682554c32ef4f2fee8f2da6f5813a",
+    "modelBuild": "source_skp_embedded_logo_20261020",
     "viewer": "boiler/"
   },
   {
