@@ -1,19 +1,18 @@
 {
-  "source_sha256": "445ff71e339ec85777a1394682e44bc6ada76e416013141b6a09987d80c7d92b",
-  "glb_sha256": "8eaa19fbd9f2d6a2d21dde663e1f326f2a674bee2fc8985986cb6233afd896fe",
+  "source_sha256": "39d60b5d91d501f0ae6104cc2718e518443ec111b1f685d17148901034e8dadb",
+  "glb_sha256": "102fca60fdf75cf104a47274c3e4e6bf8d7682554c32ef4f2fee8f2da6f5813a",
   "source": "User-modified SKP, not prior geometry",
   "status": "GLB exported and independently reopened successfully",
-  "size_bytes": 9432676,
-  "size_MB": 9.433,
-  "mesh_objects": 214,
-  "triangles": 68436,
-  "embedded_images": 12,
-  "materials": 24,
+  "size_bytes": 7646044,
+  "mesh_objects": 215,
+  "triangles": 68438,
+  "embedded_images": 13,
+  "materials": 25,
   "external_resources": false,
   "position_roundtrip_error_mm": 0.0,
   "visible_bounds_mm": [
     [
-      -510.17,
+      -540.2,
       341.85
     ],
     [
@@ -26,21 +25,149 @@
     ]
   ],
   "visible_dimensions_mm": [
-    852.02,
+    882.05,
     783.5,
     1339.0
   ],
   "preserved_edits": [
-    "Electrical box scaled 0.85 and repositioned exactly as source",
-    "380V decal deleted as in source"
+    "All source geometry and transforms",
+    "SKP image entity converted from its actual face and UV into embedded GLB geometry"
   ],
-  "repairs": [
-    "Reattached service warning label to resized electrical door"
-  ],
+  "repairs": [],
   "merged_duplicate_vertices": 170873,
   "discarded_zero_area_triangles": 0,
   "pbr": "Restored original metallic/roughness and fine surface normal maps while preserving modified SKP colors, textures, UV mapping and opacity",
   "glTF_up": "Y",
   "units": "meters",
-  "nonfinite_or_empty_meshes": []
+  "nonfinite_or_empty_meshes": [],
+  "optimization": {
+    "input_bytes": 9646992,
+    "output_bytes": 7646044,
+    "reduction_percent": 20.74,
+    "sha256": "102fca60fdf75cf104a47274c3e4e6bf8d7682554c32ef4f2fee8f2da6f5813a",
+    "removed_unused_uv_attributes": 295,
+    "image_pixel_verification": [
+      {
+        "name": "powder_normal",
+        "width": 512,
+        "height": 512,
+        "lossless": true
+      },
+      {
+        "name": "material_8",
+        "width": 384,
+        "height": 430,
+        "lossless": true
+      },
+      {
+        "name": "material_4",
+        "width": 256,
+        "height": 360,
+        "lossless": true
+      },
+      {
+        "name": "material_5",
+        "width": 256,
+        "height": 350,
+        "lossless": true
+      },
+      {
+        "name": "material_11",
+        "width": 512,
+        "height": 320,
+        "lossless": true
+      },
+      {
+        "name": "material_10",
+        "width": 512,
+        "height": 300,
+        "lossless": true
+      },
+      {
+        "name": "material_3",
+        "width": 1024,
+        "height": 56,
+        "lossless": true
+      },
+      {
+        "name": "material_7",
+        "width": 256,
+        "height": 330,
+        "lossless": true
+      },
+      {
+        "name": "material_6",
+        "width": 256,
+        "height": 360,
+        "lossless": true
+      },
+      {
+        "name": "material_2",
+        "width": 1024,
+        "height": 56,
+        "lossless": true
+      },
+      {
+        "name": "material_9",
+        "width": 512,
+        "height": 384,
+        "lossless": true
+      },
+      {
+        "name": "material_13",
+        "width": 512,
+        "height": 512,
+        "lossless": true
+      },
+      {
+        "name": "material_0",
+        "width": 837,
+        "height": 727,
+        "lossless": true
+      }
+    ],
+    "quantization": false,
+    "simplification": false
+  },
+  "source_file": "FASTER_B_ELECTRIC_BOILER.skp",
+  "source_comparison": {
+    "new_geometry": "One native SketchUp image entity: logo, two triangles",
+    "all_existing_source_nodes": "Identical transforms and vertices to previous source",
+    "difference_from_published_GLB": "Published model had reparented the service warning label; this export preserves the SKP parent and transform without repair."
+  },
+  "independent_source_geometry_verification": {
+    "source_to_final_max_vertex_error_mm": 4.958197456884614e-05,
+    "source_triangles": 68438,
+    "final_triangles": 68438,
+    "mesh_objects": 215,
+    "all_retained_attributes_and_indices_bit_exact_after_optimization": true,
+    "logo_embedded_with_alpha": true,
+    "external_resources": false
+  },
+  "browser_validation": {
+    "tested_viewports": [
+      {
+        "width": 390,
+        "name": "mobile",
+        "js_errors": [],
+        "failed_responses": []
+      },
+      {
+        "width": 320,
+        "name": "small",
+        "js_errors": [],
+        "failed_responses": []
+      },
+      {
+        "width": 1440,
+        "name": "desktop",
+        "js_errors": [],
+        "failed_responses": []
+      }
+    ],
+    "integrity_failure_and_retry": "passed",
+    "controls": "automatic rotation, pause, resume/reset",
+    "gallery": "8 original photos; unchanged specifications after each selection",
+    "physical_mobile_device": false
+  }
 }
